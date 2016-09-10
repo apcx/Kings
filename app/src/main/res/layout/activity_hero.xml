@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#05070b"
+    tools:context="apc.kings.HeroActivity">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:viewAspectRatio="10.6891"
+        app:placeholderImage="@drawable/title_hero" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cat_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="全部"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_tank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="坦克"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_warrior"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="战士"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_assassin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="刺客"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_mage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="法师"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_archer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="射手"
+            android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/cat_support"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/btn_category_hero"
+            android:textColor="@color/category_hero"
+            android:text="辅助"
+            android:onClick="onClick" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4ecdf5" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#47caf4" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#43c9f3" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/heroes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:spanCount="5"
+        android:orientation="vertical" />
+</LinearLayout>

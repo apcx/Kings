@@ -1,0 +1,59 @@
+package apc.kings.data;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import apc.kings.R;
+
+public class Rune {
+
+    public static Rune[] ALL_RUNES = new Rune[] {
+            new Rune("鹰眼", R.drawable.weapon_200, 0, 0.9, 0, 0, 0, 6.4, 0,   0, 0,   0,   0,    0),
+            new Rune("隐匿", R.drawable.weapon_200, 0, 1.6, 0, 0, 0,   0, 0,   0, 0,   0,   0,    0),
+            new Rune("狩猎", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 1,   0,   0,    0),
+            new Rune("无双", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 0, 0.7, 3.6,    0),
+            new Rune("祸源", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 0, 1.6,   0,    0),
+    };
+
+    public String name;
+    public int category;
+    public int hp;
+    public double attack;
+    public double magic;
+    public double defense;
+    public double magicDefense;
+    public double penetrate;
+    public double magicPenetrate;
+    public double regen;
+    public double attackSpeed;
+    public double critical;
+    public double criticalDamage;
+    public double cdReduction;
+
+    public Rune(String name, int category, int hp, double attack, double magic, double defense, double magicDefense, double penetrate, double magicPenetrate, double regen, double attackSpeed, double critical, double criticalDamage, double cdReduction) {
+        this.name = name;
+        this.category = category;
+        this.hp = hp;
+        this.attack = attack;
+        this.magic = magic;
+        this.defense = defense;
+        this.magicDefense = magicDefense;
+        this.penetrate = penetrate;
+        this.magicPenetrate = magicPenetrate;
+        this.regen = regen;
+        this.attackSpeed = attackSpeed;
+        this.critical = critical;
+        this.criticalDamage = criticalDamage;
+        this.cdReduction = cdReduction;
+    }
+
+    @Nullable
+    public static Rune findRune(@NonNull String name) {
+        for (Rune item : ALL_RUNES) {
+            if (item.name.equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+}
