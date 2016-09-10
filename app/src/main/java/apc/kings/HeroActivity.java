@@ -90,8 +90,9 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
 
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             RoundingParams roundingParams = hierarchy.getRoundingParams();
+            roundingParams.setCornersRadii(3, 14, 3, 14);
             if (heroType == selectedHeroType) {
-                roundingParams.setBorder(0xfffae58f, 4);
+                roundingParams.setBorder(0xfffae58f, 3);
             } else {
                 roundingParams.setBorder(0xff1e4e66, 2);
             }

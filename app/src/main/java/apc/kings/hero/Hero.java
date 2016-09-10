@@ -246,7 +246,8 @@ public class Hero {
             }
         }
         if (hasPenetrate) {
-            defense *= 0.55;
+            // unknown: 是否需要取整
+            defense -= (int)(defense * 0.45);
         }
         defense -= penetrate;
         double rate = 600.0 / (600 + defense);
@@ -259,7 +260,8 @@ public class Hero {
     double getMagicDamageRate() {
         int defense = target.magicDefense;
         if (hasMagicPenetrateRate) {
-            defense *= 0.55;
+            // unknown: 是否需要取整
+            defense -= (int)(defense * 0.45);
         }
         if (hasMagicPenetrateBoots) {
             defense -= 75;
