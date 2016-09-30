@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:background="#05070b"
     tools:context="apc.kings.HeroActivity">
 
@@ -113,8 +114,17 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/heroes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="5"
         android:orientation="vertical" />
+
+    <ImageView
+        android:id="@+id/lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/btn_lock" />
 </LinearLayout>

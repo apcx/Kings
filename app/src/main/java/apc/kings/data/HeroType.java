@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import apc.kings.App;
+import apc.kings.common.App;
 import apc.kings.R;
 
 public class HeroType {

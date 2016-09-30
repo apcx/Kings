@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.RoundingParams;
@@ -18,35 +16,50 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import apc.kings.common.AbsAdapter;
+import apc.kings.common.Holder;
 import apc.kings.data.HeroType;
 
 @SuppressWarnings("ConstantConditions")
 public class HeroActivity extends AppCompatActivity implements View.OnClickListener {
 
+    View lock;
     List<HeroType> heroTypes = new ArrayList<>();
     HeroType selectedHeroType;
 
     private int category;
-    private RecyclerView.Adapter adapter;
+    private Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero);
 
+        lock = findViewById(R.id.lock);
         adapter = new Adapter();
         ((RecyclerView) findViewById(R.id.heroes)).setAdapter(adapter);
 
         String name = getIntent().getAction();
         if (!TextUtils.isEmpty(name)) {
             selectedHeroType = HeroType.findHero(name);
+        } else {
+            lock.setEnabled(false);
         }
         onSelected(R.id.cat_all);
+
+        lock.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        onSelected(v.getId());
+        switch (v.getId()) {
+            case R.id.lock:
+                setResult(RESULT_OK, new Intent(null, Uri.parse(selectedHeroType.name)));
+                finish();
+                break;
+            default:
+                onSelected(v.getId());
+        }
     }
 
     private void onSelected(int id) {
@@ -72,14 +85,31 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
+
             adapter.notifyDataSetChanged();
+            int selected = -1;
+            for (int i = 0, n = heroTypes.size(); i < n; ++i) {
+                if (selectedHeroType == heroTypes.get(i)) {
+                    selected = i;
+                    break;
+                }
+            }
+            adapter.setSelected(selected);
         }
     }
 
-    private class Adapter extends RecyclerView.Adapter<Holder> {
+    private class Adapter extends AbsAdapter {
+
+        Adapter() {
+            super(R.layout.recycler_hero);
+        }
+
         @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_hero, parent, false));
+        public void onItemChanged(int position) {
+            lock.setEnabled(true);
+            if (position >= 0) {
+                selectedHeroType = heroTypes.get(position);
+            }
         }
 
         @Override
@@ -91,21 +121,12 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             RoundingParams roundingParams = hierarchy.getRoundingParams();
             roundingParams.setCornersRadii(3, 14, 3, 14);
-            if (heroType == selectedHeroType) {
+            if (position == selected) {
                 roundingParams.setBorder(0xfffae58f, 3);
             } else {
                 roundingParams.setBorder(0xff1e4e66, 2);
             }
             hierarchy.setRoundingParams(roundingParams);
-
-            final String name = heroType.name;
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setResult(RESULT_OK, new Intent(null, Uri.parse(name)));
-                    finish();
-                }
-            });
         }
 
         @Override

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import apc.kings.common.App;
 import apc.kings.data.HeroType;
 import apc.kings.data.Summary;
 
@@ -28,6 +29,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
+        setTitle("App [" + App.GAME_VERSION + "] Res [" + App.RES_VERSION + ']');
+
         primaryHero = (HeroView) findViewById(R.id.hero_primary);
         secondaryHero = (HeroView) findViewById(R.id.hero_secondary);
         damage = (TextView) findViewById(R.id.damage);
