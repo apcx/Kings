@@ -6,13 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class AbsAdapter extends RecyclerView.Adapter<Holder> implements View.OnClickListener {
+import java.lang.reflect.Constructor;
+
+public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements View.OnClickListener {
 
     protected int selected = -1;
     private int itemRes;
+    private Constructor<VH> holderConstructor;
 
-    public AbsAdapter(@LayoutRes int itemRes) {
+    public AbsAdapter(@LayoutRes int itemRes, Class<VH> holderClass) {
         this.itemRes = itemRes;
+        try {
+            holderConstructor = holderClass.getConstructor(View.class);
+        } catch (NoSuchMethodException e) {
+            // ignore
+        }
     }
 
     public abstract void onItemChanged(int position);
@@ -37,9 +45,18 @@ public abstract class AbsAdapter extends RecyclerView.Adapter<Holder> implements
     }
 
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(itemRes, parent, false);
-        view.setOnClickListener(this);
-        return new Holder(view);
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        VH holder = null;
+        if (holderConstructor != null) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(itemRes, parent, false);
+            try {
+                holder = holderConstructor.newInstance(view);
+                view.setTag(holder);
+                view.setOnClickListener(this);
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+        return holder;
     }
 }

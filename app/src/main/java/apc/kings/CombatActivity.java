@@ -29,7 +29,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
-        setTitle("App [" + App.GAME_VERSION + "] Res [" + App.RES_VERSION + ']');
+        setTitle("Res " + App.RES_VERSION);
 
         primaryHero = (HeroView) findViewById(R.id.hero_primary);
         secondaryHero = (HeroView) findViewById(R.id.hero_secondary);

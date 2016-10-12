@@ -8,6 +8,5 @@ public class Holder extends RecyclerView.ViewHolder {
     @SuppressWarnings("WeakerAccess")
     public Holder(View itemView) {
         super(itemView);
-        itemView.setTag(this);
     }
 }

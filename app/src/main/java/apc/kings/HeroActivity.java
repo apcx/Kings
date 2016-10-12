@@ -98,10 +98,10 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class Adapter extends AbsAdapter {
+    private class Adapter extends AbsAdapter<Holder> {
 
         Adapter() {
-            super(R.layout.recycler_hero);
+            super(R.layout.recycler_hero, Holder.class);
         }
 
         @Override
@@ -116,7 +116,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         public void onBindViewHolder(Holder holder, int position) {
             HeroType heroType = heroTypes.get(position);
             SimpleDraweeView view = (SimpleDraweeView) holder.itemView;
-            view.setImageURI(heroType.getImageUri("hero"));
+            view.setImageURI(heroType.getImageUri(HeroActivity.this, "hero"));
 
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
             RoundingParams roundingParams = hierarchy.getRoundingParams();

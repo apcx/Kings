@@ -57,7 +57,7 @@ public class HeroView extends RelativeLayout {
         HeroType heroType = HeroType.findHero(name);
         if (heroType != null) {
             this.heroType = heroType;
-            image.setImageURI(heroType.getImageUri("poster"));
+            image.setImageURI(heroType.getImageUri(getContext(), "poster"));
             nameView.setText(name);
             setItems(heroType.buildDefaultItems());
         }
