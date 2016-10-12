@@ -108,6 +108,7 @@ public class HeroType {
         return items;
     }
 
+    @NonNull
     public Uri getImageUri(Context context, String type) {
         return Uri.parse("res://drawable/" + context.getResources().getIdentifier(type + '_' + resName, "drawable", context.getPackageName()));
     }
