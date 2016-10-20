@@ -232,8 +232,8 @@ public class Hero {
             damageCanCritical = attack;
             damageCannotCritical = (int) (attack * (attackFactor - 1)) + attackBonus;
         } else {
-            damageCanCritical = (int) (attack * attackFactor) + attackBonus;
-            damageCannotCritical = 0;
+            damageCanCritical = (int) (attack * attackFactor);
+            damageCannotCritical = attackBonus;
         }
     }
 
