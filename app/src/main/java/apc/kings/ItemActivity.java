@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -65,7 +64,6 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-            view.setBackgroundResource(R.drawable.button);
             return new Holder(view);
         }
 
@@ -94,24 +92,10 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     private static class Holder extends RecyclerView.ViewHolder {
 
         SimpleDraweeView image;
-        TextView name;
-        TextView description;
-        TextView hp;
-        TextView attack;
-        TextView defense;
-        TextView move;
-        TextView attackSpeed;
 
         public Holder(View itemView) {
             super(itemView);
             image = (SimpleDraweeView) itemView.findViewById(R.id.image);
-            name = (TextView) itemView.findViewById(R.id.name);
-            description = (TextView) itemView.findViewById(R.id.description);
-            hp = (TextView) itemView.findViewById(R.id.hp);
-            attack = (TextView) itemView.findViewById(R.id.attack);
-            defense = (TextView) itemView.findViewById(R.id.defense);
-            move = (TextView) itemView.findViewById(R.id.move);
-            attackSpeed = (TextView) itemView.findViewById(R.id.attackSpeed);
         }
     }
 }

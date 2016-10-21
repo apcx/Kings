@@ -5,58 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="2dp"
+    android:background="@color/background"
     tools:context="apc.kings.ItemActivity">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:viewAspectRatio="10.6891"
+        app:placeholderImage="@drawable/title_item" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/item_weapon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="攻击"
-            android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/item_magic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="法术"
-            android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/item_armor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="防御"
-            android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/item_boots"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="移动"
-            android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/item_mob"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="打野"
-            android:onClick="onClick" />
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:orientation="vertical" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/item_weapon"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/btn_category_hero"
+                android:textColor="@color/category_hero"
+                android:text="攻击"
+                android:onClick="onClick" />
+
+            <Button
+                android:id="@+id/item_magic"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/btn_category_hero"
+                android:textColor="@color/category_hero"
+                android:text="法术"
+                android:onClick="onClick" />
+
+            <Button
+                android:id="@+id/item_armor"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/btn_category_hero"
+                android:textColor="@color/category_hero"
+                android:text="防御"
+                android:onClick="onClick" />
+
+            <Button
+                android:id="@+id/item_boots"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/btn_category_hero"
+                android:textColor="@color/category_hero"
+                android:text="移动"
+                android:onClick="onClick" />
+
+            <Button
+                android:id="@+id/item_mob"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/btn_category_hero"
+                android:textColor="@color/category_hero"
+                android:text="打野"
+                android:onClick="onClick" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="3"
+            android:orientation="vertical" />
+    </LinearLayout>
 </LinearLayout>
