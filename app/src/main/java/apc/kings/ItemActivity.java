@@ -1,20 +1,19 @@
 package apc.kings;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import apc.kings.common.AbsAdapter;
 import apc.kings.data.Item;
 
 @SuppressWarnings("ConstantConditions")
@@ -50,7 +49,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
             category = id;
 
             items.clear();
-            for (Item item: Item.ALL_ITEMS) {
+            for (Item item : Item.ALL_ITEMS) {
                 if (id == item.category) {
                     items.add(item);
                 }
@@ -59,28 +58,24 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class Adapter extends RecyclerView.Adapter<Holder> {
+    private class Adapter extends AbsAdapter<Holder> {
 
-        @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-            return new Holder(view);
+        Adapter() {
+            super(R.layout.item_item, Holder.class);
         }
 
-        @SuppressLint({"SetTextI18n", "DefaultLocale"})
         @Override
+        public void onItemChanged(int position) {
+
+        }
+
+        @Override
+        @SuppressLint("SetTextI18n")
         public void onBindViewHolder(Holder holder, int position) {
             Item item = items.get(position);
             holder.image.setImageURI(Uri.parse("res://drawable/" + item.imageRes));
-
-            final String name = item.name;
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setResult(RESULT_OK, new Intent(null, Uri.parse(name)));
-                    finish();
-                }
-            });
+            holder.name.setText(item.name);
+            holder.price.setText(Integer.toString(item.price));
         }
 
         @Override
@@ -92,10 +87,14 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     private static class Holder extends RecyclerView.ViewHolder {
 
         SimpleDraweeView image;
+        TextView name;
+        TextView price;
 
         public Holder(View itemView) {
             super(itemView);
             image = (SimpleDraweeView) itemView.findViewById(R.id.image);
+            name = (TextView) itemView.findViewById(R.id.name);
+            price = (TextView) itemView.findViewById(R.id.price);
         }
     }
 }

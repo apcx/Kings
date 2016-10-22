@@ -34,6 +34,8 @@ public class HeroType {
     public int defense;
     public int regen;
     public double attackSpeed;
+    public Item[] defaultItems;
+    public Item[] recommendedItems;
     public Item[] items;
     public Map<Rune, Integer> runes;
 

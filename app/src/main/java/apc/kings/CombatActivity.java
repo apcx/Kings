@@ -16,8 +16,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     private static final int REQUEST_PRIMARY_HERO = 1;
     private static final int REQUEST_SECONDARY_HERO = 2;
 
-    private HeroView primaryHero;
-    private HeroView secondaryHero;
+    private HeroPanel primaryHero;
+    private HeroPanel secondaryHero;
 
     private TextView damage;
     private TextView time;
@@ -31,8 +31,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_combat);
         setTitle("Res " + App.RES_VERSION);
 
-        primaryHero = (HeroView) findViewById(R.id.hero_primary);
-        secondaryHero = (HeroView) findViewById(R.id.hero_secondary);
+        primaryHero = (HeroPanel) findViewById(R.id.hero_primary);
+        secondaryHero = (HeroPanel) findViewById(R.id.hero_secondary);
         damage = (TextView) findViewById(R.id.damage);
         time = (TextView) findViewById(R.id.time);
         dps = (TextView) findViewById(R.id.dps);

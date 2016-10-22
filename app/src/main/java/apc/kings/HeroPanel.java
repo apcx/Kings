@@ -15,7 +15,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 
-public class HeroView extends RelativeLayout {
+public class HeroPanel extends RelativeLayout {
 
     HeroType heroType;
 
@@ -23,25 +23,25 @@ public class HeroView extends RelativeLayout {
     public ViewGroup itemsGroup;
     private TextView nameView;
 
-    public HeroView(Context context) {
+    public HeroPanel(Context context) {
         super(context);
         init();
     }
 
-    public HeroView(Context context, AttributeSet attrs) {
+    public HeroPanel(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public HeroView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HeroPanel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressWarnings("unused")
-    public HeroView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public HeroPanel(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

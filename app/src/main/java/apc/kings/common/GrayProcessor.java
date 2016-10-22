@@ -6,18 +6,21 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
+@SuppressWarnings("WeakerAccess")
 public class GrayProcessor extends BasePostprocessor {
 
-    private String key;
+    private CacheKey key;
 
-    public GrayProcessor(@NonNull Uri uri) {
-        key = uri.toString();
+    public GrayProcessor(@Nullable Uri uri) {
+        if (uri != null) {
+            key = new SimpleCacheKey(uri.toString());
+        }
     }
 
     @Override
@@ -38,6 +41,6 @@ public class GrayProcessor extends BasePostprocessor {
 
     @Override
     public CacheKey getPostprocessorCacheKey() {
-        return new SimpleCacheKey(key);
+        return key;
     }
 }

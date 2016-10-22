@@ -8,18 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.RoundingParams;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import apc.kings.common.AbsAdapter;
-import apc.kings.common.GrayProcessor;
+import apc.kings.common.HeroView;
 import apc.kings.common.Holder;
 import apc.kings.data.HeroType;
 
@@ -104,7 +98,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
     private class Adapter extends AbsAdapter<Holder> {
 
         Adapter() {
-            super(R.layout.recycler_hero, Holder.class);
+            super(R.layout.item_hero, Holder.class);
         }
 
         @Override
@@ -117,22 +111,8 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onBindViewHolder(Holder holder, int position) {
-            SimpleDraweeView view = (SimpleDraweeView) holder.itemView;
-            Uri uri = heroTypes.get(position).getImageUri(view.getContext(), "hero");
-
-            GenericDraweeHierarchy hierarchy = view.getHierarchy();
-            RoundingParams roundingParams = hierarchy.getRoundingParams();
-            roundingParams.setCornersRadii(3, 14, 3, 14);
-            if (position == selected) {
-                roundingParams.setBorder(0xfffae58f, 3);
-                view.setController(Fresco.newDraweeControllerBuilder()
-                        .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new GrayProcessor(uri)).build())
-                        .build());
-            } else {
-                roundingParams.setBorder(0xff1e4e66, 2);
-                view.setImageURI(uri);
-            }
-            hierarchy.setRoundingParams(roundingParams);
+            HeroView view = (HeroView) holder.itemView;
+            view.setImage(heroTypes.get(position).getImageUri(view.getContext(), "hero"), position == selected);
         }
 
         @Override
