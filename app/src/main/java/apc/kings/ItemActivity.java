@@ -31,7 +31,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.items);
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
         onSelected(R.id.item_weapon);

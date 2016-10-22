@@ -41,8 +41,10 @@ public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends Rec
 
     @Override
     public void onClick(View v) {
-        //noinspection unchecked
-        setSelected(((VH) v.getTag()).getAdapterPosition());
+        Object tag = v.getTag();
+        if (tag instanceof RecyclerView.ViewHolder) {   // check tag-changed case
+            setSelected(((RecyclerView.ViewHolder) tag).getAdapterPosition());
+        }
     }
 
     @Override
