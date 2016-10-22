@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SdView">
+        <attr name="roundingBorderColor" />
+        <attr name="roundingBorderWidth" />
+        <attr name="selectedBorderWidth" format="dimension" />
+        <attr name="selectedProcessor" format="boolean" />
+    </declare-styleable>
+</resources>

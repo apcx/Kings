@@ -57,7 +57,7 @@ public class HeroPanel extends RelativeLayout {
         HeroType heroType = HeroType.findHero(name);
         if (heroType != null) {
             this.heroType = heroType;
-            image.setImageURI(heroType.getImageUri(getContext(), "poster"));
+            image.setImageURI(heroType.getImageUri(getContext(), HeroType.TYPE_POSTER));
             nameView.setText(name);
             setItems(heroType.buildDefaultItems());
         }

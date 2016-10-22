@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import apc.kings.common.AbsAdapter;
+import apc.kings.common.SdView;
+import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 
 @SuppressWarnings("ConstantConditions")
@@ -33,6 +35,9 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
         onSelected(R.id.item_weapon);
+
+        SimpleDraweeView view = (SimpleDraweeView) findViewById(R.id.hero);
+        view.setImageURI(HeroType.findHero("孙尚香").getImageUri(this, HeroType.TYPE_HERO));
     }
 
     @Override
@@ -73,7 +78,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("SetTextI18n")
         public void onBindViewHolder(Holder holder, int position) {
             Item item = items.get(position);
-            holder.image.setImageURI(Uri.parse("res://drawable/" + item.imageRes));
+            holder.image.setImage(Uri.parse("res://drawable/" + item.imageRes), position == selected);
             holder.name.setText(item.name);
             holder.price.setText(Integer.toString(item.price));
         }
@@ -86,13 +91,13 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
     private static class Holder extends RecyclerView.ViewHolder {
 
-        SimpleDraweeView image;
+        SdView image;
         TextView name;
         TextView price;
 
         public Holder(View itemView) {
             super(itemView);
-            image = (SimpleDraweeView) itemView.findViewById(R.id.image);
+            image = (SdView) itemView.findViewById(R.id.image);
             name = (TextView) itemView.findViewById(R.id.name);
             price = (TextView) itemView.findViewById(R.id.price);
         }

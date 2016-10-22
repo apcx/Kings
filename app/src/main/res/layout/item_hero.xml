@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<apc.kings.common.HeroView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+<apc.kings.common.SdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    fresco:viewAspectRatio="1"
+    app:viewAspectRatio="1"
     android:layout_margin="6dp"
-    fresco:roundedCornerRadius="7dp"
-    fresco:roundTopLeft="false"
-    fresco:roundBottomRight="false"
-    fresco:roundingBorderWidth="2dp"
-    fresco:roundingBorderColor="#1e4e66" />
+    app:roundedCornerRadius="7dp"
+    app:roundTopLeft="false"
+    app:roundBottomRight="false"
+    app:roundingBorderColor="@color/border"
+    app:roundingBorderWidth="1dp"
+    app:selectedBorderWidth="2dp"
+    app:selectedProcessor="true" />

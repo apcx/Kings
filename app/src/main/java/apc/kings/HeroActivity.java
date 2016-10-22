@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import apc.kings.common.AbsAdapter;
-import apc.kings.common.HeroView;
 import apc.kings.common.Holder;
+import apc.kings.common.SdView;
 import apc.kings.data.HeroType;
 
 @SuppressWarnings("ConstantConditions")
@@ -111,8 +111,8 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onBindViewHolder(Holder holder, int position) {
-            HeroView view = (HeroView) holder.itemView;
-            view.setImage(heroTypes.get(position).getImageUri(view.getContext(), "hero"), position == selected);
+            SdView view = (SdView) holder.itemView;
+            view.setImage(heroTypes.get(position).getImageUri(view.getContext(), HeroType.TYPE_HERO), position == selected);
         }
 
         @Override

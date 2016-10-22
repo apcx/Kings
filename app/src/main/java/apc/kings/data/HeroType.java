@@ -12,6 +12,9 @@ import apc.kings.R;
 
 public class HeroType {
 
+    public static final String TYPE_HERO = "hero";
+    public static final String TYPE_POSTER = "poster";
+
     public static HeroType[] ALL_HEROES = new HeroType[] {
             new HeroType("后羿",    "stalker",  R.id.cat_archer,  0,                 6299, 421, 346,  73,  0.42),
             new HeroType("孙尚香",   "cannon", R.id.cat_archer,  0,                 6014, 421, 346,  69, 0.42),
