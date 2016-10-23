@@ -1,7 +1,6 @@
 package apc.kings;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +50,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lock:
-                setResult(RESULT_OK, new Intent(null, Uri.parse(selectedHeroType.name)));
+                setResult(RESULT_OK, new Intent(selectedHeroType.name, null));
                 finish();
                 break;
             default:
@@ -84,11 +83,14 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             adapter.notifyDataSetChanged();
+
             int selected = -1;
-            for (int i = 0, n = heroTypes.size(); i < n; ++i) {
-                if (selectedHeroType == heroTypes.get(i)) {
-                    selected = i;
-                    break;
+            if (selectedHeroType != null) {
+                for (int i = 0, n = heroTypes.size(); i < n; ++i) {
+                    if (heroTypes.get(i) == selectedHeroType) {
+                        selected = i;
+                        break;
+                    }
                 }
             }
             adapter.setSelected(selected);

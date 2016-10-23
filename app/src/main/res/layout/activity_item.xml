@@ -19,13 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="42dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="12dp">
 
             <Button
                 android:id="@+id/item_weapon"
@@ -34,7 +35,7 @@
                 android:background="@drawable/btn_category_hero"
                 android:textColor="@color/category_hero"
                 android:text="攻击"
-                android:onClick="onClick" />
+                android:onClick="onSelect" />
 
             <Button
                 android:id="@+id/item_magic"
@@ -44,7 +45,7 @@
                 android:background="@drawable/btn_category_hero"
                 android:textColor="@color/category_hero"
                 android:text="法术"
-                android:onClick="onClick" />
+                android:onClick="onSelect" />
 
             <Button
                 android:id="@+id/item_armor"
@@ -54,7 +55,7 @@
                 android:background="@drawable/btn_category_hero"
                 android:textColor="@color/category_hero"
                 android:text="防御"
-                android:onClick="onClick" />
+                android:onClick="onSelect" />
 
             <Button
                 android:id="@+id/item_boots"
@@ -64,7 +65,7 @@
                 android:background="@drawable/btn_category_hero"
                 android:textColor="@color/category_hero"
                 android:text="移动"
-                android:onClick="onClick" />
+                android:onClick="onSelect" />
 
             <Button
                 android:id="@+id/item_mob"
@@ -74,7 +75,7 @@
                 android:background="@drawable/btn_category_hero"
                 android:textColor="@color/category_hero"
                 android:text="打野"
-                android:onClick="onClick" />
+                android:onClick="onSelect" />
         </LinearLayout>
 
         <View
@@ -86,7 +87,7 @@
             android:id="@+id/items"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_weight="25"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
             app:spanCount="3"
             android:orientation="vertical" />
@@ -123,11 +124,14 @@
                 android:gravity="right">
 
                 <ImageView
+                    android:id="@+id/cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_cancel" />
+                    android:src="@drawable/ic_cancel"
+                    android:visibility="gone" />
 
                 <ImageView
+                    android:id="@+id/edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -136,6 +140,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_set"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"

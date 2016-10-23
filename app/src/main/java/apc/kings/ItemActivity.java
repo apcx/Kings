@@ -22,26 +22,53 @@ import apc.kings.data.Item;
 public class ItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     List<Item> items = new ArrayList<>();
+    Item selectedItem;
 
     private int category;
-    private RecyclerView.Adapter adapter;
+    private Adapter adapter;
+    private View editButton;
+    private View cancelButton;
+    private View itemGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.items);
+        ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(HeroType.findHero(getIntent().getAction()).getImageUri(this, HeroType.TYPE_HERO));
+
         adapter = new Adapter();
-        recyclerView.setAdapter(adapter);
+        ((RecyclerView) findViewById(R.id.items)).setAdapter(adapter);
         onSelected(R.id.item_weapon);
 
-        SimpleDraweeView view = (SimpleDraweeView) findViewById(R.id.hero);
-        view.setImageURI(HeroType.findHero("孙尚香").getImageUri(this, HeroType.TYPE_HERO));
+        editButton = findViewById(R.id.edit);
+        cancelButton = findViewById(R.id.cancel);
+        itemGroup = findViewById(R.id.item_set);
+
+        editButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.edit:
+                if (editButton.isSelected()) {
+                    editButton.setSelected(false);
+                    cancelButton.setVisibility(View.GONE);
+                } else {
+                    editButton.setSelected(true);
+                    cancelButton.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.cancel:
+                editButton.setSelected(false);
+                cancelButton.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    public void onSelect(View v) {
         onSelected(v.getId());
     }
 
@@ -60,6 +87,17 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             adapter.notifyDataSetChanged();
+
+            int selected = -1;
+            if (selectedItem != null) {
+                for (int i = 0, n = items.size(); i < n; ++i) {
+                    if (items.get(i) == selectedItem) {
+                        selected = i;
+                        break;
+                    }
+                }
+            }
+            adapter.setSelected(selected);
         }
     }
 
@@ -71,7 +109,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onItemChanged(int position) {
-
+            selectedItem = position < 0 ? null : items.get(position);
         }
 
         @Override

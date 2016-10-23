@@ -22,5 +22,6 @@
         android:layout_height="15dp"
         android:layout_alignTop="@+id/image"
         android:layout_alignRight="@+id/image"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@android:drawable/ic_delete"
+        android:visibility="gone" />
 </RelativeLayout>

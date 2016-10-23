@@ -40,6 +40,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
 
         primaryHero.image.setTag(REQUEST_PRIMARY_HERO);
         secondaryHero.image.setTag(REQUEST_SECONDARY_HERO);
+        primaryHero.itemsGroup.setTag(REQUEST_PRIMARY_HERO);
+        secondaryHero.itemsGroup.setTag(REQUEST_SECONDARY_HERO);
         primaryHero.image.setOnClickListener(this);
         secondaryHero.image.setOnClickListener(this);
 
@@ -50,14 +52,19 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void onClick(View v) {
+        Object tag = v.getTag();
+        int id;
+        HeroType heroType;
         switch (v.getId()) {
             case R.id.image:
-                int tag = (int) v.getTag();
-                HeroType heroType = (REQUEST_PRIMARY_HERO == tag ? primaryHero : secondaryHero).heroType;
-                startActivityForResult(new Intent(heroType != null ? heroType.name : null, null, this, HeroActivity.class), tag);
+                id = (int) tag;
+                heroType = (REQUEST_PRIMARY_HERO == id ? primaryHero : secondaryHero).heroType;
+                startActivityForResult(new Intent(null == heroType ? null : heroType.name, null, this, HeroActivity.class), id);
                 break;
             case R.id.items:
-                startActivityForResult(new Intent(this, ItemActivity.class), 5);
+                id = (int) tag;
+                heroType = (REQUEST_PRIMARY_HERO == id ? primaryHero : secondaryHero).heroType;
+                startActivityForResult(new Intent(heroType.name, null, this, ItemActivity.class), 5);
                 break;
             default:
                 if (primaryHero.heroType != null && secondaryHero.heroType != null) {
@@ -73,16 +80,16 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
+            String name = data.getAction();
             switch (requestCode) {
                 case REQUEST_PRIMARY_HERO:
-                    String name = data.getDataString();
                     primaryHero.setHero(name);
                     if (null == secondaryHero.heroType) {
                         secondaryHero.setHero("孙尚香".equals(name) ? "孙悟空" : "夏侯惇");
                     }
                     break;
                 case REQUEST_SECONDARY_HERO:
-                    secondaryHero.setHero(data.getDataString());
+                    secondaryHero.setHero(name);
                     break;
             }
         }
