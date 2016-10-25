@@ -3,6 +3,9 @@ package apc.kings.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import apc.kings.R;
 
 public class Item {
@@ -21,7 +24,7 @@ public class Item {
     public static final int FLAG_EXECUTE               = 0x0800;
     public static final int FLAG_STORM                 = 0x1000;
 
-    public static Item[] ALL_ITEMS = new Item[] {
+    public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,  R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 0.3,  0,    0,    FLAG_CORRUPT),
             new Item("泣血之刃",  R.drawable.weapon_drain,    R.id.item_weapon, 1740,    0, 100,   0,   0,   0,   0, 0,    0,    0,    0),
             new Item("制裁之刃",  R.drawable.weapon_wound,    R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0, 0,    0,    0,    0),
@@ -59,6 +62,13 @@ public class Item {
             new Item("巨人之握",  R.drawable.mob_hp,          R.id.item_mob,    1500,  800,   0,   0,   0,   0,   0, 0,    0,    0,    0),
     };
 
+    private static final Map<String, Item> map = new HashMap<>();
+    static {
+        for (Item item : ALL_ITEMS) {
+            map.put(item.name, item);
+        }
+    }
+
     public String name;
     public int imageRes;
     public int category;
@@ -93,11 +103,6 @@ public class Item {
 
     @Nullable
     public static Item findItem(@NonNull String name) {
-        for (Item item : ALL_ITEMS) {
-            if (item.name.equals(name)) {
-                return item;
-            }
-        }
-        return null;
+        return map.get(name);
     }
 }

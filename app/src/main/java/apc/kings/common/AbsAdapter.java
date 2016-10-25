@@ -10,14 +10,14 @@ import java.lang.reflect.Constructor;
 
 public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements View.OnClickListener {
 
-    protected int selected = -1;
-    private int itemRes;
-    private Constructor<VH> holderConstructor;
+    protected int mSelected = -1;
+    private int mItemRes;
+    private Constructor<VH> mHolderConstructor;
 
     public AbsAdapter(@LayoutRes int itemRes, Class<VH> holderClass) {
-        this.itemRes = itemRes;
+        mItemRes = itemRes;
         try {
-            holderConstructor = holderClass.getConstructor(View.class);
+            mHolderConstructor = holderClass.getConstructor(View.class);
         } catch (NoSuchMethodException e) {
             // ignore
         }
@@ -26,9 +26,9 @@ public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends Rec
     public abstract void onItemChanged(int position);
 
     public void setSelected(int position) {
-        if (position != selected) {
-            int old = selected;
-            selected = position;
+        if (position != mSelected) {
+            int old = mSelected;
+            mSelected = position;
             if (old >= 0) {
                 notifyItemChanged(old);
             }
@@ -50,10 +50,10 @@ public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends Rec
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         VH holder = null;
-        if (holderConstructor != null) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(itemRes, parent, false);
+        if (mHolderConstructor != null) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(mItemRes, parent, false);
             try {
-                holder = holderConstructor.newInstance(view);
+                holder = mHolderConstructor.newInstance(view);
                 view.setTag(holder);
                 view.setOnClickListener(this);
             } catch (Exception e) {

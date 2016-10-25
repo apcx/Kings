@@ -15,11 +15,11 @@ import com.facebook.imagepipeline.request.BasePostprocessor;
 @SuppressWarnings("WeakerAccess")
 public class GrayProcessor extends BasePostprocessor {
 
-    private CacheKey key;
+    private CacheKey mKey;
 
     public GrayProcessor(@Nullable Uri uri) {
         if (uri != null) {
-            key = new SimpleCacheKey(uri.toString());
+            mKey = new SimpleCacheKey(uri.toString());
         }
     }
 
@@ -41,6 +41,6 @@ public class GrayProcessor extends BasePostprocessor {
 
     @Override
     public CacheKey getPostprocessorCacheKey() {
-        return key;
+        return mKey;
     }
 }

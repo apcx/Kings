@@ -19,10 +19,10 @@ public class SdView extends SimpleDraweeView {
 
     private static int[] STATE_SELECTED = {android.R.attr.state_selected};
 
-    private ColorStateList colorStateList;
-    private float borderWidth;
-    private float selectedBorderWidth;
-    private boolean selectedProcessor;
+    private ColorStateList mColorStateList;
+    private float mBorderWidth;
+    private float mSelectedBorderWidth;
+    private boolean mSelectedProcessor;
 
     @SuppressWarnings("unused")
     public SdView(Context context, GenericDraweeHierarchy hierarchy) {
@@ -51,27 +51,41 @@ public class SdView extends SimpleDraweeView {
 
     protected void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SdView);
-        colorStateList = ta.getColorStateList(R.styleable.SdView_roundingBorderColor);
-        borderWidth = ta.getDimension(R.styleable.SdView_roundingBorderWidth, 0);
-        selectedBorderWidth = ta.getDimension(R.styleable.SdView_selectedBorderWidth, 0);
-        selectedProcessor = ta.getBoolean(R.styleable.SdView_selectedProcessor, false);
+        mColorStateList = ta.getColorStateList(R.styleable.SdView_roundingBorderColor);
+        mBorderWidth = ta.getDimension(R.styleable.SdView_roundingBorderWidth, 0);
+        mSelectedBorderWidth = ta.getDimension(R.styleable.SdView_selectedBorderWidth, 0);
+        mSelectedProcessor = ta.getBoolean(R.styleable.SdView_selectedProcessor, false);
         ta.recycle();
+
+        float minRadii = Math.max(mBorderWidth, mSelectedBorderWidth);
+        if (minRadii > 0) {
+            GenericDraweeHierarchy hierarchy = getHierarchy();
+            RoundingParams params = hierarchy.getRoundingParams();
+            if (params != null && !params.getRoundAsCircle()) {
+                float[] radii = params.getCornersRadii();
+                for (int i = 0; i < 8; ++i) {
+                    if (radii[i] < minRadii) {
+                        radii[i] = minRadii;   // For some devices, corner radii can't be smaller than the border width.
+                    }
+                }
+            }
+        }
     }
 
     public void setImage(@NonNull Uri uri, boolean selected) {
         GenericDraweeHierarchy hierarchy = getHierarchy();
-        RoundingParams roundingParams = hierarchy.getRoundingParams();
-        if (roundingParams != null) {
-            int color = colorStateList.getDefaultColor();
+        RoundingParams params = hierarchy.getRoundingParams();
+        if (params != null) {
+            int color = mColorStateList.getDefaultColor();
             if (selected) {
-                roundingParams.setBorder(colorStateList.getColorForState(STATE_SELECTED, color), selectedBorderWidth);
+                params.setBorder(mColorStateList.getColorForState(STATE_SELECTED, color), mSelectedBorderWidth);
             } else {
-                roundingParams.setBorder(color, borderWidth);
+                params.setBorder(color, mBorderWidth);
             }
-            hierarchy.setRoundingParams(roundingParams);
+            hierarchy.setRoundingParams(params);
         }
 
-        if (selected && selectedProcessor) {
+        if (selected && mSelectedProcessor) {
             setController(Fresco.newDraweeControllerBuilder()
                     .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new GrayProcessor(uri)).build())
                     .build());

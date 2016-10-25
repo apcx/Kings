@@ -126,7 +126,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("SetTextI18n")
         public void onBindViewHolder(Holder holder, int position) {
             Item item = mItems.get(position);
-            holder.image.setImage(Uri.parse("res:///" + item.imageRes), position == selected);
+            holder.image.setImage(Uri.parse("res:///" + item.imageRes), position == mSelected);
             holder.name.setText(item.name);
             holder.price.setText(Integer.toString(item.price));
         }
