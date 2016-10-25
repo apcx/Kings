@@ -21,50 +21,60 @@ import apc.kings.data.Item;
 @SuppressWarnings("ConstantConditions")
 public class ItemActivity extends AppCompatActivity implements View.OnClickListener {
 
-    List<Item> items = new ArrayList<>();
-    Item selectedItem;
+    List<Item> mItems = new ArrayList<>();
+    Item mSelectedItem;
 
-    private int category;
-    private Adapter adapter;
-    private View editButton;
-    private View cancelButton;
-    private View itemGroup;
+    private int mCategory;
+    private Adapter mAdapter;
+    private View mEditButton;
+    private View mCancelButton;
+    private ItemGroup mItemGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(HeroType.findHero(getIntent().getAction()).getImageUri(this, HeroType.TYPE_HERO));
+        HeroType heroType = HeroType.findHero(getIntent().getAction());
+        ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(heroType.getImageUri(this, HeroType.TYPE_HERO));
+        mEditButton = findViewById(R.id.edit);
+        mCancelButton = findViewById(R.id.cancel);
+        mItemGroup = (ItemGroup) findViewById(R.id.item_set);
+        mItemGroup.setItems(heroType.items);
 
-        adapter = new Adapter();
-        ((RecyclerView) findViewById(R.id.items)).setAdapter(adapter);
+        mAdapter = new Adapter();
+        ((RecyclerView) findViewById(R.id.items)).setAdapter(mAdapter);
         onSelected(R.id.item_weapon);
 
-        editButton = findViewById(R.id.edit);
-        cancelButton = findViewById(R.id.cancel);
-        itemGroup = findViewById(R.id.item_set);
-
-        editButton.setOnClickListener(this);
-        cancelButton.setOnClickListener(this);
+        mEditButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit:
-                if (editButton.isSelected()) {
-                    editButton.setSelected(false);
-                    cancelButton.setVisibility(View.GONE);
+                if (mEditButton.isSelected()) {
+                    mEditButton.setSelected(false);
+                    mCancelButton.setVisibility(View.GONE);
+                    mItemGroup.editDone();
                 } else {
-                    editButton.setSelected(true);
-                    cancelButton.setVisibility(View.VISIBLE);
+                    mEditButton.setSelected(true);
+                    mCancelButton.setVisibility(View.VISIBLE);
+                    mItemGroup.edit();
                 }
                 break;
             case R.id.cancel:
-                editButton.setSelected(false);
-                cancelButton.setVisibility(View.GONE);
+                mEditButton.setSelected(false);
+                mCancelButton.setVisibility(View.GONE);
+                mItemGroup.editCancel();
                 break;
+        }
+    }
+
+    public void onFill(View v) {
+        if (mSelectedItem != null) {
+            mItemGroup.editItem(v.getId(), mSelectedItem);
         }
     }
 
@@ -73,31 +83,31 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onSelected(int id) {
-        if (id != category) {
-            if (category > 0) {
-                findViewById(category).setSelected(false);
+        if (id != mCategory) {
+            if (mCategory > 0) {
+                findViewById(mCategory).setSelected(false);
             }
             findViewById(id).setSelected(true);
-            category = id;
+            mCategory = id;
 
-            items.clear();
+            mItems.clear();
             for (Item item : Item.ALL_ITEMS) {
                 if (id == item.category) {
-                    items.add(item);
+                    mItems.add(item);
                 }
             }
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
 
             int selected = -1;
-            if (selectedItem != null) {
-                for (int i = 0, n = items.size(); i < n; ++i) {
-                    if (items.get(i) == selectedItem) {
+            if (mSelectedItem != null) {
+                for (int i = 0, n = mItems.size(); i < n; ++i) {
+                    if (mItems.get(i) == mSelectedItem) {
                         selected = i;
                         break;
                     }
                 }
             }
-            adapter.setSelected(selected);
+            mAdapter.setSelected(selected);
         }
     }
 
@@ -109,21 +119,21 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onItemChanged(int position) {
-            selectedItem = position < 0 ? null : items.get(position);
+            mSelectedItem = position < 0 ? null : mItems.get(position);
         }
 
         @Override
         @SuppressLint("SetTextI18n")
         public void onBindViewHolder(Holder holder, int position) {
-            Item item = items.get(position);
-            holder.image.setImage(Uri.parse("res://drawable/" + item.imageRes), position == selected);
+            Item item = mItems.get(position);
+            holder.image.setImage(Uri.parse("res:///" + item.imageRes), position == selected);
             holder.name.setText(item.name);
             holder.price.setText(Integer.toString(item.price));
         }
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return mItems.size();
         }
     }
 

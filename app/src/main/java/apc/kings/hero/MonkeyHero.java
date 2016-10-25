@@ -10,7 +10,7 @@ class MonkeyHero extends Hero {
     }
 
     @Override
-    void updateDamageCanCritical() {
-        damageCanCritical = (int) (attack * attackFactor) + attackBonus;
+    void updateAttackCanCritical() {
+        attackCanCritical = (int) (attack * attackFactor) + attackBonus;
     }
 }

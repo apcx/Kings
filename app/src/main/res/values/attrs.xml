@@ -7,7 +7,9 @@
         <attr name="selectedProcessor" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="ItemView">
+    <declare-styleable name="BambooView">
         <attr name="android:layout" />
+        <attr name="android:weightSum" />
+        <attr name="android:onClick" />
     </declare-styleable>
 </resources>

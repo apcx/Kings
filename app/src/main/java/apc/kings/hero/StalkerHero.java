@@ -14,7 +14,7 @@ class StalkerHero extends Hero {
         skills = new Skill[]{
                 new Skill("炙热之风", 10, 0.1),
                 new Skill("燎原箭雨", 4, 0.4, 1.16, 760, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
-                new Skill("惩戒射击", 30, 0),
+                new Skill("惩戒射击", 35, 0),
         };
         nextAttackTime = 0.101;
     }

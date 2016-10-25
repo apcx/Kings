@@ -58,8 +58,8 @@ public class Hero {
     double attackFactor = 1;
     double normalFactor;
     int attackBonus;
-    int damageCanCritical;
-    int damageCannotCritical;
+    int attackCanCritical;
+    int attackCannotCritical;
     boolean enchanted;
 
     int cutCount;
@@ -186,8 +186,8 @@ public class Hero {
 
     Event hit() {
         hitCount++;
-        updateDamageCanCritical();
-        double damage = damageCanCritical;
+        updateAttackCanCritical();
+        double damage = attackCanCritical;
         double criticalDamageRate = 1;
         if (critical * hitCount >= criticalCount + 1) {
             criticalCount++;
@@ -195,7 +195,7 @@ public class Hero {
             damage *= criticalDamageRate;
         }
         Event event = new Event(heroType.name, target.heroType.name, "攻击", time);
-        event.damage = (damage + damageCannotCritical) * getDamageRate() * normalFactor;
+        event.damage = (damage + attackCannotCritical) * getDamageRate() * normalFactor;
         target.hp -= event.damage;
 
         damage = 0;
@@ -227,14 +227,10 @@ public class Hero {
         return event;
     }
 
-    void updateDamageCanCritical() {
-        if (attackFactor >= 1) {
-            damageCanCritical = attack;
-            damageCannotCritical = (int) (attack * (attackFactor - 1)) + attackBonus;
-        } else {
-            damageCanCritical = (int) (attack * attackFactor);
-            damageCannotCritical = attackBonus;
-        }
+    void updateAttackCanCritical() {
+        double criticalFactor = Math.max(1, attackFactor);
+        attackCanCritical = (int) (attack * criticalFactor);
+        attackCannotCritical = (int) (attack * (attackFactor - criticalFactor)) + attackBonus;
     }
 
     double getDamageRate() {

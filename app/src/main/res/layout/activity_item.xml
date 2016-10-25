@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText,NestedWeights,RtlHardcoded"
+    tools:ignore="HardcodedText,NestedWeights,ContentDescription,RtlHardcoded"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -139,51 +139,17 @@
                     android:src="@drawable/btn_item_edit" />
             </LinearLayout>
 
-            <LinearLayout
+            <apc.kings.ItemGroup
                 android:id="@+id/item_set"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:background="@drawable/round_item_set">
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-
-                <include
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    layout="@layout/item_item_set" />
-            </LinearLayout>
+                android:background="@drawable/round_item_set"
+                android:layout="@layout/item_item_set"
+                android:weightSum="6"
+                android:onClick="onFill" />
         </LinearLayout>
 
         <LinearLayout

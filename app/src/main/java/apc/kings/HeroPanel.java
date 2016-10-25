@@ -47,7 +47,7 @@ public class HeroPanel extends RelativeLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.view_hero, this);
+        inflate(getContext(), R.layout.panel_hero, this);
         image = (SimpleDraweeView) findViewById(R.id.image);
         nameView = (TextView) findViewById(R.id.name);
         itemsGroup = (ViewGroup) findViewById(R.id.items);
@@ -74,7 +74,7 @@ public class HeroPanel extends RelativeLayout {
             if (i < n) {
                 Item item = items[i];
                 if (item != null) {
-                    uri = Uri.parse("res://drawable/" + item.imageRes);
+                    uri = Uri.parse("res:///" + item.imageRes);
                 }
             }
             ((SimpleDraweeView) itemsGroup.getChildAt(i)).setImageURI(uri);

@@ -16,7 +16,7 @@ public class HeroType {
     public static final String TYPE_POSTER = "poster";
 
     public static HeroType[] ALL_HEROES = new HeroType[] {
-            new HeroType("后羿",    "stalker",  R.id.cat_archer,  0,                 6299, 421, 346,  73,  0.42),
+            new HeroType("后羿",    "stalker",  R.id.cat_archer,  0,                 6127, 406, 346,  71,  0.42),
             new HeroType("孙尚香",   "cannon", R.id.cat_archer,  0,                 6014, 421, 346,  69, 0.42),
             new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323,  69, 0.42),
             new HeroType("李元芳",   "bomber", R.id.cat_archer,  0,                 5725, 406, 340,  66,  0.28),
@@ -115,6 +115,6 @@ public class HeroType {
 
     @NonNull
     public Uri getImageUri(Context context, String type) {
-        return Uri.parse("res://drawable/" + context.getResources().getIdentifier(type + '_' + resName, "drawable", context.getPackageName()));
+        return Uri.parse("res:///" + context.getResources().getIdentifier(type + '_' + resName, "drawable", context.getPackageName()));
     }
 }
