@@ -102,6 +102,7 @@ public class ItemGroup extends BambooView {
             mEditItems[index] = item;
             mImageViews[index].setSelected(false);
             mImageViews[index].setImageURI(Uri.parse("res:///" + item.imageRes));
+            mDeleteButtons[index].setVisibility(VISIBLE);
         }
     }
 
