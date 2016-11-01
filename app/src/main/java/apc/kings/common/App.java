@@ -6,7 +6,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class App extends Application {
 
-    public static final String RES_VERSION = "v1.15.2.22";
+    public static final String RES_VERSION = "v1.15.2.25";
 
     @Override
     public void onCreate() {

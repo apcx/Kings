@@ -59,7 +59,7 @@ public class HeroPanel extends RelativeLayout {
             this.heroType = heroType;
             image.setImageURI(heroType.getImageUri(getContext(), HeroType.TYPE_POSTER));
             nameView.setText(name);
-            setItems(heroType.buildDefaultItems());
+            setItems(heroType.items);
         }
     }
 
