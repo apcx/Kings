@@ -161,12 +161,14 @@
             android:orientation="vertical">
 
             <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/reset_recommended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="3.4038"
                 app:placeholderImage="@drawable/item_recommended" />
 
             <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/reset_default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="3.4038"

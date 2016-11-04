@@ -43,29 +43,17 @@ public class HeroType {
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "三圣之力", "冰封之心", "破军", "破甲弓"});
 
-        for (HeroType heroType : ALL_HEROES) {
-            switch (heroType.name) {
-                case "后羿":
-                case "鲁班七号":
-                case "李元芳":
-                    buildRecommendedItems(heroType, new String[]{"影忍之足", "破灭君主", "泣血之刃", "破甲弓", "无尽战刃", "贤者的庇护"});
-                    break;
-                case "孙尚香":
-                case "虞姬":
-                case "孙悟空":
-                    buildRecommendedItems(heroType, new String[]{"泣血之刃", "影忍之足", "破甲弓", "三圣之力", "无尽战刃", "贤者的庇护"});
-                    break;
-                case "成吉思汗":
-                    buildRecommendedItems(heroType, new String[]{"影忍之足", "泣血之刃", "三圣之力", "破甲弓", "无尽战刃", "贤者的庇护"});
-                    break;
-                case "马可波罗":
-                    buildRecommendedItems(heroType, new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "暴烈之甲", "贤者的庇护"});
-                    break;
-                case "夏侯惇":
-                    buildRecommendedItems(heroType, new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "军团荣耀", "霸者重装"});
-                    break;
-            }
-        }
+        String[] archerItemNames = {"影忍之足", "破灭君主", "泣血之刃", "破甲弓", "无尽战刃", "贤者的庇护"};
+        String[] attackItemNames = {"影忍之足", "泣血之刃", "破甲弓", "三圣之力", "无尽战刃", "贤者的庇护"};
+        buildRecommendedItems("后羿", archerItemNames);
+        buildRecommendedItems("鲁班七号", archerItemNames);
+        buildRecommendedItems("李元芳", archerItemNames);
+        buildRecommendedItems("孙尚香", attackItemNames);
+        buildRecommendedItems("虞姬", attackItemNames);
+        buildRecommendedItems("孙悟空", attackItemNames);
+        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "泣血之刃", "三圣之力", "破甲弓", "无尽战刃", "贤者的庇护"});
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "暴烈之甲", "贤者的庇护"});
+        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "军团荣耀", "霸者重装"});
 
         for (HeroType heroType : ALL_HEROES) {
             heroType.items = heroType.recommendedItems != null ? heroType.recommendedItems : heroType.defaultItems;
@@ -122,9 +110,12 @@ public class HeroType {
         }
     }
 
-    private static void buildRecommendedItems(HeroType heroType, String[] itemNames) {
-        for (int i = 0; i < 6; ++i) {
-            heroType.recommendedItems[i] = Item.findItem(itemNames[i]);
+    private static void buildRecommendedItems(String name, String[] itemNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            for (int i = 0; i < 6; ++i) {
+                heroType.recommendedItems[i] = Item.findItem(itemNames[i]);
+            }
         }
     }
 }

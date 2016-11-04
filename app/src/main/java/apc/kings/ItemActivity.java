@@ -1,6 +1,9 @@
 package apc.kings;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     List<Item> mItems = new ArrayList<>();
     Item mSelectedItem;
 
+    private HeroType heroType;
     private int mCategory;
     private Adapter mAdapter;
     private View mEditButton;
@@ -35,7 +39,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        HeroType heroType = HeroType.findHero(getIntent().getAction());
+        heroType = HeroType.findHero(getIntent().getAction());
         ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(heroType.getImageUri(this, HeroType.TYPE_HERO));
         mEditButton = findViewById(R.id.edit);
         mCancelButton = findViewById(R.id.cancel);
@@ -48,11 +52,14 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         mEditButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
+        findViewById(R.id.reset_recommended).setOnClickListener(this);
+        findViewById(R.id.reset_default).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        int id = v.getId();
+        switch (id) {
             case R.id.edit:
                 if (mEditButton.isSelected()) {
                     mEditButton.setSelected(false);
@@ -68,6 +75,10 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 mEditButton.setSelected(false);
                 mCancelButton.setVisibility(View.GONE);
                 mItemGroup.editCancel();
+                break;
+            case R.id.reset_recommended:
+            case R.id.reset_default:
+                showConfirmDialog(id);
                 break;
         }
     }
@@ -109,6 +120,26 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
             }
             mAdapter.setSelected(selected);
         }
+    }
+
+    private void showConfirmDialog(final int id) {
+        Resources resources = getResources();
+        new AlertDialog.Builder(this).setMessage(resources.getIdentifier(resources.getResourceEntryName(id), "string", getPackageName()))
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mEditButton.setSelected(false);
+                        mCancelButton.setVisibility(View.GONE);
+                        switch (id) {
+                            case R.id.reset_recommended:
+                                mItemGroup.setItems(heroType.recommendedItems);
+                                break;
+                            case R.id.reset_default:
+                                mItemGroup.setItems(heroType.defaultItems);
+                                break;
+                        }
+                    }
+                }).create().show();
     }
 
     private class Adapter extends AbsAdapter<Holder> {

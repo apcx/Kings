@@ -18,6 +18,7 @@ public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends Rec
         mItemRes = itemRes;
         try {
             mHolderConstructor = holderClass.getConstructor(View.class);
+            mHolderConstructor.setAccessible(true);
         } catch (NoSuchMethodException e) {
             // ignore
         }
