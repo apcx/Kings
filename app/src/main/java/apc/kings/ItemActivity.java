@@ -64,7 +64,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 if (mEditButton.isSelected()) {
                     mEditButton.setSelected(false);
                     mCancelButton.setVisibility(View.GONE);
-                    mItemGroup.editDone();
+                    heroType.setItems(mItemGroup.editDone());
                 } else {
                     mEditButton.setSelected(true);
                     mCancelButton.setVisibility(View.VISIBLE);
@@ -124,8 +124,8 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showConfirmDialog(final int id) {
         Resources resources = getResources();
-        new AlertDialog.Builder(this).setMessage(resources.getIdentifier(resources.getResourceEntryName(id), "string", getPackageName()))
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setTitle("提示").setMessage(resources.getIdentifier(resources.getResourceEntryName(id), "string", getPackageName()))
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mEditButton.setSelected(false);
@@ -133,9 +133,11 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                         switch (id) {
                             case R.id.reset_recommended:
                                 mItemGroup.setItems(heroType.recommendedItems);
+                                heroType.setItems(heroType.recommendedItems);
                                 break;
                             case R.id.reset_default:
                                 mItemGroup.setItems(heroType.defaultItems);
+                                heroType.setItems(heroType.defaultItems);
                                 break;
                         }
                     }

@@ -64,7 +64,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.items:
                 id = (int) tag;
                 heroType = (REQUEST_PRIMARY_HERO == id ? primaryHero : secondaryHero).heroType;
-                startActivityForResult(new Intent(heroType.name, null, this, ItemActivity.class), 5);
+                if (heroType != null) {
+                    startActivityForResult(new Intent(heroType.name, null, this, ItemActivity.class), 5);
+                }
                 break;
             default:
                 if (primaryHero.heroType != null && secondaryHero.heroType != null) {

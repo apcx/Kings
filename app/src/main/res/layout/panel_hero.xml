@@ -32,59 +32,12 @@
         android:textStyle="bold"
         android:textColor="@color/colorPrimary" />
 
-    <LinearLayout
+    <apc.kings.ItemGroup
         android:id="@+id/items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            app:viewAspectRatio="1"
-            app:roundAsCircle="true" />
-    </LinearLayout>
+        android:layout="@layout/item_item_set"
+        android:weightSum="6" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/runes"

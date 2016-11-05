@@ -10,6 +10,7 @@ import apc.kings.R;
 
 public class Item {
 
+    public static final int SLOTS = 6;
     public static final int FLAG_CUT                   = 0x0001;
     public static final int FLAG_PENETRATE             = 0x0002;
     public static final int FLAG_MAGIC_PENETRATE_RATE  = 0x0004;

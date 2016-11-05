@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Kings</string>
-    <string name="reset_recommended">是否恢复为 Apc 推荐配置？</string>
-    <string name="reset_default">是否恢复为游戏默认配置</string>
+    <string name="reset_recommended">确定要恢复【Apc】的推荐配置吗？</string>
+    <string name="reset_default">确定要恢复默认配置吗？</string>
 </resources>

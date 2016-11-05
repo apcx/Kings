@@ -71,19 +71,19 @@ public class BambooView extends LinearLayout implements View.OnClickListener {
                 addView(item, params);
 
                 item.setId(i);
-                item.setOnClickListener(this);
+                if (mClickMethod != null) {
+                    item.setOnClickListener(this);
+                }
             }
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (mClickMethod != null) {
-            try {
-                mClickMethod.invoke(getContext(), v);
-            } catch (Exception e) {
-                // ignore
-            }
+        try {
+            mClickMethod.invoke(getContext(), v);
+        } catch (Exception e) {
+            // ignore
         }
     }
 }
