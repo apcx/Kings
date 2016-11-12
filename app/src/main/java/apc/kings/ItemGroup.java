@@ -38,8 +38,10 @@ public class ItemGroup extends BambooView {
     }
 
     @Override
-    protected void init(AttributeSet attrs) {
-        super.init(attrs);
+    protected void initUI() {
+        mItemRes = R.layout.item_item_set;
+        mWeightSum = Item.SLOTS;
+        super.initUI();
 
         OnClickListener listener = new OnClickListener() {
             @Override
@@ -52,10 +54,10 @@ public class ItemGroup extends BambooView {
             }
         };
 
-        mEditItems = new Item[Item.SLOTS];
-        mImageViews = new SimpleDraweeView[Item.SLOTS];
-        mDeleteButtons = new View[Item.SLOTS];
-        for (int i = 0; i < Item.SLOTS; ++i) {
+        mEditItems = new Item[mWeightSum];
+        mImageViews = new SimpleDraweeView[mWeightSum];
+        mDeleteButtons = new View[mWeightSum];
+        for (int i = 0; i < mWeightSum; ++i) {
             View view = getChildAt(i);
             mImageViews[i] = (SimpleDraweeView) view.findViewById(R.id.image);
             mDeleteButtons[i] = view.findViewById(R.id.delete);
@@ -66,7 +68,7 @@ public class ItemGroup extends BambooView {
 
     public void setItems(@NonNull Item[] items) {
         mItems = items;
-        for (int i = 0; i < Item.SLOTS; ++i) {
+        for (int i = 0; i < mWeightSum; ++i) {
             mImageViews[i].setSelected(false);
             mImageViews[i].setImageURI(null == mItems[i] ? null : Uri.parse("res:///" + items[i].imageRes));
             mDeleteButtons[i].setVisibility(GONE);
@@ -74,7 +76,7 @@ public class ItemGroup extends BambooView {
     }
 
     public void edit() {
-        for (int i = 0; i < Item.SLOTS; ++i) {
+        for (int i = 0; i < mWeightSum; ++i) {
             mEditItems[i] = mItems[i];
             if (null == mItems[i]) {
                 mImageViews[i].setSelected(true);
@@ -95,7 +97,7 @@ public class ItemGroup extends BambooView {
     }
 
     public void editItem(int index, @NonNull Item item) {
-        if (index >= 0 && index < Item.SLOTS) {
+        if (index >= 0 && index < mWeightSum) {
             mEditItems[index] = item;
             mImageViews[index].setSelected(false);
             mImageViews[index].setImageURI(Uri.parse("res:///" + item.imageRes));
@@ -106,7 +108,7 @@ public class ItemGroup extends BambooView {
     @Override
     public void onClick(View v) {
         int index = v.getId();
-        if (index >= 0 && index < Item.SLOTS && mImageViews[index].isSelected()) {
+        if (index >= 0 && index < mWeightSum && mImageViews[index].isSelected()) {
             super.onClick(v);
         }
     }

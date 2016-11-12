@@ -35,9 +35,7 @@
     <apc.kings.ItemGroup
         android:id="@+id/items"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout="@layout/item_item_set"
-        android:weightSum="6" />
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/runes"

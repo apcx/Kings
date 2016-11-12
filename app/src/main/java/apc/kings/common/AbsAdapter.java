@@ -6,22 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.Constructor;
-
-public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements View.OnClickListener {
+public abstract class AbsAdapter extends RecyclerView.Adapter<MapHolder> implements View.OnClickListener {
 
     protected int mSelected = -1;
     private int mItemRes;
-    private Constructor<VH> mHolderConstructor;
 
-    public AbsAdapter(@LayoutRes int itemRes, Class<VH> holderClass) {
+    public AbsAdapter(@LayoutRes int itemRes) {
         mItemRes = itemRes;
-        try {
-            mHolderConstructor = holderClass.getConstructor(View.class);
-            mHolderConstructor.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            // ignore
-        }
     }
 
     public abstract void onItemChanged(int position);
@@ -49,18 +40,11 @@ public abstract class AbsAdapter<VH extends RecyclerView.ViewHolder> extends Rec
     }
 
     @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        VH holder = null;
-        if (mHolderConstructor != null) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(mItemRes, parent, false);
-            try {
-                holder = mHolderConstructor.newInstance(view);
-                view.setTag(holder);
-                view.setOnClickListener(this);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
+    public MapHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(mItemRes, parent, false);
+        MapHolder holder = new MapHolder(view);
+        view.setTag(holder);
+        view.setOnClickListener(this);
         return holder;
     }
 }

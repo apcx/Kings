@@ -80,6 +80,17 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (primaryHero.heroType != null) {
+            primaryHero.setHero(primaryHero.heroType.name);
+        }
+        if (secondaryHero.heroType != null) {
+            secondaryHero.setHero(secondaryHero.heroType.name);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             String name = data.getAction();

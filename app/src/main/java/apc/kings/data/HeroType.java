@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import apc.kings.R;
@@ -33,7 +33,7 @@ public class HeroType {
 //            new HeroType("吕布",     "stark",    R.id.cat_warrior, R.id.cat_tank,     7344, 353, 390,  97,  0.14),
     };
 
-    private static final Map<String, HeroType> map = new HashMap<>();
+    private static final Map<String, HeroType> map = new ArrayMap<>();
     static {
         for (HeroType heroType : ALL_HEROES) {
             map.put(heroType.name, heroType);
@@ -105,7 +105,7 @@ public class HeroType {
         this.regen = regen;
         this.attackSpeed = attackSpeed;
 
-        runes = new HashMap<>();
+        runes = new ArrayMap<>();
         runes.put(Rune.findRune("无双"), 10);
         runes.put(Rune.findRune("鹰眼"), 10);
         runes.put(Rune.findRune("隐匿"), 10);

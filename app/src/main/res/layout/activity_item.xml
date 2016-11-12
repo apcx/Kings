@@ -147,8 +147,6 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:background="@drawable/round_item_set"
-                android:layout="@layout/item_item_set"
-                android:weightSum="6"
                 android:onClick="onFill" />
         </LinearLayout>
 

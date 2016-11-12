@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import apc.kings.common.MapHolder;
 import apc.kings.common.AbsAdapter;
-import apc.kings.common.Holder;
 import apc.kings.common.SdView;
 import apc.kings.data.HeroType;
 
@@ -24,7 +24,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
     HeroType mSelectedHeroType;
 
     private int mCategory;
-    private Adapter mAdapter;
+    private AbsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +97,10 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class Adapter extends AbsAdapter<Holder> {
+    private class Adapter extends AbsAdapter {
 
         Adapter() {
-            super(R.layout.item_hero, Holder.class);
+            super(R.layout.item_hero);
         }
 
         @Override
@@ -112,7 +112,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        public void onBindViewHolder(Holder holder, int position) {
+        public void onBindViewHolder(MapHolder holder, int position) {
             SdView view = (SdView) holder.itemView;
             view.setImage(mHeroTypes.get(position).getImageUri(view.getContext(), HeroType.TYPE_HERO), position == mSelected);
         }

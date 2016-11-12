@@ -2,8 +2,8 @@ package apc.kings.data;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import apc.kings.R;
@@ -63,7 +63,7 @@ public class Item {
             new Item("巨人之握",  R.drawable.mob_hp,          R.id.item_mob,    1500,  800,   0,   0,   0,   0,   0, 0,    0,    0,    0),
     };
 
-    private static final Map<String, Item> map = new HashMap<>();
+    private static final Map<String, Item> map = new ArrayMap<>();
     static {
         for (Item item : ALL_ITEMS) {
             map.put(item.name, item);

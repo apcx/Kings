@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import apc.kings.common.AbsAdapter;
+import apc.kings.common.MapHolder;
 import apc.kings.common.SdView;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
@@ -144,10 +145,10 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 }).create().show();
     }
 
-    private class Adapter extends AbsAdapter<Holder> {
+    private class Adapter extends AbsAdapter {
 
         Adapter() {
-            super(R.layout.item_item, Holder.class);
+            super(R.layout.item_item);
         }
 
         @Override
@@ -157,30 +158,20 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         @SuppressLint("SetTextI18n")
-        public void onBindViewHolder(Holder holder, int position) {
+        public void onBindViewHolder(MapHolder holder, int position) {
+            SdView image = holder.get(R.id.image);
+            TextView name = holder.get(R.id.name);
+            TextView price = holder.get(R.id.price);
+
             Item item = mItems.get(position);
-            holder.image.setImage(Uri.parse("res:///" + item.imageRes), position == mSelected);
-            holder.name.setText(item.name);
-            holder.price.setText(Integer.toString(item.price));
+            image.setImage(Uri.parse("res:///" + item.imageRes), position == mSelected);
+            name.setText(item.name);
+            price.setText(Integer.toString(item.price));
         }
 
         @Override
         public int getItemCount() {
             return mItems.size();
-        }
-    }
-
-    private static class Holder extends RecyclerView.ViewHolder {
-
-        SdView image;
-        TextView name;
-        TextView price;
-
-        public Holder(View itemView) {
-            super(itemView);
-            image = (SdView) itemView.findViewById(R.id.image);
-            name = (TextView) itemView.findViewById(R.id.name);
-            price = (TextView) itemView.findViewById(R.id.price);
         }
     }
 }

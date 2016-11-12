@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import apc.kings.R;
 
 public class BambooView extends LinearLayout implements View.OnClickListener {
 
+    @LayoutRes protected int mItemRes;
+    protected int mWeightSum;
     private Method mClickMethod;
 
     public BambooView(Context context) {
@@ -40,10 +43,10 @@ public class BambooView extends LinearLayout implements View.OnClickListener {
         init(attrs);
     }
 
-    protected void init(AttributeSet attrs) {
+    private void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.BambooView);
-        int res = ta.getResourceId(R.styleable.BambooView_android_layout, 0);
-        int weightSum = (int) ta.getFloat(R.styleable.BambooView_android_weightSum, 0);
+        mItemRes = ta.getResourceId(R.styleable.BambooView_android_layout, 0);
+        mWeightSum = (int) ta.getFloat(R.styleable.BambooView_android_weightSum, 0);
         String onClick = ta.getString(R.styleable.BambooView_android_onClick);
         ta.recycle();
 
@@ -56,11 +59,15 @@ public class BambooView extends LinearLayout implements View.OnClickListener {
             }
         }
 
-        if (res > 0 && weightSum > 0) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+        initUI();
+    }
+
+    protected void initUI() {
+        if (mItemRes > 0 && mWeightSum > 0) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             boolean vertical = getOrientation() == VERTICAL;
-            for (int i = 0; i < weightSum; ++i) {
-                View item = inflater.inflate(res, this, false);
+            for (int i = 0; i < mWeightSum; ++i) {
+                View item = inflater.inflate(mItemRes, this, false);
                 LinearLayout.LayoutParams params = (LayoutParams) item.getLayoutParams();
                 params.weight = 1;
                 if (vertical) {
@@ -70,8 +77,8 @@ public class BambooView extends LinearLayout implements View.OnClickListener {
                 }
                 addView(item, params);
 
-                item.setId(i);
                 if (mClickMethod != null) {
+                    item.setId(i);
                     item.setOnClickListener(this);
                 }
             }
@@ -80,10 +87,12 @@ public class BambooView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        try {
-            mClickMethod.invoke(getContext(), v);
-        } catch (Exception e) {
-            // ignore
+        if (mClickMethod != null) {
+            try {
+                mClickMethod.invoke(getContext(), v);
+            } catch (Exception e) {
+                // ignore
+            }
         }
     }
 }
