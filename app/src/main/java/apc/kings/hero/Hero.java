@@ -51,6 +51,7 @@ public class Hero {
 
     Hero target;
     List<Event> events = new ArrayList<>();
+    double beginTime;
     double time;
     double nextAttackTime;
     double stormEndTime;

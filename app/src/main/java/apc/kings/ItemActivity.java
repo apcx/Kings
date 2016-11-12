@@ -28,7 +28,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
     List<Item> mItems = new ArrayList<>();
     Item mSelectedItem;
 
-    private HeroType heroType;
+    private HeroType mHeroType;
     private int mCategory;
     private Adapter mAdapter;
     private View mEditButton;
@@ -40,12 +40,12 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        heroType = HeroType.findHero(getIntent().getAction());
-        ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(heroType.getImageUri(this, HeroType.TYPE_HERO));
+        mHeroType = HeroType.findHero(getIntent().getAction());
+        ((SimpleDraweeView) findViewById(R.id.hero)).setImageURI(mHeroType.getImageUri(this, HeroType.TYPE_HERO));
         mEditButton = findViewById(R.id.edit);
         mCancelButton = findViewById(R.id.cancel);
         mItemGroup = (ItemGroup) findViewById(R.id.item_set);
-        mItemGroup.setItems(heroType.items);
+        mItemGroup.setItems(mHeroType.items);
 
         mAdapter = new Adapter();
         ((RecyclerView) findViewById(R.id.items)).setAdapter(mAdapter);
@@ -65,7 +65,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 if (mEditButton.isSelected()) {
                     mEditButton.setSelected(false);
                     mCancelButton.setVisibility(View.GONE);
-                    heroType.setItems(mItemGroup.editDone());
+                    mHeroType.setItems(mItemGroup.editDone());
                 } else {
                     mEditButton.setSelected(true);
                     mCancelButton.setVisibility(View.VISIBLE);
@@ -133,12 +133,12 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                         mCancelButton.setVisibility(View.GONE);
                         switch (id) {
                             case R.id.reset_recommended:
-                                mItemGroup.setItems(heroType.recommendedItems);
-                                heroType.setItems(heroType.recommendedItems);
+                                mItemGroup.setItems(mHeroType.recommendedItems);
+                                mHeroType.setItems(mHeroType.recommendedItems);
                                 break;
                             case R.id.reset_default:
-                                mItemGroup.setItems(heroType.defaultItems);
-                                heroType.setItems(heroType.defaultItems);
+                                mItemGroup.setItems(mHeroType.defaultItems);
+                                mHeroType.setItems(mHeroType.defaultItems);
                                 break;
                         }
                     }

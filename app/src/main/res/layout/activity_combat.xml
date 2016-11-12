@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,7 +15,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <apc.kings.HeroPanel
+        <fragment android:name="apc.kings.HeroFragment"
             android:id="@+id/hero_primary"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -28,7 +29,7 @@
             android:textColor="@color/colorAccent"
             android:text="VS" />
 
-        <apc.kings.HeroPanel
+        <fragment android:name="apc.kings.HeroFragment"
             android:id="@+id/hero_secondary"
             android:layout_width="0dp"
             android:layout_height="match_parent"
