@@ -2,12 +2,10 @@ package apc.kings;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-
-import java.util.List;
 
 import apc.kings.common.App;
 import apc.kings.data.Summary;
@@ -29,9 +27,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_combat);
         setTitle("Res " + App.RES_VERSION);
 
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        mAttackerFragment = (HeroFragment) fragments.get(0);
-        mDefenderFragment = (HeroFragment) fragments.get(1);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mAttackerFragment = (HeroFragment) fragmentManager.findFragmentById(R.id.attacker);
+        mDefenderFragment = (HeroFragment) fragmentManager.findFragmentById(R.id.defender);
         damage = (TextView) findViewById(R.id.damage);
         time = (TextView) findViewById(R.id.time);
         dps = (TextView) findViewById(R.id.dps);
