@@ -7,7 +7,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class App extends Application {
 
-    public static final String RES_VERSION = "v1.15.2.29";
+    public static final String RES_VERSION = "v1.16.2.5";
     private static SharedPreferences preferences;
 
     @Override

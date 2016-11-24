@@ -1,4 +1,4 @@
-package apc.kings.hero;
+package apc.kings.data.hero;
 
 import apc.kings.data.HeroType;
 

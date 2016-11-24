@@ -1,6 +1,6 @@
-package apc.kings.hero;
+package apc.kings.data.hero;
 
-import apc.kings.data.Event;
+import apc.kings.data.combat.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
@@ -28,17 +28,17 @@ class CannonHero extends Hero {
     }
 
     @Override
-    Event attack() {
-        Event event = super.attack();
+    CLog attack() {
+        CLog log = super.attack();
         if (attackBonus > 0) {
-            event.action = "强射";
+            log.name = "强射";
             attackFactor = 1;
             attackBonus = 0;
             attackCd = 1;
             snipe = true;
         } else {
             if (snipe) {
-                event.action = "远射";
+                log.name = "远射";
             }
             snipe = false;
         }
@@ -47,7 +47,7 @@ class CannonHero extends Hero {
         if (skills[0].nextCastTime < time) {
             skills[0].nextCastTime = time;
         }
-        return event;
+        return log;
     }
 
     @Override

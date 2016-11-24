@@ -1,12 +1,13 @@
-package apc.kings.data;
+package apc.kings.data.combat;
 
 import android.annotation.SuppressLint;
 
-public class Event {
+// Combat Log
+public class CLog {
 
     public String primaryHero;
     public String secondaryHero;
-    public String action;
+    public String name;
     public double time;
     public double damage;
     public double extraDamage;
@@ -15,10 +16,10 @@ public class Event {
     public double enchantDamage;
     public double totalDamage;
 
-    public Event(String primaryHero, String secondaryHero, String action, double time) {
+    public CLog(String primaryHero, String secondaryHero, String name, double time) {
         this.primaryHero = primaryHero;
         this.secondaryHero = secondaryHero;
-        this.action = action;
+        this.name = name;
         this.time = time;
     }
 
@@ -26,11 +27,11 @@ public class Event {
     @SuppressLint("DefaultLocale")
     public String toString() {
         return totalDamage > 0 ?
-                String.format("%.3f %s %s %s: %.0f %.0f %.0f %.0f %.0f", time, primaryHero, action, secondaryHero, damage, extraDamage, magicDamage, realDamage, enchantDamage)
-                : String.format("%.3f %s %s", time, primaryHero, action);
+                String.format("%.3f %s %s %s: %.0f %.0f %.0f %.0f %.0f", time, primaryHero, name, secondaryHero, damage, extraDamage, magicDamage, realDamage, enchantDamage)
+                : String.format("%.3f %s %s", time, primaryHero, name);
     }
 
-    public Event sum() {
+    public CLog sum() {
         totalDamage = damage + extraDamage + magicDamage + realDamage + enchantDamage;
         return this;
     }

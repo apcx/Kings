@@ -1,6 +1,6 @@
-package apc.kings.hero;
+package apc.kings.data.hero;
 
-import apc.kings.data.Event;
+import apc.kings.data.combat.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
@@ -33,24 +33,24 @@ class StalkerHero extends Hero {
     }
 
     @Override
-    Event attack() {
-        Event event = super.attack();
+    CLog attack() {
+        CLog log = super.attack();
         if (quickArrows > 0) {
             quickArrows--;
-            event.action = "箭风";
+            log.name = "箭风";
 
-            event = hit();
-            event.action = "箭风";
+            log = hit();
+            log.name = "箭风";
 
-            event = hit();
-            event.action = "箭风";
+            log = hit();
+            log.name = "箭风";
 
             if (quickArrows <= 0) {
                 attackFactor = 1;
                 attackBonus = 0;
             }
         }
-        return event;
+        return log;
     }
 
     @Override

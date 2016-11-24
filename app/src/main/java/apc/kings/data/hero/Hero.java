@@ -1,21 +1,18 @@
-package apc.kings.hero;
+package apc.kings.data.hero;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import apc.kings.data.Event;
+import apc.kings.data.combat.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 import apc.kings.data.Rune;
 import apc.kings.data.Skill;
 
 public class Hero {
-
-    static final String TAG = "HeroFight";
 
     public HeroType heroType;
 
@@ -50,7 +47,7 @@ public class Hero {
     public boolean hasStorm;
 
     Hero target;
-    List<Event> events = new ArrayList<>();
+    List<CLog> logs = new ArrayList<>();
     double beginTime;
     double time;
     double nextAttackTime;
@@ -153,39 +150,39 @@ public class Hero {
         }
     }
 
-    public List<Event> fight(@NonNull Hero target) {
+    public long getBeginTime(boolean specific) {
+        return 0;
+    }
+
+    public List<CLog> fight(@NonNull Hero target) {
         this.target = target;
         normalFactor = (target.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
-        events.clear();
+        logs.clear();
         do {
             autoChooseAction();
         } while (target.hp > 0);
-
-        for (Event event : events) {
-            Log.d(TAG, event.toString());
-        }
-        return events;
+        return logs;
     }
 
     void autoChooseAction() {
         attack();
     }
 
-    Event attack() {
+    CLog attack() {
         if (nextAttackTime > time) {
             time = nextAttackTime;
         }
-        Event event = hit();
+        CLog log = hit();
 
         double speed = attackSpeed;
         if (time < stormEndTime) {
             speed += 0.5;
         }
         nextAttackTime = time + attackCd / (1 + Math.min(2, speed));
-        return event;
+        return log;
     }
 
-    Event hit() {
+    CLog hit() {
         hitCount++;
         updateAttackCanCritical();
         double damage = attackCanCritical;
@@ -195,9 +192,9 @@ public class Hero {
             criticalDamageRate = (hasCritical ? 2.5 : 2) + criticalDamage;
             damage *= criticalDamageRate;
         }
-        Event event = new Event(heroType.name, target.heroType.name, "攻击", time);
-        event.damage = (damage + attackCannotCritical) * getDamageRate() * normalFactor;
-        target.hp -= event.damage;
+        CLog log = new CLog(heroType.name, target.heroType.name, "攻击", time);
+        log.damage = (damage + attackCannotCritical) * getDamageRate() * normalFactor;
+        target.hp -= log.damage;
 
         damage = 0;
         if (target.hp > 0) {
@@ -207,25 +204,25 @@ public class Hero {
             if (hasAccurate) {
                 damage += 60;
             }
-            event.extraDamage = damage * getDamageRate();
-            target.hp -= event.extraDamage;
+            log.extraDamage = damage * getDamageRate();
+            target.hp -= log.extraDamage;
 
             if (enchanted && target.hp > 0) {
                 enchanted = false;
-                event.enchantDamage = attack * getDamageRate();
-                target.hp -= event.enchantDamage;
+                log.enchantDamage = attack * getDamageRate();
+                target.hp -= log.enchantDamage;
             }
 
             if (hasLightning && target.hp > 0 && hitCount % 5 == 0) {
-                event.magicDamage = 100 * criticalDamageRate * getMagicDamageRate();
-                target.hp -= event.magicDamage;
+                log.magicDamage = 100 * criticalDamageRate * getMagicDamageRate();
+                target.hp -= log.magicDamage;
             }
         }
-        events.add(event.sum());
+        logs.add(log.sum());
         if (hasStorm && criticalDamageRate > 1) {
             stormEndTime = time + 2;
         }
-        return event;
+        return log;
     }
 
     void updateAttackCanCritical() {
@@ -298,25 +295,25 @@ public class Hero {
                     time = skill.nextCastTime;
                 }
                 time += skill.swing;
-                Event event = new Event(heroType.name, target.heroType.name, skill.name, time);
+                CLog log = new CLog(heroType.name, target.heroType.name, skill.name, time);
                 if (skill.damageType != Skill.TYPE_NONE) {
                     double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attack : magic) * skill.damageFactor) + skill.damageBonus;
                     switch (skill.damageType) {
                         case Skill.TYPE_PHYSICAL:
-                            event.damage = damage * getDamageRate();
-                            target.hp -= event.damage;
+                            log.damage = damage * getDamageRate();
+                            target.hp -= log.damage;
                             break;
                         case Skill.TYPE_MAGIC:
-                            event.magicDamage = damage * getMagicDamageRate();
-                            target.hp -= event.magicDamage;
+                            log.magicDamage = damage * getMagicDamageRate();
+                            target.hp -= log.magicDamage;
                             break;
                         case Skill.TYPE_REAL:
-                            event.realDamage = damage;
-                            target.hp -= event.realDamage;
+                            log.realDamage = damage;
+                            target.hp -= log.realDamage;
                             break;
                     }
                 }
-                events.add(event.sum());
+                logs.add(log.sum());
                 skill.nextCastTime = time + skill.cd * cdFactor;
             }
         }

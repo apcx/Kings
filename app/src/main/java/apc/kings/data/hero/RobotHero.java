@@ -1,6 +1,6 @@
-package apc.kings.hero;
+package apc.kings.data.hero;
 
-import apc.kings.data.Event;
+import apc.kings.data.combat.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
@@ -37,10 +37,10 @@ class RobotHero extends Hero {
     }
 
     @Override
-    Event attack() {
-        Event event = super.attack();
+    CLog attack() {
+        CLog log = super.attack();
         if (quickBullets > 0) {
-            event.action = "扫射";
+            log.name = "扫射";
             quickBullets--;
             if (quickBullets <= 0) {
                 toNormal();
@@ -51,7 +51,7 @@ class RobotHero extends Hero {
                 toStrafe();
             }
         }
-        return event;
+        return log;
     }
 
     @Override
@@ -71,7 +71,7 @@ class RobotHero extends Hero {
     private void toStrafe() {
         normalBullets = 0;
         quickBullets = 4;
-        attackFactor = 0.6;
+        attackFactor = 0.7;
         attackCd = 0.425;
     }
 
