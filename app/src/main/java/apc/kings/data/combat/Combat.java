@@ -1,10 +1,12 @@
 package apc.kings.data.combat;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import apc.kings.data.HeroType;
 import apc.kings.data.hero.Hero;
 
 public class Combat {
@@ -23,9 +25,9 @@ public class Combat {
     public double dps;
     public double costRatio;
 
-    public Combat(Hero attacker, Hero defender, boolean defensive, boolean specific) {
-        this.attacker = attacker;
-        this.defender = defender;
+    public Combat(@NonNull HeroType attackerType, @NonNull HeroType defenderType, boolean defensive, boolean specific) {
+        this.attacker = Hero.create(attackerType);
+        this.defender = Hero.create(defenderType);
         this.defensive = defensive;
         this.specific = specific;
 
