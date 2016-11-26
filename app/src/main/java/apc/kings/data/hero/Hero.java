@@ -6,19 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import apc.kings.data.combat.CContext;
 import apc.kings.data.combat.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 import apc.kings.data.Rune;
 import apc.kings.data.Skill;
+import apc.kings.data.combat.Event;
 
 public class Hero {
 
     public HeroType heroType;
+    public CContext context;
+
+    public List<Event> events = new ArrayList<>();
 
     public int price;
     public int mhp;
-    public double hp;
+    public int hp;
     public int attack;
     public int magic;
     public int defense;
@@ -46,15 +51,15 @@ public class Hero {
     public boolean hasExecute;
     public boolean hasStorm;
 
-    Hero target;
-    List<CLog> logs = new ArrayList<>();
+    public Hero target;
+    public List<CLog> logs = new ArrayList<>();
     double beginTime;
     double time;
     double nextAttackTime;
     double stormEndTime;
-    double attackCd = 1;
+    public int attackCd = 1000;
     double attackFactor = 1;
-    double normalFactor;
+    public double normalFactor;
     int attackBonus;
     int attackCanCritical;
     int attackCannotCritical;
@@ -64,7 +69,8 @@ public class Hero {
     int hitCount;
     int criticalCount;
 
-    Hero(HeroType heroType) {
+    Hero(CContext context, HeroType heroType) {
+        this.context = context;
         this.heroType = heroType;
         mhp = heroType.hp;
         attack = heroType.attack;
@@ -140,49 +146,57 @@ public class Hero {
     }
 
     @NonNull
-    public static Hero create(@NonNull HeroType heroType) {
+    public static Hero create(@NonNull CContext context, @NonNull HeroType heroType) {
         try {
             Class clazz = Class.forName(Hero.class.getPackage().getName() + "." + (char) (heroType.resName.charAt(0) - 32) + heroType.resName.substring(1) + "Hero");
             //noinspection unchecked
-            return (Hero) clazz.getDeclaredConstructor(HeroType.class).newInstance(heroType);
+            return (Hero) clazz.getDeclaredConstructor(CContext.class, HeroType.class).newInstance(context, heroType);
         } catch (Exception e) {
-            return new Hero(heroType);
+            return new Hero(context, heroType);
         }
     }
 
-    public long getBeginTime(boolean specific) {
+    public int getBeginTime(boolean specific) {
         return 0;
     }
 
-    public List<CLog> fight(@NonNull Hero target) {
-        this.target = target;
-        normalFactor = (target.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
-        logs.clear();
-        do {
-            autoChooseAction();
-        } while (target.hp > 0);
-        return logs;
+    public void autoChooseAction() {
+
     }
 
-    void autoChooseAction() {
-        attack();
-    }
-
-    CLog attack() {
-        if (nextAttackTime > time) {
-            time = nextAttackTime;
+    public void onEvent(Event event) {
+        if (event.time > context.time) {
+            context.time = event.time;
         }
-        CLog log = hit();
+        CLog log = new CLog(heroType.name, null, event.name, context.time);
+        switch (event.name) {
+            case "回血":
+                int damaged = mhp - hp;
+                if (damaged > 0) {
+                    log.damage = Math.min(regen, damaged);
+                    hp += log.damage;
+                    event.time += 5000;
+                    context.logs.add(log);
+                }
+                break;
+            case "攻击":
+                log.secondaryHero = target.heroType.name;
+                event.time = context.time + Math.max(100, onAttack(log));
+                break;
+        }
+    }
+
+    int onAttack(CLog log) {
+        hit(log);
 
         double speed = attackSpeed;
         if (time < stormEndTime) {
             speed += 0.5;
         }
-        nextAttackTime = time + attackCd / (1 + Math.min(2, speed));
-        return log;
+        return (int) (attackCd / (1 + Math.min(2, speed)));
     }
 
-    CLog hit() {
+    private void hit(CLog log) {
         hitCount++;
         updateAttackCanCritical();
         double damage = attackCanCritical;
@@ -192,7 +206,7 @@ public class Hero {
             criticalDamageRate = (hasCritical ? 2.5 : 2) + criticalDamage;
             damage *= criticalDamageRate;
         }
-        CLog log = new CLog(heroType.name, target.heroType.name, "攻击", time);
+
         log.damage = (damage + attackCannotCritical) * getDamageRate() * normalFactor;
         target.hp -= log.damage;
 
@@ -218,11 +232,10 @@ public class Hero {
                 target.hp -= log.magicDamage;
             }
         }
-        logs.add(log.sum());
         if (hasStorm && criticalDamageRate > 1) {
             stormEndTime = time + 2;
         }
-        return log;
+        context.logs.add(log);
     }
 
     void updateAttackCanCritical() {
@@ -295,7 +308,7 @@ public class Hero {
                     time = skill.nextCastTime;
                 }
                 time += skill.swing;
-                CLog log = new CLog(heroType.name, target.heroType.name, skill.name, time);
+                CLog log = new CLog(heroType.name, target.heroType.name, skill.name, (int) time);
                 if (skill.damageType != Skill.TYPE_NONE) {
                     double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attack : magic) * skill.damageFactor) + skill.damageBonus;
                     switch (skill.damageType) {
@@ -313,7 +326,6 @@ public class Hero {
                             break;
                     }
                 }
-                logs.add(log.sum());
                 skill.nextCastTime = time + skill.cd * cdFactor;
             }
         }

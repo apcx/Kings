@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import apc.kings.common.App;
-import apc.kings.data.combat.Combat;
+import apc.kings.data.combat.CContext;
 
 public class CombatActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,7 +40,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void onClick(View v) {
         if (mAttackerFragment.mHeroType != null && mDefenderFragment.mHeroType != null) {
-            Combat combat = new Combat(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType, false, false);
+            CContext combat = new CContext(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType, false, false);
             damage.setText(Integer.toString(combat.damage));
             time.setText(String.format("%.2f", combat.totalTime));
             dps.setText(String.format("%.0f", combat.dps));
