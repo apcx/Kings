@@ -55,6 +55,20 @@ public class CContext {
         costRatio = 100 * dps / (1 + attacker.price);
     }
 
+    public void addBuff(@NonNull Hero hero, @NonNull String action, @NonNull String buff, int duration) {
+        int eventTime = time + duration;
+        for (int i = 0, n = events.size(); i < n; ++i) {
+            Event event = events.get(i);
+            if (hero == event.hero && action.equals(event.action) && buff.equals(event.buff)) {
+                event.time = eventTime;
+                return;
+            }
+        }
+        Event event = new Event(this, hero, action, eventTime);
+        event.buff = buff;
+        events.add(event);
+    }
+
     private void runAttack() {
         do {
             Collections.sort(events);

@@ -8,7 +8,8 @@ public class Event implements Comparable<Event> {
 
     public CContext context;
     public Hero hero;
-    public String name;
+    public String buff;
+    public String action;
     public int time;
     public int bonus;
     public int intervals;
@@ -17,10 +18,10 @@ public class Event implements Comparable<Event> {
     public boolean regen;
     public boolean canCritical;
 
-    public Event(CContext context, Hero hero, String name, int time) {
+    public Event(CContext context, Hero hero, String action, int time) {
         this.context = context;
         this.hero = hero;
-        this.name = name;
+        this.action = action;
         this.time = time;
     }
 

@@ -69,6 +69,8 @@ public class Hero {
     int hitCount;
     int criticalCount;
 
+    private boolean inStorm;
+
     Hero(CContext context, HeroType heroType) {
         this.context = context;
         this.heroType = heroType;
@@ -168,8 +170,8 @@ public class Hero {
         if (event.time > context.time) {
             context.time = event.time;
         }
-        CLog log = new CLog(heroType.name, null, event.name, context.time);
-        switch (event.name) {
+        CLog log = new CLog(heroType.name, event.action, null, context.time);
+        switch (event.action) {
             case "回血":
                 int damaged = mhp - hp;
                 if (damaged > 0) {
@@ -179,21 +181,30 @@ public class Hero {
                     context.logs.add(log);
                 }
                 break;
+            case "失效":
+                inStorm = false;
+                context.events.remove(event);
+                print(event.action, event.buff);
+                break;
             case "攻击":
-                log.secondaryHero = target.heroType.name;
-                event.time = context.time + Math.max(100, onAttack(log));
+                log.target = target.heroType.name;
+                event.time = context.time + Math.max(100, doAttack(log));
                 break;
         }
     }
 
-    int onAttack(CLog log) {
-        hit(log);
-
+    int doAttack(CLog log) {
         double speed = attackSpeed;
-        if (time < stormEndTime) {
+        if (inStorm) {
             speed += 0.5;
         }
-        return (int) (attackCd / (1 + Math.min(2, speed)));
+        int cd = (int) (attackCd / (1 + Math.min(2, speed)));
+        hit(log);
+        return cd;
+    }
+
+    void print(String action, String target) {
+        context.logs.add(new CLog(heroType.name, action, target, context.time));
     }
 
     private void hit(CLog log) {
@@ -232,10 +243,16 @@ public class Hero {
                 target.hp -= log.magicDamage;
             }
         }
-        if (hasStorm && criticalDamageRate > 1) {
-            stormEndTime = time + 2;
-        }
+
         context.logs.add(log);
+        if (hasStorm && criticalDamageRate > 1) {
+//            stormEndTime = time + 2;
+            if (!inStorm) {
+                print("强化", "暴风");
+            }
+            inStorm = true;
+            context.addBuff(this, "失效", "暴风", 2000);
+        }
     }
 
     void updateAttackCanCritical() {
@@ -308,7 +325,7 @@ public class Hero {
                     time = skill.nextCastTime;
                 }
                 time += skill.swing;
-                CLog log = new CLog(heroType.name, target.heroType.name, skill.name, (int) time);
+                CLog log = new CLog(heroType.name, skill.name, target.heroType.name, (int) time);
                 if (skill.damageType != Skill.TYPE_NONE) {
                     double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attack : magic) * skill.damageFactor) + skill.damageBonus;
                     switch (skill.damageType) {
