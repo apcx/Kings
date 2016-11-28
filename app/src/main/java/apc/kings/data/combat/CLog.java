@@ -3,18 +3,20 @@ package apc.kings.data.combat;
 import android.annotation.SuppressLint;
 
 // Combat Log
-public class CLog {
+public class CLog implements Cloneable {
 
     public String hero;
     public String target;
     public String action;
     public int time;
-    public double damage;
-    public double extraDamage;
-    public double magicDamage;
-    public double realDamage;
-    public double enchantDamage;
-    public double totalDamage;
+    public int regen;
+    public int damage;
+    public int extraDamage;
+    public int magicDamage;
+    public int realDamage;
+    public int enchantDamage;
+    public int totalDamage;
+    public boolean critical;
 
     public CLog(String hero, String action, String target, int time) {
         this.hero = hero;
@@ -26,16 +28,33 @@ public class CLog {
     public CLog(Event event) {
         hero = event.hero.heroType.name;
         action = event.action;
-        target = event.buff;
+        target = event.target;
         time = event.context.time;
+    }
+
+    @Override
+    @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")
+    public CLog clone() {
+        CLog log = null;
+        try {
+            log = (CLog) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // ignore
+        }
+        return log;
     }
 
     @Override
     @SuppressLint("DefaultLocale")
     public String toString() {
-        return totalDamage > 0 ?
-                String.format("%d %s %s %s: %.0f %.0f %.0f %.0f %.0f", time, hero, action, target, damage, extraDamage, magicDamage, realDamage, enchantDamage)
-                : String.format("%d %s %s %s", time, hero, action, target);
+        double time = this.time / 1000.0;
+        if (regen > 0) {
+            return String.format("%.3f %s %s %d", time, hero, action, regen);
+        } else if (totalDamage > 0) {
+            return String.format("%.3f %s %s %s: %d %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage, enchantDamage);
+        } else {
+            return String.format("%.3f %s %s %s", time, hero, action, target);
+        }
     }
 
     public void sum() {

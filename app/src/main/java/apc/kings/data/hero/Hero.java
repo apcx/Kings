@@ -24,16 +24,16 @@ public class Hero {
     public int price;
     public int mhp;
     public int hp;
-    public int attack;
-    public int magic;
-    public int defense;
-    public int magicDefense;
-    public int penetrate;
-    public int magicPenetrate;
-    public int regen;
-    public double attackSpeed;
-    public double critical;
-    public double criticalDamage;
+    public int atAttack;
+    public int atMagic;
+    public int atDefense;
+    public int atMagicDefense;
+    public int atPenetrate;
+    public int atMagicPenetrate;
+    public int atRegen;
+    public double atAttackSpeed;
+    public double atCritical;
+    public double atCriticalDamage = 2;
     public double cdFactor;
     public int flags;
     public Skill[] skills;
@@ -43,7 +43,6 @@ public class Hero {
     public boolean hasMagicPenetrateRate;
     public boolean hasMagicPenetrateBoots;
     public boolean hasMagicPenetrateMask;
-    public boolean hasCritical;
     public boolean hasCorrupt;
     public boolean hasAccurate;
     public boolean hasLightning;
@@ -52,11 +51,7 @@ public class Hero {
     public boolean hasStorm;
 
     public Hero target;
-    public List<CLog> logs = new ArrayList<>();
-    double beginTime;
     double time;
-    double nextAttackTime;
-    double stormEndTime;
     public int attackCd = 1000;
     double attackFactor = 1;
     public double normalFactor;
@@ -65,34 +60,36 @@ public class Hero {
     int attackCannotCritical;
     boolean enchanted;
 
-    int cutCount;
+    int cutCount = 5;
     int hitCount;
     int criticalCount;
+    int lightingCount = 5;
 
     private boolean inStorm;
+    private boolean inLighting;
 
     Hero(CContext context, HeroType heroType) {
         this.context = context;
         this.heroType = heroType;
         mhp = heroType.hp;
-        attack = heroType.attack;
-        defense = heroType.defense;
-        magicDefense = 169;
-        regen = heroType.regen;
-        attackSpeed = heroType.attackSpeed;
+        atAttack = heroType.attack;
+        atDefense = heroType.defense;
+        atMagicDefense = 169;
+        atRegen = heroType.regen;
+        atAttackSpeed = heroType.attackSpeedPerLevel * 14;
 
         if (heroType.items != null) {
             for (Item item : heroType.items) {
                 if (item != null) {
                     price += item.price;
                     mhp += item.hp;
-                    attack += item.attack;
-                    magic += item.magic;
-                    defense += item.defense;
-                    magicDefense += item.magicDefense;
-                    regen += item.regen;
-                    attackSpeed += item.attackSpeed;
-                    critical += item.critical;
+                    atAttack += item.attack;
+                    atMagic += item.magic;
+                    atDefense += item.defense;
+                    atMagicDefense += item.magicDefense;
+                    atRegen += item.regen;
+                    atAttackSpeed += item.attackSpeed;
+                    atCritical += item.critical;
                     cdFactor += item.cdReduction;
                     flags |= item.flags;
                 }
@@ -109,6 +106,7 @@ public class Hero {
                     Rune rune = entry.getKey();
                     int n = entry.getValue();
 
+                    atAttackSpeed += rune.attackSpeed * n;
                     mhp += rune.hp * n;
                     attack += rune.attack * n;
                     magic += rune.magic * n;
@@ -116,27 +114,28 @@ public class Hero {
                     magicDefense += rune.magicDefense * n;
                     penetrate += rune.penetrate * n;
                     magicPenetrate += rune.magicPenetrate * n;
-                    regen += rune.regen * n;
-                    attackSpeed += rune.attackSpeed * n / 100;
-                    critical += rune.critical * n / 100;
-                    criticalDamage += rune.criticalDamage * n / 100;
+                    atRegen += rune.regen * n;
+                    atCritical += rune.critical * n / 100;
+                    atCriticalDamage += rune.criticalDamage * n / 100;
                     cdFactor += rune.cdReduction * n;
                 }
-                this.attack += attack;
-                this.magic += magic;
-                this.defense += defense;
-                this.magicDefense += magicDefense;
-                this.penetrate = (int) penetrate;
-                this.magicPenetrate = (int) magicPenetrate;
+                this.atAttack += attack;
+                this.atMagic += magic;
+                this.atDefense += defense;
+                this.atMagicDefense += magicDefense;
+                this.atPenetrate = (int) penetrate;
+                this.atMagicPenetrate = (int) magicPenetrate;
             }
 
+            if ((flags & Item.FLAG_CRITICAL) != 0) {
+                atCriticalDamage += 0.5;
+            }
             cdFactor = 1 - cdFactor;
             hasCut = (flags & Item.FLAG_CUT) != 0;
             hasPenetrate = (flags & Item.FLAG_PENETRATE) != 0;
             hasMagicPenetrateRate = (flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
             hasMagicPenetrateBoots = (flags & Item.FLAG_MAGIC_PENETRATE_BOOTS) != 0;
             hasMagicPenetrateMask = (flags & Item.FLAG_MAGIC_PENETRATE_MASK) != 0;
-            hasCritical = (flags & Item.FLAG_CRITICAL) != 0;
             hasCorrupt = (flags & Item.FLAG_CORRUPT) != 0;
             hasAccurate = (flags & Item.FLAG_ACCURATE) != 0;
             hasLightning = (flags & Item.FLAG_LIGHTNING) != 0;
@@ -175,16 +174,25 @@ public class Hero {
             case "回血":
                 int damaged = mhp - hp;
                 if (damaged > 0) {
-                    log.damage = Math.min(regen, damaged);
-                    hp += log.damage;
+                    log.regen = Math.min(atRegen, damaged);
+                    hp += log.regen;
                     event.time += 5000;
                     context.logs.add(log);
                 }
                 break;
             case "失效":
-                inStorm = false;
+            case "可用":
                 context.events.remove(event);
-                print(event.action, event.buff);
+                print(event.action, event.target);
+                switch (event.target) {
+                    case "暴风":
+                        inStorm = false;
+                        atAttackSpeed -= 50;
+                        break;
+                    case "电弧":
+                        inLighting = false;
+                        break;
+                }
                 break;
             case "攻击":
                 log.target = target.heroType.name;
@@ -194,12 +202,8 @@ public class Hero {
     }
 
     int doAttack(CLog log) {
-        double speed = attackSpeed;
-        if (inStorm) {
-            speed += 0.5;
-        }
-        int cd = (int) (attackCd / (1 + Math.min(2, speed)));
-        hit(log);
+        int cd = (int) (attackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
+        hit(log, true);   // actually hit later, call hit() immediately for simplicity
         return cd;
     }
 
@@ -207,82 +211,101 @@ public class Hero {
         context.logs.add(new CLog(heroType.name, action, target, context.time));
     }
 
-    private void hit(CLog log) {
-        hitCount++;
+    void updateAttackCanCritical() {
+        double criticalFactor = Math.min(attackFactor, 1);
+        attackCanCritical = (int) (atAttack * criticalFactor);
+        attackCannotCritical = (int) (atAttack * (attackFactor - criticalFactor)) + attackBonus;
+    }
+
+    void hit(CLog log, boolean canCritical) {
         updateAttackCanCritical();
         double damage = attackCanCritical;
-        double criticalDamageRate = 1;
-        if (critical * hitCount >= criticalCount + 1) {
-            criticalCount++;
-            criticalDamageRate = (hasCritical ? 2.5 : 2) + criticalDamage;
-            damage *= criticalDamageRate;
+        if (canCritical && checkCritical()) {
+            damage *= atCriticalDamage;
+            log.critical = true;
         }
-
-        log.damage = (damage + attackCannotCritical) * getDamageRate() * normalFactor;
+        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate() * normalFactor);
         target.hp -= log.damage;
 
-        damage = 0;
         if (target.hp > 0) {
+            damage = 0;
             if (hasCorrupt) {
                 damage = target.hp * 0.08;
             }
             if (hasAccurate) {
                 damage += 60;
             }
-            log.extraDamage = damage * getDamageRate();
-            target.hp -= log.extraDamage;
-
-            if (enchanted && target.hp > 0) {
-                enchanted = false;
-                log.enchantDamage = attack * getDamageRate();
-                target.hp -= log.enchantDamage;
+            if (damage > 0) {
+                log.extraDamage = (int) (damage * getDamageRate());
+                target.hp -= log.extraDamage;
             }
 
-            if (hasLightning && target.hp > 0 && hitCount % 5 == 0) {
-                log.magicDamage = 100 * criticalDamageRate * getMagicDamageRate();
-                target.hp -= log.magicDamage;
-            }
+//            if (enchanted && target.hp > 0) {
+//                enchanted = false;
+//                log.enchantDamage = (int) (atAttack * getDamageRate());
+//                target.hp -= log.enchantDamage;
+//            }
         }
 
         context.logs.add(log);
-        if (hasStorm && criticalDamageRate > 1) {
-//            stormEndTime = time + 2;
-            if (!inStorm) {
-                print("强化", "暴风");
+
+        if (hasLightning && target.hp > 0) {
+            lightingCount--;
+            if (!inLighting && lightingCount <= 0) {
+                inLighting = true;
+                lightingCount = 5;
+                damage = 100;
+                log = new CLog(heroType.name, "电弧", target.heroType.name, context.time);
+                if (checkCritical()) {
+                    damage *= atCriticalDamage;
+                    log.critical = true;
+                }
+                log.magicDamage = (int) (damage * getMagicDamageRate());
+                target.hp -= log.magicDamage;
+                context.addEvent(this, "可用", "电弧", 500);
+                context.logs.add(log);
             }
-            inStorm = true;
-            context.addBuff(this, "失效", "暴风", 2000);
         }
     }
 
-    void updateAttackCanCritical() {
-        double criticalFactor = Math.max(1, attackFactor);
-        attackCanCritical = (int) (attack * criticalFactor);
-        attackCannotCritical = (int) (attack * (attackFactor - criticalFactor)) + attackBonus;
+    private boolean checkCritical() {
+        hitCount++;
+        if (atCritical * hitCount >= criticalCount + 1) {
+            criticalCount++;
+            if (hasStorm) {
+                if (!inStorm) {
+                    inStorm = true;
+                    atAttackSpeed += 50;
+                    print("强化", "暴风");
+                }
+                context.addEvent(this, "失效", "暴风", 2000);
+            }
+            return true;
+        }
+        return false;
     }
 
     double getDamageRate() {
-        int defense = target.defense;
-        if (hasCut) {
-            defense -= 40 * cutCount;
-            if (cutCount < 5) {
-                cutCount++;
-            }
-        }
+        int defense = target.atDefense;
         if (hasPenetrate) {
             // unknown: 是否需要取整
             defense -= (int)(defense * 0.45);
         }
-        defense -= penetrate;
+        defense -= atPenetrate;
         double rate = 600.0 / (600 + defense);
         if (hasExecute && target.hp * 2 < target.mhp) {
             rate *= 1.3;
+        }
+
+        if (hasCut && target.cutCount > 0) {
+            target.cutCount--;
+            target.atDefense -= 40;
         }
         return rate;
     }
 
     double getMagicDamageRate() {
-        int defense = target.magicDefense;
+        int defense = target.atMagicDefense;
         if (hasMagicPenetrateRate) {
             // unknown: 是否需要取整
             defense -= (int)(defense * 0.45);
@@ -293,7 +316,7 @@ public class Hero {
         if (hasMagicPenetrateMask) {
             defense -= 75;
         }
-        defense -= magicPenetrate;
+        defense -= atMagicPenetrate;
         if (defense < 0) {
             defense = 0;
         }
@@ -301,22 +324,27 @@ public class Hero {
         if (hasExecute && target.hp * 2 < target.mhp) {
             rate *= 1.3;
         }
+
+        if (hasCut && target.cutCount > 0) {
+            target.cutCount--;
+            target.atDefense -= 40;
+        }
         return rate;
     }
 
-    void cast1() {
-        cast(0);
+    void doCast1() {
+        onCast(0);
     }
 
-    void cast2() {
-        cast(1);
+    void doCast2() {
+        onCast(1);
     }
 
-    void cast3() {
-        cast(2);
+    void doCast3() {
+        onCast(2);
     }
 
-    void cast(int index) {
+    void onCast(int index) {
         if (skills != null && index < skills.length) {
             Skill skill = skills[index];
             if (skill != null) {
@@ -327,18 +355,18 @@ public class Hero {
                 time += skill.swing;
                 CLog log = new CLog(heroType.name, skill.name, target.heroType.name, (int) time);
                 if (skill.damageType != Skill.TYPE_NONE) {
-                    double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attack : magic) * skill.damageFactor) + skill.damageBonus;
+                    double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? atAttack : atMagic) * skill.damageFactor) + skill.damageBonus;
                     switch (skill.damageType) {
                         case Skill.TYPE_PHYSICAL:
-                            log.damage = damage * getDamageRate();
+                            log.damage = (int) (damage * getDamageRate());
                             target.hp -= log.damage;
                             break;
                         case Skill.TYPE_MAGIC:
-                            log.magicDamage = damage * getMagicDamageRate();
+                            log.magicDamage = (int) (damage * getMagicDamageRate());
                             target.hp -= log.magicDamage;
                             break;
                         case Skill.TYPE_REAL:
-                            log.realDamage = damage;
+                            log.realDamage = (int) damage;
                             target.hp -= log.realDamage;
                             break;
                     }
