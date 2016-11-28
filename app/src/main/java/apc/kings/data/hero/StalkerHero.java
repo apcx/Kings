@@ -10,7 +10,7 @@ class StalkerHero extends Hero {
 
     private int quickArrows;
 
-    StalkerHero(CContext context, HeroType heroType) {
+    protected StalkerHero(CContext context, HeroType heroType) {
         super(context, heroType);
         skills = new Skill[]{
                 new Skill("炙热之风", 10, 0.1),
@@ -33,7 +33,7 @@ class StalkerHero extends Hero {
 //    }
 //
     @Override
-    int doAttack(CLog log) {
+    protected int doAttack(CLog log) {
         int cd = (int) (attackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
         if (quickArrows > 0) {
             quickArrows--;

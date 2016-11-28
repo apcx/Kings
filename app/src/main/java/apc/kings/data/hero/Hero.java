@@ -68,7 +68,7 @@ public class Hero {
     private boolean inStorm;
     private boolean inLighting;
 
-    Hero(CContext context, HeroType heroType) {
+    protected Hero(CContext context, HeroType heroType) {
         this.context = context;
         this.heroType = heroType;
         mhp = heroType.hp;
@@ -181,7 +181,7 @@ public class Hero {
                 }
                 break;
             case "失效":
-            case "可用":
+            case "冷却":
                 context.events.remove(event);
                 print(event.action, event.target);
                 switch (event.target) {
@@ -201,7 +201,7 @@ public class Hero {
         }
     }
 
-    int doAttack(CLog log) {
+    protected int doAttack(CLog log) {
         int cd = (int) (attackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
         hit(log, true);   // actually hit later, call hit() immediately for simplicity
         return cd;
@@ -246,8 +246,8 @@ public class Hero {
 //                target.hp -= log.enchantDamage;
 //            }
         }
-
         context.logs.add(log);
+        appendStormEvent(log);
 
         if (hasLightning && target.hp > 0) {
             lightingCount--;
@@ -262,8 +262,9 @@ public class Hero {
                 }
                 log.magicDamage = (int) (damage * getMagicDamageRate());
                 target.hp -= log.magicDamage;
-                context.addEvent(this, "可用", "电弧", 500);
                 context.logs.add(log);
+                context.addEvent(this, "冷却", "电弧", 500);
+                appendStormEvent(log);
             }
         }
     }
@@ -276,13 +277,18 @@ public class Hero {
                 if (!inStorm) {
                     inStorm = true;
                     atAttackSpeed += 50;
-                    print("强化", "暴风");
                 }
-                context.addEvent(this, "失效", "暴风", 2000);
             }
             return true;
         }
         return false;
+    }
+
+    private void appendStormEvent(CLog log) {
+        if (hasStorm && log.critical) {
+            context.updateBuff(this, "失效", "暴风", 2000);
+            print("强化", "暴风");
+        }
     }
 
     double getDamageRate() {

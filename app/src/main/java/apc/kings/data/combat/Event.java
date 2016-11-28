@@ -8,8 +8,8 @@ public class Event implements Comparable<Event> {
 
     public CContext context;
     public Hero hero;
-    public String target;
     public String action;
+    public String target;
     public int time;
     public int bonus;
     public int intervals;
