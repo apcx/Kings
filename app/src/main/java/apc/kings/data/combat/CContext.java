@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import apc.kings.data.HeroType;
-import apc.kings.data.Item;
 import apc.kings.data.hero.Hero;
 
 // Combat context
@@ -35,10 +34,6 @@ public class CContext {
         this.defensive = defensive;
         this.specific = specific;
 
-        if (!defensive) {
-            beginTime = attacker.getBeginTime(specific);
-        }
-
         runAttack();
 
         // temp
@@ -46,10 +41,10 @@ public class CContext {
             log.sum();
             Log.d("CombatLog", log.toString());
         }
-        damage = defender.mhp;
+        damage = defender.atMhp;
         totalTime = (logs.get(logs.size() - 1).time - beginTime) / 1000.0;
         dps = damage / totalTime;
-        costRatio = 100 * dps / (1 + attacker.price);
+        costRatio = 100 * dps / (1 + attacker.atPrice);
     }
 
     public void addEvent(Hero hero, String action, String target, int duration) {
@@ -73,16 +68,17 @@ public class CContext {
     }
 
     private void runAttack() {
-        events.add(new Event(defender,"回血", 5000));
-        attacker.target = defender;
-        attacker.normalFactor = (defender.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
-        attacker.attackEvent.time = beginTime;
-        attacker.events.add(attacker.attackEvent);
+        attacker.initActionMode(defender, false, defensive, specific);
+        defender.initActionMode(null, true, defensive, specific);
+        if (!defensive) {
+            Collections.sort(attacker.activeEvents);
+            beginTime = attacker.activeEvents.get(0).time;
+        }
         do {
             Collections.sort(events);
-            Collections.sort(attacker.events);
+            Collections.sort(attacker.activeEvents);
             Event contextEvent = events.get(0);
-            Event attackerEvent = attacker.events.get(0);
+            Event attackerEvent = attacker.activeEvents.get(0);
             if (contextEvent.time <= attackerEvent.time) {
                 if (contextEvent.time > time) {
                     time = contextEvent.time;

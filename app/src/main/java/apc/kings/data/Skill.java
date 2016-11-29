@@ -8,21 +8,20 @@ public class Skill {
     public static final int TYPE_REAL = 3;
 
     public String name;
-    public double cd;
+    public int cd;
+    public int factorType;
+    public int damageType;
     public double swing;
     public double damageFactor;
     public double damageBonus;
-    public int factorType;
-    public int damageType;
-    public double nextCastTime;
 
-    public Skill(String name, double cd, double swing) {
+    public Skill(String name, int cd, double swing) {
         this.name = name;
         this.cd = cd;
         this.swing = swing;
     }
 
-    public Skill(String name, double cd, double swing, double damageFactor, double damageBonus, int factorType, int damageType) {
+    public Skill(String name, int cd, double swing, double damageFactor, double damageBonus, int factorType, int damageType) {
         this.name = name;
         this.cd = cd;
         this.swing = swing;
