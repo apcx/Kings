@@ -6,7 +6,6 @@ import apc.kings.data.hero.Hero;
 
 public class Event implements Comparable<Event> {
 
-    public CContext context;
     public Hero hero;
     public String action;
     public String target;
@@ -18,8 +17,7 @@ public class Event implements Comparable<Event> {
     public boolean regen;
     public boolean canCritical;
 
-    public Event(CContext context, Hero hero, String action, int time) {
-        this.context = context;
+    public Event(Hero hero, String action, int time) {
         this.hero = hero;
         this.action = action;
         this.time = time;

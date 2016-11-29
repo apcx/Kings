@@ -38,10 +38,7 @@ public class CContext {
         if (!defensive) {
             beginTime = attacker.getBeginTime(specific);
         }
-        events.add(new Event(this, defender,"回血", 5000));
-        attacker.events.add(new Event(this, attacker,"攻击", beginTime));
-        attacker.target = defender;
-        attacker.normalFactor = (defender.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
+
         runAttack();
 
         // temp
@@ -56,7 +53,7 @@ public class CContext {
     }
 
     public void addEvent(Hero hero, String action, String target, int duration) {
-        Event event = new Event(this, hero, action, time + duration);
+        Event event = new Event(hero, action, time + duration);
         event.target = target;
         events.add(event);
     }
@@ -70,21 +67,29 @@ public class CContext {
                 return;
             }
         }
-        Event event = new Event(this, hero, action, eventTime);
+        Event event = new Event(hero, action, eventTime);
         event.target = buff;
         events.add(event);
     }
 
     private void runAttack() {
+        events.add(new Event(defender,"回血", 5000));
+        attacker.target = defender;
+        attacker.normalFactor = (defender.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
+        attacker.attackEvent.time = beginTime;
+        attacker.events.add(attacker.attackEvent);
         do {
             Collections.sort(events);
             Collections.sort(attacker.events);
-            Event combatEvent = events.get(0);
+            Event contextEvent = events.get(0);
             Event attackerEvent = attacker.events.get(0);
-            if (combatEvent.time <= attackerEvent.time) {
-                combatEvent.hero.onEvent(combatEvent);
+            if (contextEvent.time <= attackerEvent.time) {
+                if (contextEvent.time > time) {
+                    time = contextEvent.time;
+                }
+                contextEvent.hero.onEvent(contextEvent);
             } else {
-                attackerEvent.hero.onEvent(attackerEvent);
+                attackerEvent.hero.onAI(attackerEvent);
             }
         } while (defender.hp > 0);
     }

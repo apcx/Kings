@@ -20,7 +20,7 @@ class StalkerHero extends Hero {
     }
 
 //    @Override
-//    public void autoChooseAction() {
+//    public void onAI() {
 //        if (time >= nextAttackTime) {
 ////            attack();
 //        } else if (time >= skills[0].nextCastTime) {
@@ -34,7 +34,7 @@ class StalkerHero extends Hero {
 //
     @Override
     protected int doAttack(CLog log) {
-        int cd = (int) (attackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
+        int cd = (int) (atAttackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
         if (quickArrows > 0) {
             quickArrows--;
             log.action = "箭风";

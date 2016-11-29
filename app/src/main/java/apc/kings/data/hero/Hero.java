@@ -20,6 +20,10 @@ public class Hero {
     public CContext context;
 
     public List<Event> events = new ArrayList<>();
+    public Event attackEvent = new Event(this, "攻击", 0);
+    public Event cast1Event = new Event(this, "cast1", 0);
+    public Event cast2Event = new Event(this, "cast2", 0);
+    public Event cast3Event = new Event(this, "cast3", 0);
 
     public int price;
     public int mhp;
@@ -35,6 +39,7 @@ public class Hero {
     public double atCritical;
     public double atCriticalDamage = 2;
     public double cdFactor;
+    public int atAttackCd = 1000;
     public int flags;
     public Skill[] skills;
 
@@ -52,7 +57,6 @@ public class Hero {
 
     public Hero target;
     double time;
-    public int attackCd = 1000;
     double attackFactor = 1;
     public double normalFactor;
     int attackBonus;
@@ -161,14 +165,18 @@ public class Hero {
         return 0;
     }
 
-    public void autoChooseAction() {
+    public void setActionMode(boolean attack, boolean defense) {
+        if (attack) {
+            normalFactor = (target.flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
+            attackEvent.time = getBeginTime(false);
+            events.add(attackEvent);
+        }
+        if (defense) {
 
+        }
     }
 
     public void onEvent(Event event) {
-        if (event.time > context.time) {
-            context.time = event.time;
-        }
         CLog log = new CLog(heroType.name, event.action, null, context.time);
         switch (event.action) {
             case "回血":
@@ -181,7 +189,6 @@ public class Hero {
                 }
                 break;
             case "失效":
-            case "冷却":
                 context.events.remove(event);
                 print(event.action, event.target);
                 switch (event.target) {
@@ -189,11 +196,25 @@ public class Hero {
                         inStorm = false;
                         atAttackSpeed -= 50;
                         break;
+                }
+                break;
+            case "冷却":
+                context.events.remove(event);
+                switch (event.target) {
                     case "电弧":
                         inLighting = false;
                         break;
                 }
                 break;
+        }
+    }
+
+    public void onAI(Event event) {
+        if (event.time > context.time) {
+            context.time = event.time;
+        }
+        CLog log = new CLog(heroType.name, event.action, null, context.time);
+        switch (event.action) {
             case "攻击":
                 log.target = target.heroType.name;
                 event.time = context.time + Math.max(100, doAttack(log));
@@ -202,7 +223,7 @@ public class Hero {
     }
 
     protected int doAttack(CLog log) {
-        int cd = (int) (attackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
+        int cd = (int) (atAttackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
         hit(log, true);   // actually hit later, call hit() immediately for simplicity
         return cd;
     }
@@ -217,7 +238,7 @@ public class Hero {
         attackCannotCritical = (int) (atAttack * (attackFactor - criticalFactor)) + attackBonus;
     }
 
-    void hit(CLog log, boolean canCritical) {
+    protected void hit(CLog log, boolean canCritical) {
         updateAttackCanCritical();
         double damage = attackCanCritical;
         if (canCritical && checkCritical()) {
@@ -247,7 +268,7 @@ public class Hero {
 //            }
         }
         context.logs.add(log);
-        appendStormEvent(log);
+        appendStormLog(log);
 
         if (hasLightning && target.hp > 0) {
             lightingCount--;
@@ -264,7 +285,7 @@ public class Hero {
                 target.hp -= log.magicDamage;
                 context.logs.add(log);
                 context.addEvent(this, "冷却", "电弧", 500);
-                appendStormEvent(log);
+                appendStormLog(log);
             }
         }
     }
@@ -274,19 +295,17 @@ public class Hero {
         if (atCritical * hitCount >= criticalCount + 1) {
             criticalCount++;
             if (hasStorm) {
-                if (!inStorm) {
-                    inStorm = true;
-                    atAttackSpeed += 50;
-                }
+                context.updateBuff(this, "失效", "暴风", 2000);
             }
             return true;
         }
         return false;
     }
 
-    private void appendStormEvent(CLog log) {
-        if (hasStorm && log.critical) {
-            context.updateBuff(this, "失效", "暴风", 2000);
+    private void appendStormLog(CLog log) {
+        if (hasStorm && log.critical && !inStorm) {
+            inStorm = true;
+            atAttackSpeed += 50;
             print("强化", "暴风");
         }
     }

@@ -25,13 +25,6 @@ public class CLog implements Cloneable {
         this.time = time;
     }
 
-    public CLog(Event event) {
-        hero = event.hero.heroType.name;
-        action = event.action;
-        target = event.target;
-        time = event.context.time;
-    }
-
     @Override
     @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")
     public CLog clone() {

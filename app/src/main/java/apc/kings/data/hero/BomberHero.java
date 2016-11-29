@@ -20,7 +20,7 @@
 //    }
 //
 //    @Override
-//    public void autoChooseAction() {
+//    public void onAI() {
 //        if (skills[0].nextCastTime <= nextAttackTime) {
 //            cast1();
 //        } else {
@@ -39,7 +39,7 @@
 //            if (time < bombEndTime) {
 //                speed += 0.5;
 //            }
-//            nextAttackTime = time + attackCd / (1 + Math.min(2, speed));
+//            nextAttackTime = time + atAttackCd / (1 + Math.min(2, speed));
 //
 //            marks++;
 //            if (4 == marks) {
