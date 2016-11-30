@@ -12,7 +12,7 @@
 //
 //    RobotHero(HeroType heroType) {
 //        super(heroType);
-////        atAttackCd = 0.8;
+////        attr_attack_cd = 0.8;
 //        skills = new Skill[]{
 //                new Skill("河豚手雷", 7, 0.5),
 //                new Skill("无敌鲨嘴炮", 12, 0.8, 1, 435, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
@@ -72,13 +72,13 @@
 //        normalBullets = 0;
 //        quickBullets = 4;
 //        attackFactor = 0.7;
-////        atAttackCd = 0.425;
+////        attr_attack_cd = 0.425;
 //    }
 //
 //    private void toNormal() {
 //        normalBullets = 0;
 //        quickBullets = 0;
 //        attackFactor = 1;
-////        atAttackCd = 0.8;
+////        attr_attack_cd = 0.8;
 //    }
 //}

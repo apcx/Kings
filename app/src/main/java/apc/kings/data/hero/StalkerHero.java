@@ -20,8 +20,8 @@ class StalkerHero extends Hero {
     }
 
     @Override
-    public void initActionMode(Hero target, boolean attacked, boolean defensive, boolean specific) {
-        super.initActionMode(target, attacked, defensive, specific);
+    public void initActionMode(Hero target, boolean attacked, boolean specific) {
+        super.initActionMode(target, attacked, specific);
         attackEvent.time = 4100;
         castEvents[0].time = 4000;
         activeEvents.add(castEvents[0]);
@@ -30,7 +30,7 @@ class StalkerHero extends Hero {
     @Override
     protected void doAttack() {
         CLog log = new CLog(heroType.name, "攻击", target.heroType.name, context.time);
-        int cd = (int) (atAttackCd * 100 / (100 + Math.min(200, atAttackSpeed))); // todo: check negative formula
+        int cd = (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
         if (quickArrows > 0) {
             quickArrows--;
             log.action = "箭风";

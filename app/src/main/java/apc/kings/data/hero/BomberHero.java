@@ -39,7 +39,7 @@
 //            if (time < bombEndTime) {
 //                speed += 0.5;
 //            }
-//            nextAttackTime = time + atAttackCd / (1 + Math.min(2, speed));
+//            nextAttackTime = time + attr_attack_cd / (1 + Math.min(2, speed));
 //
 //            marks++;
 //            if (4 == marks) {

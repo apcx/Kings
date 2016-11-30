@@ -40,7 +40,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void onClick(View v) {
         if (mAttackerFragment.mHeroType != null && mDefenderFragment.mHeroType != null) {
-            CContext combat = new CContext(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType, false, false);
+            CContext combat = new CContext(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType);
             damage.setText(Integer.toString(combat.damage));
             time.setText(String.format("%.2f", combat.totalTime));
             dps.setText(String.format("%.0f", combat.dps));

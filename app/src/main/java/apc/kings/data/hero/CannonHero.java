@@ -34,7 +34,7 @@
 //            log.name = "强射";
 //            attackFactor = 1;
 //            attackBonus = 0;
-//            atAttackCd = 1;
+//            attr_attack_cd = 1;
 //            snipe = true;
 //        } else {
 //            if (snipe) {
@@ -56,6 +56,6 @@
 //        attackFactor = 1.15;
 //        attackBonus = 480;
 //        nextAttackTime = time;
-//        atAttackCd = 0;
+//        attr_attack_cd = 0;
 //    }
 //}
