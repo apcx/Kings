@@ -19,7 +19,7 @@ public class Hero {
     public HeroType heroType;
     public CContext context;
 
-    public List<Event> activeEvents = new ArrayList<>();
+    public List<Event> actions = new ArrayList<>();
     public Event attackEvent = new Event(this, "攻击", 0);
     public Event[] castEvents = new Event[3];
     public Skill[] skills;
@@ -174,7 +174,7 @@ public class Hero {
                 print("弱化", "冰心");
             }
             has_cold_iron = (target.attr_flags & Item.FLAG_COLD_IRON) != 0;
-            activeEvents.add(attackEvent);
+            actions.add(attackEvent);
         }
         if (attacked) {
             context.events.add(new Event(this, "回血", 5000));
@@ -238,7 +238,8 @@ public class Hero {
         CLog log = new CLog(heroType.name, "攻击", target.heroType.name, context.time);
         int cd = (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
         hit(log, true);   // actually hit later, call hit() immediately for simplicity
-        attackEvent.time = context.time + Math.max(100, cd);
+        attackEvent.time = context.time + cd;
+        delayActions(100);
     }
 
     void print(String action, String target) {
@@ -332,7 +333,6 @@ public class Hero {
     double getDamageRate() {
         int defense = target.attr_defense;
         if (has_penetrate) {
-            // unknown: 是否需要取整
             defense -= (int)(defense * 0.45);
         }
         defense -= attr_penetrate;
@@ -351,7 +351,6 @@ public class Hero {
     double getMagicDamageRate() {
         int defense = target.attr_magic_defense;
         if (has_magic_penetrate_rate) {
-            // unknown: 是否需要取整
             defense -= (int)(defense * 0.45);
         }
         if (has_magic_penetrate_boots) {
@@ -393,9 +392,10 @@ public class Hero {
             Skill skill = skills[index];
             enchanted = has_enchant;
 
-            CLog log = new CLog(heroType.name, skill.name, target.heroType.name, context.time);
+            CLog log = new CLog(heroType.name, skill.name, null, context.time);
             if (skill.damageType != Skill.TYPE_NONE) {
-                double damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
+                log.target = target.heroType.name;
+                int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
                 switch (skill.damageType) {
                     case Skill.TYPE_PHYSICAL:
                         log.damage = (int) (damage * getDamageRate());
@@ -406,14 +406,24 @@ public class Hero {
                         target.hp -= log.magicDamage;
                         break;
                     case Skill.TYPE_REAL:
-                        log.realDamage = (int) damage;
+                        log.realDamage = damage;
                         target.hp -= log.realDamage;
                         break;
                 }
             }
-
             context.logs.add(log);
             castEvents[index].time = context.time + skill.cd;
+            delayActions(skill.swing);
+        }
+    }
+
+    protected void delayActions(int swing) {
+        swing += context.time;
+        for (int i = 0, n = actions.size(); i < n; ++i) {
+            Event action = actions.get(i);
+            if (swing > action.time) {
+                action.time = swing;
+            }
         }
     }
 }
