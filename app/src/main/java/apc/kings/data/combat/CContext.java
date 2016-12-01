@@ -67,13 +67,13 @@ public class CContext {
     private void runAttack() {
         attacker.initActionMode(defender, false, specific);
         defender.initActionMode(null, true, specific);
-        Collections.sort(attacker.activeEvents);
-        beginTime = attacker.activeEvents.get(0).time;
+        Collections.sort(attacker.actions);
+        beginTime = attacker.actions.get(0).time;
         do {
             Collections.sort(events);
-            Collections.sort(attacker.activeEvents);
+            Collections.sort(attacker.actions);
             Event contextEvent = events.get(0);
-            Event attackerEvent = attacker.activeEvents.get(0);
+            Event attackerEvent = attacker.actions.get(0);
             if (contextEvent.time <= attackerEvent.time) {
                 if (contextEvent.time > time) {
                     time = contextEvent.time;

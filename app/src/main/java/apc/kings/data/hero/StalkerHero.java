@@ -13,8 +13,8 @@ class StalkerHero extends Hero {
     protected StalkerHero(CContext context, HeroType heroType) {
         super(context, heroType);
         skills = new Skill[]{
-                new Skill("炙热之风", 10000, 0.1),
-                new Skill("燎原箭雨", 4000, 0.4, 1.16, 760, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
+                new Skill("炙热之风", 10000, 100),
+                new Skill("燎原箭雨", 4000, 400, 1.16, 760, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
                 new Skill("惩戒射击", 35000, 0),
         };
     }
@@ -22,9 +22,11 @@ class StalkerHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        attackEvent.time = 4100;
-        castEvents[0].time = 4000;
-        activeEvents.add(castEvents[0]);
+        attackEvent.time = 4999;
+        castEvents[0].time = 4499;
+        castEvents[1].time = 4599;
+        actions.add(castEvents[0]);
+        actions.add(castEvents[1]);
     }
 
     @Override
@@ -36,7 +38,7 @@ class StalkerHero extends Hero {
             log.action = "箭风";
             hit(log.clone(), true);
             hit(log.clone(), true);
-            hit(log.clone(), true);
+            hit(log, true);
             if (quickArrows <= 0) {
                 attackFactor = 1;
                 attackBonus = 0;
@@ -44,7 +46,8 @@ class StalkerHero extends Hero {
         } else {
             hit(log, true);
         }
-        attackEvent.time = context.time + Math.max(100, cd);
+        attackEvent.time = context.time + cd;
+        delayActions(100);
     }
 
     @Override

@@ -11,17 +11,17 @@ public class Skill {
     public int cd;
     public int factorType;
     public int damageType;
-    public double swing;
+    public int swing;
     public double damageFactor;
-    public double damageBonus;
+    public int damageBonus;
 
-    public Skill(String name, int cd, double swing) {
+    public Skill(String name, int cd, int swing) {
         this.name = name;
         this.cd = cd;
         this.swing = swing;
     }
 
-    public Skill(String name, int cd, double swing, double damageFactor, double damageBonus, int factorType, int damageType) {
+    public Skill(String name, int cd, int swing, double damageFactor, int damageBonus, int factorType, int damageType) {
         this.name = name;
         this.cd = cd;
         this.swing = swing;
