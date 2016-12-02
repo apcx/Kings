@@ -35,7 +35,6 @@ public class CContext {
 
         // temp
         for (CLog log : logs) {
-            log.sum();
             Log.d("CombatLog", log.toString());
         }
         damage = defender.attr_mhp;

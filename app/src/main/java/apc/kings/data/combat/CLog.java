@@ -17,6 +17,7 @@ public class CLog implements Cloneable {
     public int enchantDamage;
     public int totalDamage;
     public boolean critical;
+    public boolean cut;
 
     public CLog(String hero, String action, String target, int time) {
         this.hero = hero;
@@ -50,7 +51,8 @@ public class CLog implements Cloneable {
         }
     }
 
-    public void sum() {
+    public int sum() {
         totalDamage = damage + extraDamage + magicDamage + realDamage + enchantDamage;
+        return totalDamage;
     }
 }

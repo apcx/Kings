@@ -36,25 +36,29 @@ class StalkerHero extends Hero {
         if (quickArrows > 0) {
             quickArrows--;
             log.action = "箭风";
-            hit(log.clone(), true);
-            hit(log.clone(), true);
-            hit(log, true);
+            onHit(log.clone(), true);
+            onHit(log.clone(), true);
+            onHit(log, true);
             if (quickArrows <= 0) {
                 attackFactor = 1;
                 attackBonus = 0;
             }
         } else {
-            hit(log, true);
+            onHit(log, true);
         }
         attackEvent.time = context.time + cd;
         delayActions(100);
     }
 
     @Override
-    void doCast1() {
-        super.doCast1();
-        quickArrows = 3;
-        attackFactor = 0.4;
-        attackBonus = 140;
+    protected void doCast(int index) {
+        super.doCast(index);
+        switch (index) {
+            case 0:
+                quickArrows = 3;
+                attackFactor = 0.4;
+                attackBonus = 140;
+                break;
+        }
     }
 }

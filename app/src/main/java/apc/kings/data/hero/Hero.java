@@ -35,6 +35,7 @@ public class Hero {
     protected int attr_regen;
     protected int attr_attack_cd = 1000;
     protected int attr_flags;
+    protected int attr_enchants;
     protected double attr_attack_speed;
     protected double attr_critical;
     protected double attr_critical_damage = 2;
@@ -52,7 +53,6 @@ public class Hero {
     public boolean has_corrupt;
     public boolean has_accurate;
     public boolean has_lightning;
-    public boolean has_enchant;
     public boolean has_execute;
 
     public Hero target;
@@ -61,9 +61,9 @@ public class Hero {
     int attackBonus;
     int attackCanCritical;
     int attackCannotCritical;
-    boolean enchanted;
+    boolean in_enchant;
 
-    int cutCount = 5;
+    int cutCount;
     int hitCount;
     int criticalCount;
     int lightingCount = 5;
@@ -143,9 +143,10 @@ public class Hero {
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
             has_accurate = (attr_flags & Item.FLAG_ACCURATE) != 0;
             has_lightning = (attr_flags & Item.FLAG_LIGHTNING) != 0;
-            has_enchant = (attr_flags & Item.FLAG_ENCHANT) != 0;
             has_execute = (attr_flags & Item.FLAG_EXECUTE) != 0;
             has_storm = (attr_flags & Item.FLAG_STORM) != 0;
+            has_cold_iron = (attr_flags & Item.FLAG_COLD_IRON) != 0;
+            attr_enchants = attr_flags & 0xf0000000;
         }
         hp = attr_mhp;
 
@@ -173,7 +174,6 @@ public class Hero {
                 attr_attack_speed -= 30;
                 print("弱化", "冰心");
             }
-            has_cold_iron = (target.attr_flags & Item.FLAG_COLD_IRON) != 0;
             actions.add(attackEvent);
         }
         if (attacked) {
@@ -223,13 +223,13 @@ public class Hero {
                 doAttack();
                 break;
             case "cast1":
-                doCast1();
+                doCast(0);
                 break;
             case "cast2":
-                doCast2();
+                doCast(1);
                 break;
             case "cast3":
-                doCast3();
+                doCast(2);
                 break;
         }
     }
@@ -237,7 +237,7 @@ public class Hero {
     protected void doAttack() {
         CLog log = new CLog(heroType.name, "攻击", target.heroType.name, context.time);
         int cd = (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
-        hit(log, true);   // actually hit later, call hit() immediately for simplicity
+        onHit(log, true);   // actually hit later, call hit() immediately for simplicity
         attackEvent.time = context.time + cd;
         delayActions(100);
     }
@@ -252,14 +252,14 @@ public class Hero {
         attackCannotCritical = (int) (attr_attack * (attackFactor - criticalFactor)) + attackBonus;
     }
 
-    protected void hit(CLog log, boolean canCritical) {
+    protected void onHit(CLog log, boolean canCritical) {
         updateAttackCanCritical();
         double damage = attackCanCritical;
         if (canCritical && checkCritical()) {
             damage *= attr_critical_damage;
             log.critical = true;
         }
-        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate() * tgNormalFactor);
+        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate(log) * tgNormalFactor);
         target.hp -= log.damage;
 
         if (target.hp > 0) {
@@ -271,18 +271,21 @@ public class Hero {
                 damage += 60;
             }
             if (damage > 0) {
-                log.extraDamage = (int) (damage * getDamageRate());
+                log.extraDamage = (int) (damage * getDamageRate(log));
                 target.hp -= log.extraDamage;
             }
-
-//            if (enchanted && target.hp > 0) {
-//                enchanted = false;
-//                log.enchantDamage = (int) (attr_attack * getDamageRate());
-//                target.hp -= log.enchantDamage;
-//            }
         }
         context.logs.add(log);
-        appendStormLog(log);
+        onDamaged(log);
+
+        if (in_enchant && target.hp > 0) {
+            in_enchant = false;
+            CLog enchantLog = new CLog(heroType.name, "咒刃", target.heroType.name, context.time);
+            enchantLog.damage = (int) (attr_attack * getDamageRate(enchantLog));
+            target.hp -= enchantLog.damage;
+            context.logs.add(enchantLog);
+            onDamaged(enchantLog);
+        }
 
         if (has_lightning && target.hp > 0) {
             lightingCount--;
@@ -295,18 +298,12 @@ public class Hero {
                     damage *= attr_critical_damage;
                     log.critical = true;
                 }
-                log.magicDamage = (int) (damage * getMagicDamageRate());
+                log.magicDamage = (int) (damage * getMagicDamageRate(log));
                 target.hp -= log.magicDamage;
                 context.logs.add(log);
                 context.addEvent(this, "冷却", "电弧", 500);
-                appendStormLog(log);
+                onDamaged(log);
             }
-        }
-
-        if (has_cold_iron && !in_cold_iron) {
-            in_cold_iron = true;
-            attr_attack_speed -= 30;
-            print("弱化", "寒铁");
         }
     }
 
@@ -314,23 +311,35 @@ public class Hero {
         hitCount++;
         if (attr_critical * hitCount >= criticalCount + 1) {
             criticalCount++;
-            if (has_storm) {
-                context.updateBuff(this, "失效", "暴风", 2000);
-            }
             return true;
         }
         return false;
     }
 
-    private void appendStormLog(CLog log) {
-        if (has_storm && log.critical && !in_storm) {
-            in_storm = true;
-            attr_attack_speed += 50;
-            print("强化", "暴风");
+    private void onDamaged(CLog log) {
+        if (log.sum() > 0) {
+            if (has_storm && log.critical) {
+                context.updateBuff(this, "失效", "暴风", 2000);
+                if (!in_storm) {
+                    in_storm = true;
+                    attr_attack_speed += 50;
+                    print("强化", "暴风");
+                }
+            }
+
+            if (target.has_cold_iron && !in_cold_iron) {
+                in_cold_iron = true;
+                attr_attack_speed -= 30;
+                print("弱化", "寒铁");
+            }
+
+            if (log.cut) {
+                target.print("弱化", "切割" + target.cutCount);
+            }
         }
     }
 
-    double getDamageRate() {
+    double getDamageRate(CLog log) {
         int defense = target.attr_defense;
         if (has_penetrate) {
             defense -= (int)(defense * 0.45);
@@ -341,14 +350,15 @@ public class Hero {
             rate *= 1.3;
         }
 
-        if (has_cut && target.cutCount > 0) {
-            target.cutCount--;
+        if (has_cut && target.cutCount < 5) {
+            target.cutCount++;
             target.attr_defense -= 40;
+            log.cut = true;
         }
         return rate;
     }
 
-    double getMagicDamageRate() {
+    double getMagicDamageRate(CLog log) {
         int defense = target.attr_magic_defense;
         if (has_magic_penetrate_rate) {
             defense -= (int)(defense * 0.45);
@@ -368,41 +378,29 @@ public class Hero {
             rate *= 1.3;
         }
 
-        if (has_cut && target.cutCount > 0) {
-            target.cutCount--;
+        if (has_cut && target.cutCount < 5) {
+            target.cutCount++;
             target.attr_defense -= 40;
+            log.cut = true;
         }
         return rate;
     }
 
-    void doCast1() {
-        onCast(0);
-    }
-
-    void doCast2() {
-        onCast(1);
-    }
-
-    void doCast3() {
-        onCast(2);
-    }
-
-    void onCast(int index) {
+    protected void doCast(int index) {
+        in_enchant = attr_enchants != 0;
         if (skills != null) {
             Skill skill = skills[index];
-            enchanted = has_enchant;
-
             CLog log = new CLog(heroType.name, skill.name, null, context.time);
             if (skill.damageType != Skill.TYPE_NONE) {
                 log.target = target.heroType.name;
                 int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
                 switch (skill.damageType) {
                     case Skill.TYPE_PHYSICAL:
-                        log.damage = (int) (damage * getDamageRate());
+                        log.damage = (int) (damage * getDamageRate(log));
                         target.hp -= log.damage;
                         break;
                     case Skill.TYPE_MAGIC:
-                        log.magicDamage = (int) (damage * getMagicDamageRate());
+                        log.magicDamage = (int) (damage * getMagicDamageRate(log));
                         target.hp -= log.magicDamage;
                         break;
                     case Skill.TYPE_REAL:
@@ -412,6 +410,7 @@ public class Hero {
                 }
             }
             context.logs.add(log);
+            onDamaged(log);
             castEvents[index].time = context.time + skill.cd;
             delayActions(skill.swing);
         }
