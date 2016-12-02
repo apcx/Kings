@@ -30,6 +30,10 @@ public class CContext {
     public CContext(@NonNull HeroType attackerType, @NonNull HeroType defenderType) {
         attacker = Hero.create(this, attackerType);
         defender = Hero.create(this, defenderType);
+        if (attackerType == defenderType) {
+            attacker.name += "A";
+            defender.name += "B";
+        }
 
         runAttack();
 

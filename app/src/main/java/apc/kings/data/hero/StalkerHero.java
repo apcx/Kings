@@ -31,7 +31,7 @@ class StalkerHero extends Hero {
 
     @Override
     protected void doAttack() {
-        CLog log = new CLog(heroType.name, "攻击", target.heroType.name, context.time);
+        CLog log = new CLog(name, "攻击", target.name, context.time);
         int cd = (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
         if (quickArrows > 0) {
             quickArrows--;

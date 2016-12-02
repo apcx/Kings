@@ -31,9 +31,9 @@ public class Item {
     public static final int FLAG_ACCURATE              = 0x2000;
     public static final int FLAG_LIGHTNING             = 0x4000;
 
-    public static final int ENCHANT_ATTACK = 0x70000000;
-    public static final int ENCHANT_MAGIC  = 0x10000000; // todo: to check
-    public static final int ENCHANT_ICE    = 0x10000000;
+    public static final int ENCHANT_TRINITY = 0x0f000000;
+    public static final int ENCHANT_VOODOO  = 0x07000000;
+    public static final int ENCHANT_ICE     = 0x03000000;
 
     public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,    R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 30, 0,    0,    FLAG_CORRUPT),
@@ -41,7 +41,7 @@ public class Item {
             new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0,  0, 0,    0,    0),
             new Item("破甲弓",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0,   0,  0, 0,    0.1,  FLAG_PENETRATE),
             new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,    0,  85,   0,   0,   0,   0,  0, 0,    0.15, FLAG_CUT),
-            new Item("三圣之力",  R.drawable.weapon_trinity,    R.id.item_weapon, 2510,  300,  60,  60,   0,   0,   0, 20, 0.15, 0,    ENCHANT_ATTACK),
+            new Item("三圣之力",  R.drawable.weapon_trinity,    R.id.item_weapon, 2510,  300,  60,  60,   0,   0,   0, 20, 0.15, 0,    ENCHANT_TRINITY),
             new Item("影刃",      R.drawable.weapon_storm,      R.id.item_weapon, 2070,    0,   0,   0,   0,   0,   0, 40, 0.1,  0,    FLAG_STORM),
             new Item("纯净苍穹",  R.drawable.weapon_dispel,     R.id.item_weapon, 2230,    0,   0,   0,   0,   0,   0, 40, 0.2,  0,    FLAG_ACCURATE),
             new Item("闪电匕首",  R.drawable.weapon_lightning,  R.id.item_weapon, 1840,    0,   0,   0,   0,   0,   0, 30, 0.2,  0,    FLAG_LIGHTNING),

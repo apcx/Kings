@@ -14,7 +14,6 @@ public class CLog implements Cloneable {
     public int extraDamage;
     public int magicDamage;
     public int realDamage;
-    public int enchantDamage;
     public int totalDamage;
     public boolean critical;
     public boolean cut;
@@ -45,14 +44,14 @@ public class CLog implements Cloneable {
         if (regen > 0) {
             return String.format("%.3f %s %s %d", time, hero, action, regen);
         } else if (totalDamage > 0) {
-            return String.format("%.3f %s %s %s: %d %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage, enchantDamage);
+            return String.format("%.3f %s %s %s: %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage);
         } else {
             return String.format("%.3f %s %s %s", time, hero, action, target);
         }
     }
 
     public int sum() {
-        totalDamage = damage + extraDamage + magicDamage + realDamage + enchantDamage;
+        totalDamage = damage + extraDamage + magicDamage + realDamage;
         return totalDamage;
     }
 }
