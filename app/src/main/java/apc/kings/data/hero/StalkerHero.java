@@ -8,7 +8,7 @@ import apc.kings.data.Skill;
 @SuppressWarnings("unused")
 class StalkerHero extends Hero {
 
-    private int quickArrows;
+    private int quick_arrows;
 
     protected StalkerHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -22,32 +22,28 @@ class StalkerHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        attackEvent.time = 4999;
-        castEvents[0].time = 4499;
-        castEvents[1].time = 4599;
-        actions.add(castEvents[0]);
-        actions.add(castEvents[1]);
+        actions_cast[0].time = 4499;
+        actions_cast[1].time = 4599;
+        action_attack.time = 4999;
+        actions_active.add(actions_cast[0]);
+        actions_active.add(actions_cast[1]);
     }
 
     @Override
-    protected void doAttack() {
-        CLog log = new CLog(name, "攻击", target.name, context.time);
-        int cd = (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
-        if (quickArrows > 0) {
-            quickArrows--;
+    protected void doAttack(CLog log) {
+        if (quick_arrows > 0) {
+            quick_arrows--;
             log.action = "箭风";
             onHit(log.clone(), true);
             onHit(log.clone(), true);
             onHit(log, true);
-            if (quickArrows <= 0) {
+            if (quick_arrows <= 0) {
                 attackFactor = 1;
                 attackBonus = 0;
             }
         } else {
-            onHit(log, true);
+            super.doAttack(log);
         }
-        attackEvent.time = context.time + cd;
-        delayActions(100);
     }
 
     @Override
@@ -55,7 +51,7 @@ class StalkerHero extends Hero {
         super.doCast(index);
         switch (index) {
             case 0:
-                quickArrows = 3;
+                quick_arrows = 3;
                 attackFactor = 0.4;
                 attackBonus = 140;
                 break;

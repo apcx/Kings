@@ -16,7 +16,6 @@ public class CLog implements Cloneable {
     public int realDamage;
     public int totalDamage;
     public boolean critical;
-    public boolean cut;
 
     public CLog(String hero, String action, String target, int time) {
         this.hero = hero;
@@ -44,7 +43,7 @@ public class CLog implements Cloneable {
         if (regen > 0) {
             return String.format("%.3f %s %s %d", time, hero, action, regen);
         } else if (totalDamage > 0) {
-            return String.format("%.3f %s %s %s: %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage);
+            return String.format("%.3f %s %s %s : %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage);
         } else {
             return String.format("%.3f %s %s %s", time, hero, action, target);
         }

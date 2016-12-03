@@ -39,6 +39,7 @@ public class CContext {
 
         // temp
         for (CLog log : logs) {
+            log.sum();
             Log.d("CombatLog", log.toString());
         }
         damage = defender.attr_mhp;
@@ -70,15 +71,15 @@ public class CContext {
     private void runAttack() {
         attacker.initActionMode(defender, false, specific);
         defender.initActionMode(null, true, specific);
-        Collections.sort(attacker.actions);
-        beginTime = attacker.actions.get(0).time;
+        Collections.sort(attacker.actions_active);
+        beginTime = attacker.actions_active.get(0).time;
         do {
             Collections.sort(events);
-            Collections.sort(attacker.actions);
+            Collections.sort(attacker.actions_active);
             Event contextEvent = events.get(0);
-            Event attackerEvent = attacker.actions.get(0);
+            Event attackerEvent = attacker.actions_active.get(0);
             if (contextEvent.time <= attackerEvent.time) {
-                if (contextEvent.time > time) {
+                if (time < contextEvent.time) {
                     time = contextEvent.time;
                 }
                 contextEvent.hero.onEvent(contextEvent);
