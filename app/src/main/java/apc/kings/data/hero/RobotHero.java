@@ -6,10 +6,11 @@ import apc.kings.data.Skill;
 import apc.kings.data.combat.CLog;
 
 @SuppressWarnings("unused")
-class RobotHero extends Hero {
+public class RobotHero extends Hero {
 
     private int quick_bullets;
     private int normal_bullets;
+    private boolean far = true;
 
     protected RobotHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -33,7 +34,11 @@ class RobotHero extends Hero {
 
     @Override
     protected void doSmartCast(int index) {
-        if (quick_bullets > 0 || normal_bullets >= 3) {
+        if (quick_bullets > 0) {
+            doSkip(index);
+        } else if (far) {
+            doCast(index);
+        } else if (normal_bullets >= 3) {
             doSkip(index);
         } else {
             super.doSmartCast(index);
@@ -58,10 +63,14 @@ class RobotHero extends Hero {
             log.action = "扫射";
             super.doAttack(log);
             if (--quick_bullets <= 0) {
-                toNormal();
+                normal_bullets = 0;
+                quick_bullets = 0;
+                attackFactor = 1;
+                attr_attack_cd = 800;
             }
         } else {
             super.doAttack(log);
+            far = false;
             if (++normal_bullets >= 4) {
                 toStrafe();
             }
@@ -73,12 +82,5 @@ class RobotHero extends Hero {
         quick_bullets = 4;
         attackFactor = 0.7;
         attr_attack_cd = 425;
-    }
-
-    private void toNormal() {
-        normal_bullets = 0;
-        quick_bullets = 0;
-        attackFactor = 1;
-        attr_attack_cd = 800;
     }
 }

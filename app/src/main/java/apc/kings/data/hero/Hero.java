@@ -380,7 +380,7 @@ public class Hero {
         return false;
     }
 
-    private void onDamage(CLog log) {
+    protected void onDamage(CLog log) {
         context.logs.add(log);
         if (has_storm && log.critical) {
             context.updateBuff(this, "失效", "暴风", 2000);

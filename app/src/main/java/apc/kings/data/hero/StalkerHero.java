@@ -6,7 +6,7 @@ import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
 @SuppressWarnings("unused")
-class StalkerHero extends Hero {
+public class StalkerHero extends Hero {
 
     private int quick_arrows;
 
