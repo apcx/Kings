@@ -40,8 +40,8 @@ public class CannonHero extends Hero {
     }
 
     @Override
-    protected void doAttack(CLog log) {
-        super.doAttack(log);
+    protected void onAttack(CLog log) {
+        super.onAttack(log);
         if (attackBonus > 0) {
             log.action = "强射";
             attackFactor = 1;
@@ -52,6 +52,6 @@ public class CannonHero extends Hero {
             snipe = false;
             log.action = "远射";
         }
-        actions_cast[0].time = Math.max(context.time, actions_cast[0].time - 500);
+        actions_cast[0].time -= 500;
     }
 }

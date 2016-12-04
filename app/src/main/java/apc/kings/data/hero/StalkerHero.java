@@ -30,19 +30,18 @@ public class StalkerHero extends Hero {
     }
 
     @Override
-    protected void doAttack(CLog log) {
+    protected void onAttack(CLog log) {
         if (quick_arrows > 0) {
-            quick_arrows--;
             log.action = "箭风";
             onHit(log.clone(), true);
             onHit(log.clone(), true);
             onHit(log, true);
-            if (quick_arrows <= 0) {
+            if (--quick_arrows <= 0) {
                 attackFactor = 1;
                 attackBonus = 0;
             }
         } else {
-            super.doAttack(log);
+            onHit(log, true);
         }
     }
 

@@ -58,10 +58,10 @@ public class RobotHero extends Hero {
     }
 
     @Override
-    protected void doAttack(CLog log) {
+    protected void onAttack(CLog log) {
         if (quick_bullets > 0) {
             log.action = "扫射";
-            super.doAttack(log);
+            super.onAttack(log);
             if (--quick_bullets <= 0) {
                 normal_bullets = 0;
                 quick_bullets = 0;
@@ -69,7 +69,7 @@ public class RobotHero extends Hero {
                 attr_attack_cd = 800;
             }
         } else {
-            super.doAttack(log);
+            super.onAttack(log);
             far = false;
             if (++normal_bullets >= 4) {
                 toStrafe();

@@ -43,20 +43,20 @@ public class BomberHero extends Hero {
             case 0:
                 marks = 0;
                 attr_attack_speed += 50;
-                context.updateBuff(this, "失效", "谍影加速", 4000);
+                context.addEvent(this, "失效", "谍影加速", 4000);
                 break;
         }
     }
 
     @Override
-    protected void doAttack(CLog log) {
-        super.doAttack(log);
+    protected void onAttack(CLog log) {
+        super.onAttack(log);
         if (++marks == 4) {
             log = new CLog(name, target.name, "引爆", context.time);
             log.damage = (int) (((int) (attr_attack * 0.48) + 220) * 5 * getDamageRate());
             target.hp -= log.damage;
-            onDamage(log);
-            afterHit();
+            context.logs.add(log);
+            onHitDone();
         }
     }
 }

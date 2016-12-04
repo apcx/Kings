@@ -1,7 +1,5 @@
 package apc.kings.data.combat;
 
-import android.support.annotation.NonNull;
-
 import apc.kings.data.hero.Hero;
 
 public class Event implements Comparable<Event> {
@@ -23,8 +21,15 @@ public class Event implements Comparable<Event> {
         this.time = time;
     }
 
+    public Event(Hero hero, String action, String target, int time) {
+        this.hero = hero;
+        this.action = action;
+        this.target = target;
+        this.time = time;
+    }
+
     @Override
-    public int compareTo(@NonNull Event another) {
+    public int compareTo(@SuppressWarnings("NullableProblems") Event another) {
         return time - another.time;
     }
 }

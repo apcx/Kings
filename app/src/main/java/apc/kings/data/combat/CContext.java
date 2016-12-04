@@ -1,6 +1,5 @@
 package apc.kings.data.combat;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class CContext {
     public double dps;
     public double costRatio;
 
-    public CContext(@NonNull HeroType attackerType, @NonNull HeroType defenderType) {
+    public CContext(HeroType attackerType, HeroType defenderType) {
         attacker = Hero.create(this, attackerType);
         defender = Hero.create(this, defenderType);
         if (attackerType == defenderType) {
@@ -49,9 +48,7 @@ public class CContext {
     }
 
     public void addEvent(Hero hero, String action, String target, int duration) {
-        Event event = new Event(hero, action, time + duration);
-        event.target = target;
-        events.add(event);
+        events.add(new Event(hero, action, target, time + duration));
     }
 
     public void updateBuff(Hero hero, String action, String buff, int duration) {
@@ -63,9 +60,7 @@ public class CContext {
                 return;
             }
         }
-        Event event = new Event(hero, action, eventTime);
-        event.target = buff;
-        events.add(event);
+        events.add(new Event(hero, action, buff, eventTime));
     }
 
     private void runAttack() {
@@ -84,7 +79,7 @@ public class CContext {
                 }
                 contextEvent.hero.onEvent(contextEvent);
             } else {
-                attackerEvent.hero.onAI(attackerEvent);
+                attackerEvent.hero.onAction(attackerEvent);
             }
         } while (defender.hp > 0);
     }
