@@ -21,21 +21,31 @@ public class CannonHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
+        context.far = true;
         super.initActionMode(target, attacked, specific);
         actions_cast[0].time = 4399;
         action_attack.time = 4999;
+        actions_cast[2].time = 5199;
         actions_active.add(actions_cast[0]);
+        actions_active.add(actions_cast[2]);
     }
 
     @Override
-    protected void doCast(int index) {
-        super.doCast(index);
-        switch (index) {
-            case 0:
-                attackFactor = 1.15;
-                attackBonus = 480;
-                action_attack.time = context.time + skills[index].swing;
-                break;
+    protected void doAttack() {
+        if (context.far && attackBonus <= 0 && !snipe) {
+            checkFrozenHeart();
+        }
+        super.doAttack();
+    }
+
+    @Override
+    protected void doSmartCast(int index) {
+        if (snipe || attackBonus > 0) {
+            doSkip(index);
+        } else if (0 == index || context.far) {
+            doCast(index);
+        } else {
+            super.doSmartCast(index);
         }
     }
 
@@ -53,5 +63,17 @@ public class CannonHero extends Hero {
             log.action = "远射";
         }
         actions_cast[0].time -= 500;
+    }
+
+    @Override
+    protected void onCast(int index, CLog log) {
+        super.onCast(index, log);
+        switch (index) {
+            case 0:
+                attackFactor = 1.15;
+                attackBonus = 480;
+                action_attack.time = 0;
+                break;
+        }
     }
 }

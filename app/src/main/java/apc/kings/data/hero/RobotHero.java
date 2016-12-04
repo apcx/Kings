@@ -10,7 +10,6 @@ public class RobotHero extends Hero {
 
     private int quick_bullets;
     private int normal_bullets;
-    private boolean far = true;
 
     protected RobotHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -24,6 +23,7 @@ public class RobotHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
+        context.far = true;
         super.initActionMode(target, attacked, specific);
         actions_cast[0].time = 4499;
         action_attack.time = 4999;
@@ -33,27 +33,28 @@ public class RobotHero extends Hero {
     }
 
     @Override
-    protected void doSmartCast(int index) {
-        if (quick_bullets > 0) {
-            doSkip(index);
-        } else if (far) {
-            doCast(index);
-        } else if (normal_bullets >= 3) {
-            doSkip(index);
-        } else {
-            super.doSmartCast(index);
+    protected void doAttack() {
+        if (context.far && quick_bullets <= 0) {
+            checkFrozenHeart();
+
+            // Grenades miss, until getting close enough.
+            Skill skill = skills[0];
+            skill.damageFactor = 0.54;
+            skill.damageBonus = 245;
+            skill.factorType = Skill.TYPE_PHYSICAL;
+            skill.damageType = Skill.TYPE_PHYSICAL;
         }
+        super.doAttack();
     }
 
     @Override
-    protected void doCast(int index) {
-        super.doCast(index);
-        switch (index) {
-            case 0:
-            case 1:
-                toStrafe();
-                action_attack.time = context.time + skills[index].swing;
-                break;
+    protected void doSmartCast(int index) {
+        if (quick_bullets > 0) {
+            doSkip(index);
+        } else if (normal_bullets < 3) {
+            doCast(index);
+        } else {
+            doSkip(index);
         }
     }
 
@@ -70,10 +71,21 @@ public class RobotHero extends Hero {
             }
         } else {
             super.onAttack(log);
-            far = false;
             if (++normal_bullets >= 4) {
                 toStrafe();
             }
+        }
+    }
+
+    @Override
+    protected void onCast(int index, CLog log) {
+        super.onCast(index, log);
+        switch (index) {
+            case 0:
+            case 1:
+                toStrafe();
+                action_attack.time = 0;
+                break;
         }
     }
 

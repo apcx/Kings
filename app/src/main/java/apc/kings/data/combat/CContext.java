@@ -17,6 +17,7 @@ public class CContext {
     public int beginTime;
     public int time;
     public boolean specific;
+    public boolean far;
     public List<Event> events = new ArrayList<>();
     public List<CLog> logs = new ArrayList<>();
 

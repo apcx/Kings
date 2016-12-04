@@ -31,21 +31,20 @@ public class BomberHero extends Hero {
     @Override
     public void onEvent(Event event) {
         super.onEvent(event);
-        if ("失效".equals(event.action) && "谍影加速".equals(event.target)) {
-            attr_attack_speed -= 50;
+        switch (event.action) {
+            case "失效":
+                switch (event.target) {
+                    case "谍影加速":
+                        attr_attack_speed -= 50;
+                        break;
+                }
+                break;
         }
     }
 
     @Override
-    protected void doCast(int index) {
-        super.doCast(index);
-        switch (index) {
-            case 0:
-                marks = 0;
-                attr_attack_speed += 50;
-                context.addEvent(this, "失效", "谍影加速", 4000);
-                break;
-        }
+    protected void doSmartCast(int index) {
+        doCast(index);
     }
 
     @Override
@@ -56,7 +55,19 @@ public class BomberHero extends Hero {
             log.damage = (int) (((int) (attr_attack * 0.48) + 220) * 5 * getDamageRate());
             target.hp -= log.damage;
             context.logs.add(log);
-            onHitDone();
+        }
+    }
+
+    @Override
+    protected void onCast(int index, CLog log) {
+        super.onCast(index, log);
+        switch (index) {
+            case 0:
+                marks = 0;
+                attr_attack_speed += 50;
+                context.addEvent(this, "失效", "谍影加速", 4000);
+                log.target = target.name;
+                break;
         }
     }
 }

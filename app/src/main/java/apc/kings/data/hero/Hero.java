@@ -39,11 +39,13 @@ public class Hero {
     protected double attr_critical;
     protected double attr_critical_damage = 2;
     protected double attr_cd_factor;
+    protected double attr_heal = 1;
 
     public double tgNormalFactor;
 
     public boolean has_storm;
     public boolean has_cold_iron;
+    public boolean has_frozen_heart;
     public boolean has_cut;
     public boolean has_penetrate;
     public boolean has_magic_penetrate_rate;
@@ -61,16 +63,16 @@ public class Hero {
     int attackCanCritical;
     int attackCannotCritical;
 
-    int cnt_cut;
-    int cnt_hit;
-    int cnt_critical;
-    int cnt_lightning = 5;
+    private int cnt_hit;
+    private int cnt_critical;
+    private int cnt_lightning = 5;
+    private int cnt_cut;
 
-    protected boolean in_storm;
-    protected boolean in_cold_iron;
-    protected boolean in_enchant;
-    protected boolean in_cd_enchant;
-    protected boolean in_cd_lighting;
+    private boolean in_storm;
+    private boolean in_cold_iron;
+    private boolean in_enchant;
+    private boolean in_cd_enchant;
+    private boolean in_cd_lighting;
 
     protected Hero(CContext context, HeroType heroType) {
         this.context = context;
@@ -147,6 +149,7 @@ public class Hero {
             has_execute = (attr_flags & Item.FLAG_EXECUTE) != 0;
             has_storm = (attr_flags & Item.FLAG_STORM) != 0;
             has_cold_iron = (attr_flags & Item.FLAG_COLD_IRON) != 0;
+            has_frozen_heart = (attr_flags & Item.FLAG_FROZEN_HEART) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_TRINITY;
         }
         hp = attr_mhp;
@@ -170,11 +173,11 @@ public class Hero {
         if (target != null) {
             this.target = target;
             tgNormalFactor = (target.attr_flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
-            if ((target.attr_flags & Item.FLAG_FROZEN_HEART) != 0) {
-                attr_attack_speed -= 30;
-                print("弱化", "冰心");
-            }
             actions_active.add(action_attack);
+
+            if (!context.far) {
+                checkFrozenHeart();
+            }
         }
         if (attacked) {
             context.events.add(new Event(this, "回血", 5000));
@@ -262,19 +265,19 @@ public class Hero {
             context.addEvent(this, "冷却", "咒刃", Item.ENCHANT_ICE == attr_enchants ? 3000 : 2000);
         }
 
-        action.time = context.time + skills[index].cd;
-        onCast(index);
-        delayActions(skills[index].swing);
+        Skill skill = skills[index];
+        action.time = context.time + skill.cd;
+        CLog log = new CLog(name, skill.name, null, context.time);
+        onCast(index, log);
+        delayActions(skill.swing);
     }
 
     protected void onAttack(CLog log) {
         onHit(log, true);   // It actually takes time for missiles to fly to the target. Call hit() immediately here, just for simplicity.
     }
 
-    protected void onCast(int index) {
-
+    protected void onCast(int index, CLog log) {
         Skill skill = skills[index];
-        CLog log = new CLog(name, skill.name, null, context.time);
         if (skill.damageType != Skill.TYPE_NONE) {
             log.target = target.name;
             int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
@@ -297,7 +300,6 @@ public class Hero {
         } else {
             context.logs.add(log);
         }
-
     }
 
     void print(String action, String target) {
@@ -373,6 +375,14 @@ public class Hero {
         }
 
         onHitDone();
+    }
+
+    protected void checkFrozenHeart() {
+        context.far = false;
+        if (target.has_frozen_heart) {
+            attr_attack_speed -= 30;
+            print("弱化", "冰心");
+        }
     }
 
     private boolean checkCritical() {
