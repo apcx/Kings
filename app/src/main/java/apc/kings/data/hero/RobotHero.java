@@ -1,9 +1,9 @@
 package apc.kings.data.hero;
 
-import apc.kings.data.combat.CContext;
+import apc.kings.data.CContext;
+import apc.kings.data.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
-import apc.kings.data.combat.CLog;
 
 @SuppressWarnings("unused")
 public class RobotHero extends Hero {

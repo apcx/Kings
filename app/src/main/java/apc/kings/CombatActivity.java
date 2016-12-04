@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import apc.kings.common.App;
-import apc.kings.data.combat.CContext;
+import apc.kings.data.CContext;
 
 public class CombatActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -28,9 +28,9 @@ public class Rune {
     public double attackSpeed;
     public double critical;
     public double criticalDamage;
-    public double cdReduction;
+    public double cdr;
 
-    public Rune(String name, int category, int hp, double attack, double magic, double defense, double magicDefense, double penetrate, double magicPenetrate, double regen, double attackSpeed, double critical, double criticalDamage, double cdReduction) {
+    public Rune(String name, int category, int hp, double attack, double magic, double defense, double magicDefense, double penetrate, double magicPenetrate, double regen, double attackSpeed, double critical, double criticalDamage, double cdr) {
         this.name = name;
         this.category = category;
         this.hp = hp;
@@ -44,7 +44,7 @@ public class Rune {
         this.attackSpeed = attackSpeed;
         this.critical = critical;
         this.criticalDamage = criticalDamage;
-        this.cdReduction = cdReduction;
+        this.cdr = cdr;
     }
 
     @Nullable

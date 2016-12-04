@@ -1,4 +1,4 @@
-package apc.kings.data.combat;
+package apc.kings.data;
 
 import android.util.Log;
 
@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import apc.kings.data.HeroType;
 import apc.kings.data.hero.Hero;
 
 // Combat context
@@ -46,6 +45,12 @@ public class CContext {
         totalTime = (logs.get(logs.size() - 1).time - beginTime) / 1000.0;
         dps = damage / totalTime;
         costRatio = 100 * dps / (1 + attacker.attr_price);
+    }
+
+    public void addEvent(Hero hero, String action, int intervals, int duration) {
+        Event event = new Event(hero, action, null, time + duration);
+        event.intervals = intervals;
+        events.add(event);
     }
 
     public void addEvent(Hero hero, String action, String target, int duration) {

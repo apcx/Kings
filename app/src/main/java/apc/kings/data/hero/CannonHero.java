@@ -1,7 +1,7 @@
 package apc.kings.data.hero;
 
-import apc.kings.data.combat.CContext;
-import apc.kings.data.combat.CLog;
+import apc.kings.data.CContext;
+import apc.kings.data.CLog;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 

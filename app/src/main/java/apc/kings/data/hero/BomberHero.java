@@ -1,10 +1,10 @@
 package apc.kings.data.hero;
 
-import apc.kings.data.combat.CContext;
-import apc.kings.data.combat.CLog;
+import apc.kings.data.CContext;
+import apc.kings.data.CLog;
+import apc.kings.data.Event;
 import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
-import apc.kings.data.combat.Event;
 
 @SuppressWarnings("unused")
 public class BomberHero extends Hero {

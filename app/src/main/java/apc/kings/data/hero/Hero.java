@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import apc.kings.data.combat.CContext;
-import apc.kings.data.combat.CLog;
+import apc.kings.data.CContext;
+import apc.kings.data.CLog;
+import apc.kings.data.Event;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 import apc.kings.data.Rune;
 import apc.kings.data.Skill;
-import apc.kings.data.combat.Event;
 
 public class Hero {
 
@@ -38,7 +38,7 @@ public class Hero {
     protected double attr_attack_speed;
     protected double attr_critical;
     protected double attr_critical_damage = 2;
-    protected double attr_cd_factor;
+    protected double attr_cdr;
     protected double attr_heal = 1;
 
     public double tgNormalFactor;
@@ -101,7 +101,7 @@ public class Hero {
                     attr_regen += item.regen;
                     attr_attack_speed += item.attackSpeed;
                     attr_critical += item.critical;
-                    attr_cd_factor += item.cdReduction;
+                    attr_cdr += item.cdr;
                     attr_flags |= item.flags;
                 }
             }
@@ -126,9 +126,9 @@ public class Hero {
                     penetrate += rune.penetrate * n;
                     magicPenetrate += rune.magicPenetrate * n;
                     attr_regen += rune.regen * n;
-                    attr_critical += rune.critical * n / 100;
+                    attr_critical += rune.critical * n;
                     attr_critical_damage += rune.criticalDamage * n / 100;
-                    attr_cd_factor += rune.cdReduction * n;
+                    attr_cdr += rune.cdr * n;
                 }
                 this.attr_attack += attack;
                 this.attr_magic += magic;
@@ -137,11 +137,18 @@ public class Hero {
                 this.attr_penetrate = (int) penetrate;
                 this.attr_magic_penetrate = (int) magicPenetrate;
             }
-
+            attr_critical /= 100;
+            if (attr_critical > 1) {
+                attr_critical = 1;
+            }
             if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
                 attr_critical_damage += 0.5;
             }
-            attr_cd_factor = 1 - attr_cd_factor;
+            attr_cdr /= 100;
+            if (attr_cdr > 0.4) {
+                attr_cdr = 0.4;
+            }
+
             has_cut = (attr_flags & Item.FLAG_CUT) != 0;
             has_penetrate = (attr_flags & Item.FLAG_PENETRATE) != 0;
             has_magic_penetrate_rate = (attr_flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
@@ -195,24 +202,22 @@ public class Hero {
     }
 
     public void onEvent(Event event) {
+        if (event.intervals > 0) {
+            event.intervals--;
+        }
         CLog log = new CLog(name, event.action, null, context.time);
         switch (event.action) {
             case "回血":
                 event.time += 5000;
-                int damaged = attr_mhp - hp;
-                if (damaged > 0) {
-                    log.regen = Math.min(attr_regen, damaged);
-                    hp += log.regen;
-                    context.logs.add(log);
-                }
+                onRegen(log, attr_regen);
                 break;
             case "回复":
-                if (--event.intervals <= 0) {
+                if (event.intervals <= 0) {
                     context.events.remove(event);
                 } else {
                     event.time += 500;
                 }
-
+                onRegen(log, Math.round((float) (attr_mhp / 100.0 * attr_heal)));
                 break;
             case "失效":
                 context.events.remove(event);
@@ -287,7 +292,7 @@ public class Hero {
         }
 
         Skill skill = skills[index];
-        action.time = context.time + skill.cd;
+        action.time = context.time + (int) (skill.cd * (1 - attr_cdr));
         CLog log = new CLog(name, skill.name, null, context.time);
         onCast(index, log);
         delayActions(skill.swing);
@@ -317,7 +322,7 @@ public class Hero {
                     break;
             }
             context.logs.add(log);
-            onHitDone();
+            onDamage();
         } else {
             context.logs.add(log);
         }
@@ -395,7 +400,7 @@ public class Hero {
             }
         }
 
-        onHitDone();
+        onDamage();
         if (has_wound && !target.in_wound) {
             target.in_wound = true;
             target.attr_heal -= 0.5;
@@ -431,7 +436,7 @@ public class Hero {
         }
     }
 
-    protected void onHitDone() {
+    protected void onDamage() {
         if (target.has_cold_iron && !in_cold_iron) {
             in_cold_iron = true;
             attr_attack_speed -= 30;
@@ -445,7 +450,7 @@ public class Hero {
 
         if (target.has_heal && !target.in_cd_heal) {
             target.in_cd_heal = true;
-            context.updateBuff(target, "回复", null, 500);
+            context.addEvent(target, "回复", 4, 500);
             context.addEvent(target, "冷却", "回复", 10000);
         }
     }
@@ -492,6 +497,15 @@ public class Hero {
             if (action.time < swing) {
                 action.time = swing;
             }
+        }
+    }
+
+    private void onRegen(CLog log, int regen) {
+        int damaged = attr_mhp - hp;
+        if (damaged > 0) {
+            log.regen = Math.min(damaged, regen);
+            hp += log.regen;
+            context.logs.add(log);
         }
     }
 }
