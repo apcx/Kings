@@ -31,6 +31,9 @@ public class Item {
     public static final int FLAG_ACCURATE              = 0x2000;
     public static final int FLAG_LIGHTNING             = 0x4000;
 
+    public static final int FLAG_HEAL                  = 0x00010000;
+    public static final int FLAG_WOUND                 = 0x00020000;
+
     public static final int ENCHANT_TRINITY = 0x0f000000;
     public static final int ENCHANT_VOODOO  = 0x07000000;
     public static final int ENCHANT_ICE     = 0x03000000;
@@ -38,7 +41,7 @@ public class Item {
     public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,    R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 30, 0,    0,    FLAG_CORRUPT),
             new Item("泣血之刃",  R.drawable.weapon_drain,      R.id.item_weapon, 1740,    0, 100,   0,   0,   0,   0,  0, 0,    0,    0),
-            new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0,  0, 0,    0,    0),
+            new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0,  0, 0,    0,    FLAG_WOUND),
             new Item("破甲弓",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0,   0,  0, 0,    0.1,  FLAG_PENETRATE),
             new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,    0,  85,   0,   0,   0,   0,  0, 0,    0.15, FLAG_CUT),
             new Item("三圣之力",  R.drawable.weapon_trinity,    R.id.item_weapon, 2510,  300,  60,  60,   0,   0,   0, 20, 0.15, 0,    ENCHANT_TRINITY),
@@ -53,7 +56,7 @@ public class Item {
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0,   0,  0, 0,    0,    FLAG_COLD_IRON),
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0, 0,    0,    0),
             new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1200,   0,   0,   0, 360,   0,  0, 0,    0,    0),
-            new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0, 0,    0.1,  0),
+            new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0, 0,    0.1,  FLAG_HEAL),
             new Item("军团荣耀",  R.drawable.armor_legion,      R.id.item_armor,  1970, 1000,   0,   0, 120, 120,  60,  0, 0,    0,    0),
             new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  2140,    0,  80,   0, 360,   0,   0,  0, 0,    0,    0),
             new Item("冰封之心",  R.drawable.armor_frozen_heart,R.id.item_armor,  2100,    0,   0,   0, 360,   0,   0,  0, 0,    0.2,  FLAG_FROZEN_HEART),

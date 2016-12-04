@@ -55,6 +55,8 @@ public class Hero {
     public boolean has_accurate;
     public boolean has_lightning;
     public boolean has_execute;
+    public boolean has_heal;
+    public boolean has_wound;
 
     public Hero target;
     public int hp;
@@ -71,8 +73,10 @@ public class Hero {
     private boolean in_storm;
     private boolean in_cold_iron;
     private boolean in_enchant;
+    private boolean in_wound;
     private boolean in_cd_enchant;
     private boolean in_cd_lighting;
+    private boolean in_cd_heal;
 
     protected Hero(CContext context, HeroType heroType) {
         this.context = context;
@@ -150,7 +154,13 @@ public class Hero {
             has_storm = (attr_flags & Item.FLAG_STORM) != 0;
             has_cold_iron = (attr_flags & Item.FLAG_COLD_IRON) != 0;
             has_frozen_heart = (attr_flags & Item.FLAG_FROZEN_HEART) != 0;
+            has_heal = (attr_flags & Item.FLAG_HEAL) != 0;
+            has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_TRINITY;
+
+            if (has_heal) {
+                attr_heal += 0.2;
+            }
         }
         hp = attr_mhp;
 
@@ -188,13 +198,21 @@ public class Hero {
         CLog log = new CLog(name, event.action, null, context.time);
         switch (event.action) {
             case "回血":
+                event.time += 5000;
                 int damaged = attr_mhp - hp;
                 if (damaged > 0) {
                     log.regen = Math.min(attr_regen, damaged);
                     hp += log.regen;
-                    event.time += 5000;
                     context.logs.add(log);
                 }
+                break;
+            case "回复":
+                if (--event.intervals <= 0) {
+                    context.events.remove(event);
+                } else {
+                    event.time += 500;
+                }
+
                 break;
             case "失效":
                 context.events.remove(event);
@@ -214,6 +232,9 @@ public class Hero {
                         break;
                     case "电弧":
                         in_cd_lighting = false;
+                        break;
+                    case "回复":
+                        in_cd_heal = false;
                         break;
                 }
                 break;
@@ -375,6 +396,11 @@ public class Hero {
         }
 
         onHitDone();
+        if (has_wound && !target.in_wound) {
+            target.in_wound = true;
+            target.attr_heal -= 0.5;
+            target.print("弱化", "重伤");
+        }
     }
 
     protected void checkFrozenHeart() {
@@ -415,6 +441,12 @@ public class Hero {
         if (has_cut && target.cnt_cut < 5) {
             target.attr_defense -= 40;
             target.print("弱化", "切割" + ++target.cnt_cut);
+        }
+
+        if (target.has_heal && !target.in_cd_heal) {
+            target.in_cd_heal = true;
+            context.updateBuff(target, "回复", null, 500);
+            context.addEvent(target, "冷却", "回复", 10000);
         }
     }
 
