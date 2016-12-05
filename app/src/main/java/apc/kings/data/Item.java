@@ -32,7 +32,8 @@ public class Item {
     public static final int FLAG_LIGHTNING             = 0x4000;
 
     public static final int FLAG_HEAL                  = 0x00010000;
-    public static final int FLAG_WOUND                 = 0x00020000;
+    public static final int FLAG_RECOVER               = 0x00020000;
+    public static final int FLAG_WOUND                 = 0x00040000;
 
     public static final int ENCHANT_TRINITY = 0x0f000000;
     public static final int ENCHANT_VOODOO  = 0x07000000;
@@ -54,7 +55,7 @@ public class Item {
             new Item("破军",      R.drawable.weapon_200,        R.id.item_weapon, 2950,    0, 200,   0,   0,   0,   0,  0,  0,  0, FLAG_EXECUTE),
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0,   0,  0,  0,  0, 0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0,   0,  0,  0,  0, FLAG_COLD_IRON),
-            new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0,  0,  0, 0),
+            new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0,  0,  0, FLAG_RECOVER),
             new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1200,   0,   0,   0, 360,   0,  0,  0,  0, 0),
             new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0,  0, 10, FLAG_HEAL),
             new Item("军团荣耀",  R.drawable.armor_legion,      R.id.item_armor,  1970, 1000,   0,   0, 120, 120,  60,  0,  0,  0, 0),

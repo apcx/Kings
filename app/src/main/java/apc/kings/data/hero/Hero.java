@@ -41,7 +41,7 @@ public class Hero {
     protected double attr_cdr;
     protected double attr_heal = 1;
 
-    public double tgNormalFactor;
+    public double normal_factor;
 
     public boolean has_storm;
     public boolean has_cold_iron;
@@ -56,6 +56,7 @@ public class Hero {
     public boolean has_lightning;
     public boolean has_execute;
     public boolean has_heal;
+    public boolean has_recover;
     public boolean has_wound;
 
     public Hero target;
@@ -77,6 +78,7 @@ public class Hero {
     private boolean in_cd_enchant;
     private boolean in_cd_lighting;
     private boolean in_cd_heal;
+    private boolean in_cd_recover;
 
     protected Hero(CContext context, HeroType heroType) {
         this.context = context;
@@ -89,6 +91,25 @@ public class Hero {
         attr_regen = heroType.regen;
         attr_attack_speed = heroType.attackSpeedPerLevel * 14;
 
+        initItems();
+        initRunes();
+
+        attr_critical /= 100;
+        if (attr_critical > 1) {
+            attr_critical = 1;
+        }
+        attr_cdr /= 100;
+        if (attr_cdr > 0.4) {
+            attr_cdr = 0.4;
+        }
+        hp = attr_mhp;
+
+        actions_cast[0] = new Event(this, "cast1", 0);
+        actions_cast[1] = new Event(this, "cast2", 0);
+        actions_cast[2] = new Event(this, "cast3", 0);
+    }
+
+    private void initItems() {
         if (heroType.items != null) {
             for (Item item : heroType.items) {
                 if (item != null) {
@@ -105,50 +126,6 @@ public class Hero {
                     attr_flags |= item.flags;
                 }
             }
-
-            double attack = 0;
-            double magic = 0;
-            double defense = 0;
-            double magicDefense = 0;
-            double penetrate = 0;
-            double magicPenetrate = 0;
-            if (heroType.runes != null) {
-                for (Map.Entry<Rune, Integer> entry : heroType.runes.entrySet()) {
-                    Rune rune = entry.getKey();
-                    int n = entry.getValue();
-
-                    attr_attack_speed += rune.attackSpeed * n;
-                    attr_mhp += rune.hp * n;
-                    attack += rune.attack * n;
-                    magic += rune.magic * n;
-                    defense += rune.defense * n;
-                    magicDefense += rune.magicDefense * n;
-                    penetrate += rune.penetrate * n;
-                    magicPenetrate += rune.magicPenetrate * n;
-                    attr_regen += rune.regen * n;
-                    attr_critical += rune.critical * n;
-                    attr_critical_damage += rune.criticalDamage * n / 100;
-                    attr_cdr += rune.cdr * n;
-                }
-                this.attr_attack += attack;
-                this.attr_magic += magic;
-                this.attr_defense += defense;
-                this.attr_magic_defense += magicDefense;
-                this.attr_penetrate = (int) penetrate;
-                this.attr_magic_penetrate = (int) magicPenetrate;
-            }
-            attr_critical /= 100;
-            if (attr_critical > 1) {
-                attr_critical = 1;
-            }
-            if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
-                attr_critical_damage += 0.5;
-            }
-            attr_cdr /= 100;
-            if (attr_cdr > 0.4) {
-                attr_cdr = 0.4;
-            }
-
             has_cut = (attr_flags & Item.FLAG_CUT) != 0;
             has_penetrate = (attr_flags & Item.FLAG_PENETRATE) != 0;
             has_magic_penetrate_rate = (attr_flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
@@ -162,18 +139,51 @@ public class Hero {
             has_cold_iron = (attr_flags & Item.FLAG_COLD_IRON) != 0;
             has_frozen_heart = (attr_flags & Item.FLAG_FROZEN_HEART) != 0;
             has_heal = (attr_flags & Item.FLAG_HEAL) != 0;
+            has_recover = (attr_flags & Item.FLAG_RECOVER) != 0;
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_TRINITY;
 
+            if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
+                attr_critical_damage += 0.5;
+            }
             if (has_heal) {
                 attr_heal += 0.2;
             }
         }
-        hp = attr_mhp;
+    }
 
-        actions_cast[0] = new Event(this, "cast1", 0);
-        actions_cast[1] = new Event(this, "cast2", 0);
-        actions_cast[2] = new Event(this, "cast3", 0);
+    private void initRunes() {
+        if (heroType.runes != null) {
+            double attack = 0;
+            double magic = 0;
+            double defense = 0;
+            double magicDefense = 0;
+            double penetrate = 0;
+            double magicPenetrate = 0;
+            for (Map.Entry<Rune, Integer> entry : heroType.runes.entrySet()) {
+                Rune rune = entry.getKey();
+                int n = entry.getValue();
+
+                attr_mhp += rune.hp * n;
+                attack += rune.attack * n;
+                magic += rune.magic * n;
+                defense += rune.defense * n;
+                magicDefense += rune.magicDefense * n;
+                penetrate += rune.penetrate * n;
+                magicPenetrate += rune.magicPenetrate * n;
+                attr_regen += rune.regen * n;
+                attr_attack_speed += rune.attackSpeed * n;
+                attr_critical += rune.critical * n;
+                attr_critical_damage += rune.criticalDamage * n / 100;
+                attr_cdr += rune.cdr * n;
+            }
+            this.attr_attack += attack;
+            this.attr_magic += magic;
+            this.attr_defense += defense;
+            this.attr_magic_defense += magicDefense;
+            this.attr_penetrate = (int) penetrate;
+            this.attr_magic_penetrate = (int) magicPenetrate;
+        }
     }
 
     public static Hero create(CContext context, HeroType heroType) {
@@ -189,7 +199,7 @@ public class Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         if (target != null) {
             this.target = target;
-            tgNormalFactor = (target.attr_flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
+            normal_factor = (target.attr_flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
             actions_active.add(action_attack);
 
             if (!context.far) {
@@ -217,7 +227,15 @@ public class Hero {
                 } else {
                     event.time += 500;
                 }
-                onRegen(log, Math.round((float) (attr_mhp / 100.0 * attr_heal)));
+                onRegen(log, Math.round((float) (attr_mhp * 0.01 * attr_heal)));
+                break;
+            case "血铠":
+                if (event.intervals <= 0) {
+                    context.events.remove(event);
+                } else {
+                    event.time += 1000;
+                }
+                onRegen(log, Math.round((float) (attr_mhp * 0.03 * attr_heal)));
                 break;
             case "失效":
                 context.events.remove(event);
@@ -240,6 +258,9 @@ public class Hero {
                         break;
                     case "回复":
                         in_cd_heal = false;
+                        break;
+                    case "血铠":
+                        in_cd_recover = false;
                         break;
                 }
                 break;
@@ -345,7 +366,7 @@ public class Hero {
             damage *= attr_critical_damage;
             log.critical = true;
         }
-        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate() * tgNormalFactor);
+        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate() * normal_factor);
         target.hp -= log.damage;
 
         if (target.hp > 0) {
@@ -452,6 +473,12 @@ public class Hero {
             target.in_cd_heal = true;
             context.addEvent(target, "回复", 4, 500);
             context.addEvent(target, "冷却", "回复", 10000);
+        }
+
+        if (target.has_recover && !target.in_cd_recover && target.hp < target.attr_mhp * 0.3) {
+            target.in_cd_recover = true;
+            context.addEvent(target, "血铠", 5, 1000);
+            context.addEvent(target, "冷却", "血铠", 20000);
         }
     }
 
