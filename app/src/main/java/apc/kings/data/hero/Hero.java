@@ -314,7 +314,7 @@ public class Hero {
 
         Skill skill = skills[index];
         action.time = context.time + (int) (skill.cd * (1 - attr_cdr));
-        CLog log = new CLog(name, skill.name, null, context.time);
+        CLog log = new CLog(name, skill.name, Skill.TYPE_NONE == skill.damageType ? null : target.name, context.time);
         onCast(index, log);
         delayActions(skill.swing);
     }
@@ -326,7 +326,6 @@ public class Hero {
     protected void onCast(int index, CLog log) {
         Skill skill = skills[index];
         if (skill.damageType != Skill.TYPE_NONE) {
-            log.target = target.name;
             int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
             switch (skill.damageType) {
                 case Skill.TYPE_PHYSICAL:
@@ -404,9 +403,9 @@ public class Hero {
             context.logs.add(log);
         }
 
-        if (has_lightning && target.hp > 0) {
-            if (--cnt_lightning <= 0 && !in_cd_lighting) {
-                in_cd_lighting = true;
+        if (has_lightning && target.hp > 0 && !in_cd_lighting) {
+            in_cd_lighting = true;
+            if (--cnt_lightning <= 0) {
                 cnt_lightning = 5;
                 damage = 100;
                 log = new CLog(name, "电弧", target.name, context.time);
