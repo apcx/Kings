@@ -63,11 +63,10 @@ public class Hero {
 
     protected int factor_damage = 100;
     protected double factor_attack = 1;
-    protected double factor_magic;
+    protected int bonus_damage;
 
     public Hero target;
     public int hp;
-    int attackBonus;
     int attackCanCritical;
     int attackCannotCritical;
 
@@ -229,7 +228,7 @@ public class Hero {
             case "回血":
                 onRegen(log, attr_regen);
                 break;
-            case "回复":
+            case "振兴回复":
                 onRegen(log, Math.round((float) (attr_mhp * 0.01 * attr_heal)));
                 break;
             case "血铠":
@@ -254,7 +253,7 @@ public class Hero {
                     case "电弧":
                         in_cd_lighting = false;
                         break;
-                    case "回复":
+                    case "振兴回复":
                         in_cd_heal = false;
                         break;
                     case "血铠":
@@ -354,7 +353,7 @@ public class Hero {
     void updateAttackCanCritical() {
         double criticalFactor = Math.min(factor_attack, 1);
         attackCanCritical = (int) (attr_attack * criticalFactor);
-        attackCannotCritical = (int) (attr_attack * (factor_attack - criticalFactor)) + attackBonus;
+        attackCannotCritical = (int) (attr_attack * (factor_attack - criticalFactor)) + bonus_damage;
     }
 
     protected void onHit(CLog log) {
@@ -379,6 +378,9 @@ public class Hero {
                 log.extraDamage = (int) (damage * getDefenseFactor() * getDamageFactor(false));
                 target.hp -= log.extraDamage;
             }
+        }
+        if (target.hp > 0) {
+            onHitMagic(log);
         }
         checkStorm(log);
 
@@ -427,6 +429,10 @@ public class Hero {
         }
     }
 
+    protected void onHitMagic(CLog log) {
+
+    }
+
     protected void checkFrozenHeart() {
         context.far = false;
         if (target.has_frozen_heart) {
@@ -469,8 +475,8 @@ public class Hero {
 
         if (target.has_heal && !target.in_cd_heal) {
             target.in_cd_heal = true;
-            context.addEvent(target, "回复", 4, 500);
-            context.addEvent(target, "冷却", "回复", 10000);
+            context.addEvent(target, "振兴回复", 4, 500);
+            context.addEvent(target, "冷却", "振兴回复", 10000);
         }
 
         if (target.has_recover && !target.in_cd_recover && target.hp < target.attr_mhp * 0.3) {

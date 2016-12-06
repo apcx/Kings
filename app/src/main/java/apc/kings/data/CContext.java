@@ -53,8 +53,10 @@ public class CContext {
         events.add(event);
     }
 
-    public void addEvent(Hero hero, String action, String target, int duration) {
-        events.add(new Event(hero, action, target, duration, time + duration));
+    public Event addEvent(Hero hero, String action, String target, int duration) {
+        Event event = new Event(hero, action, target, duration, time + duration);
+        events.add(event);
+        return event;
     }
 
     public void updateBuff(Hero hero, String action, String buff, int duration) {

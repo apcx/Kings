@@ -45,23 +45,23 @@ public class HunterHero extends Hero {
                 }
                 break;
             case "准备":
-                print(event.action, event.target);
-                bonus_arrows++;
+                print(event.action, event.target + ++bonus_arrows);
                 break;
         }
     }
 
     @Override
     protected void onAttack(CLog log) {
+        bonus_damage = 0;
         if (in_wood) {
             in_wood = false;
             factor_attack = 0.7;
             log.action = "追猎";
             onHit(log.clone());
             onHit(log);
-            factor_attack = 1;
             context.addEvent(this, "冷却", "追猎", 4000);
         } else {
+            factor_attack = 1;
             onHit(log);
         }
     }
@@ -87,12 +87,11 @@ public class HunterHero extends Hero {
             case 2:
                 hit_normal = false;
                 hit_can_critical = true;
+
                 Skill skill = skills[index];
                 factor_attack = skill.damageFactor;
-                attackBonus = skill.damageBonus;
+                bonus_damage = skill.damageBonus;
                 onHit(log);
-                factor_attack = 1;
-                attackBonus = 0;
 
                 bonus_arrows--;
                 if (!in_recharge) {

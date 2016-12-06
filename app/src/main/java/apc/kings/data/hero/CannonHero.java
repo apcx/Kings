@@ -32,7 +32,7 @@ public class CannonHero extends Hero {
 
     @Override
     protected void doAttack() {
-        if (context.far && attackBonus <= 0 && !snipe) {
+        if (context.far && bonus_damage <= 0 && !snipe) {
             checkFrozenHeart();
         }
         super.doAttack();
@@ -40,7 +40,7 @@ public class CannonHero extends Hero {
 
     @Override
     protected void doSmartCast(int index) {
-        if (snipe || attackBonus > 0) {
+        if (snipe || bonus_damage > 0) {
             doSkip(index);
         } else if (0 == index || context.far) {
             doCast(index);
@@ -52,10 +52,10 @@ public class CannonHero extends Hero {
     @Override
     protected void onAttack(CLog log) {
         super.onAttack(log);
-        if (attackBonus > 0) {
+        if (bonus_damage > 0) {
             log.action = "强射";
             factor_attack = 1;
-            attackBonus = 0;
+            bonus_damage = 0;
             action_attack.time = context.time + 100;
             snipe = true;
         } else if (snipe) {
@@ -71,7 +71,7 @@ public class CannonHero extends Hero {
         switch (index) {
             case 0:
                 factor_attack = 1.15;
-                attackBonus = 480;
+                bonus_damage = 480;
                 action_attack.time = 0;
                 break;
         }

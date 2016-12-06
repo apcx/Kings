@@ -47,7 +47,7 @@ public class StalkerHero extends Hero {
             onHit(log);
             if (--quick_arrows <= 0) {
                 factor_attack = 1;
-                attackBonus = 0;
+                bonus_damage = 0;
             }
         } else {
             onHit(log);
@@ -61,7 +61,7 @@ public class StalkerHero extends Hero {
             case 0:
                 quick_arrows = 3;
                 factor_attack = 0.4;
-                attackBonus = 140;
+                bonus_damage = 140;
                 break;
         }
     }
