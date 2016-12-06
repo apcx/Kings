@@ -14,5 +14,11 @@ public class GunnerHero extends Hero {
                 new Skill("漫游之枪", 4000, 0),
                 new Skill("狂热弹幕", 30000, 0, 0.3, 300, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
         };
+        factor_damage += 20;
+    }
+
+    @Override
+    public void initActionMode(Hero target, boolean attacked, boolean specific) {
+        super.initActionMode(target, attacked, specific);
     }
 }

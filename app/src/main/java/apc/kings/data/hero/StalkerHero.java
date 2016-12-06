@@ -42,15 +42,15 @@ public class StalkerHero extends Hero {
     protected void onAttack(CLog log) {
         if (quick_arrows > 0) {
             log.action = "箭风";
-            onHit(log.clone(), true);
-            onHit(log.clone(), true);
-            onHit(log, true);
+            onHit(log.clone());
+            onHit(log.clone());
+            onHit(log);
             if (--quick_arrows <= 0) {
-                attackFactor = 1;
+                factor_attack = 1;
                 attackBonus = 0;
             }
         } else {
-            onHit(log, true);
+            onHit(log);
         }
     }
 
@@ -60,7 +60,7 @@ public class StalkerHero extends Hero {
         switch (index) {
             case 0:
                 quick_arrows = 3;
-                attackFactor = 0.4;
+                factor_attack = 0.4;
                 attackBonus = 140;
                 break;
         }

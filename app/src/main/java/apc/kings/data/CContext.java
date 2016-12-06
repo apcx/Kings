@@ -47,14 +47,14 @@ public class CContext {
         costRatio = 100 * dps / (1 + attacker.attr_price);
     }
 
-    public void addEvent(Hero hero, String action, int intervals, int duration) {
-        Event event = new Event(hero, action, null, time + duration);
+    public void addEvent(Hero hero, String action, int intervals, int period) {
+        Event event = new Event(hero, action, null, period, time + period);
         event.intervals = intervals;
         events.add(event);
     }
 
     public void addEvent(Hero hero, String action, String target, int duration) {
-        events.add(new Event(hero, action, target, time + duration));
+        events.add(new Event(hero, action, target, duration, time + duration));
     }
 
     public void updateBuff(Hero hero, String action, String buff, int duration) {
@@ -66,7 +66,7 @@ public class CContext {
                 return;
             }
         }
-        events.add(new Event(hero, action, buff, eventTime));
+        events.add(new Event(hero, action, buff, 0, eventTime));
     }
 
     private void runAttack() {

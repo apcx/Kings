@@ -41,27 +41,32 @@ public class Hero {
     protected double attr_cdr;
     protected double attr_heal = 1;
 
-    public double normal_factor;
+    private boolean has_storm;
+    private boolean has_cold_iron;
+    private boolean has_frozen_heart;
+    private boolean has_cut;
+    private boolean has_penetrate;
+    private boolean has_magic_penetrate_rate;
+    private boolean has_magic_penetrate_boots;
+    private boolean has_magic_penetrate_mask;
+    private boolean has_defense_boots;
+    private boolean has_corrupt;
+    private boolean has_accurate;
+    private boolean has_lightning;
+    private boolean has_execute;
+    private boolean has_heal;
+    private boolean has_recover;
+    private boolean has_wound;
 
-    public boolean has_storm;
-    public boolean has_cold_iron;
-    public boolean has_frozen_heart;
-    public boolean has_cut;
-    public boolean has_penetrate;
-    public boolean has_magic_penetrate_rate;
-    public boolean has_magic_penetrate_boots;
-    public boolean has_magic_penetrate_mask;
-    public boolean has_corrupt;
-    public boolean has_accurate;
-    public boolean has_lightning;
-    public boolean has_execute;
-    public boolean has_heal;
-    public boolean has_recover;
-    public boolean has_wound;
+    protected boolean hit_normal;
+    protected boolean hit_can_critical;
+
+    protected int factor_damage = 100;
+    protected double factor_attack = 1;
+    protected double factor_magic;
 
     public Hero target;
     public int hp;
-    double attackFactor = 1;
     int attackBonus;
     int attackCanCritical;
     int attackCannotCritical;
@@ -131,6 +136,7 @@ public class Hero {
             has_magic_penetrate_rate = (attr_flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
             has_magic_penetrate_boots = (attr_flags & Item.FLAG_MAGIC_PENETRATE_BOOTS) != 0;
             has_magic_penetrate_mask = (attr_flags & Item.FLAG_MAGIC_PENETRATE_MASK) != 0;
+            has_defense_boots = (attr_flags & Item.FLAG_DEFENSE_BOOTS) != 0;
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
             has_accurate = (attr_flags & Item.FLAG_ACCURATE) != 0;
             has_lightning = (attr_flags & Item.FLAG_LIGHTNING) != 0;
@@ -199,9 +205,7 @@ public class Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         if (target != null) {
             this.target = target;
-            normal_factor = (target.attr_flags & Item.FLAG_BOOTS_DEFENSE) == 0 ? 1 : 0.85;
             actions_active.add(action_attack);
-
             if (!context.far) {
                 checkFrozenHeart();
             }
@@ -213,28 +217,22 @@ public class Hero {
 
     public void onEvent(Event event) {
         if (event.intervals > 0) {
-            event.intervals--;
+            if (--event.intervals <= 0) {
+                context.events.remove(event);
+            }
+        }
+        if (event.period > 0) {
+            event.time += event.period;
         }
         CLog log = new CLog(name, event.action, null, context.time);
         switch (event.action) {
             case "回血":
-                event.time += 5000;
                 onRegen(log, attr_regen);
                 break;
             case "回复":
-                if (event.intervals <= 0) {
-                    context.events.remove(event);
-                } else {
-                    event.time += 500;
-                }
                 onRegen(log, Math.round((float) (attr_mhp * 0.01 * attr_heal)));
                 break;
             case "血铠":
-                if (event.intervals <= 0) {
-                    context.events.remove(event);
-                } else {
-                    event.time += 1000;
-                }
                 onRegen(log, Math.round((float) (attr_mhp * 0.03 * attr_heal)));
                 break;
             case "失效":
@@ -282,6 +280,7 @@ public class Hero {
             context.time = action_attack.time;
         }
         action_attack.time = context.time + (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
+        hit_normal = true;
         onAttack(new CLog(name, "攻击", target.name, context.time));
         delayActions(100);
     }
@@ -320,7 +319,7 @@ public class Hero {
     }
 
     protected void onAttack(CLog log) {
-        onHit(log, true);   // It actually takes time for missiles to fly to the target. Call hit() immediately here, just for simplicity.
+        onHit(log);   // It actually takes time for missiles to fly to the target. Call hit() immediately here, just for simplicity.
     }
 
     protected void onCast(int index, CLog log) {
@@ -329,11 +328,11 @@ public class Hero {
             int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
             switch (skill.damageType) {
                 case Skill.TYPE_PHYSICAL:
-                    log.damage = (int) (damage * getDamageRate());
+                    log.damage = (int) (damage * getDefenseFactor() * getDamageFactor(false));
                     target.hp -= log.damage;
                     break;
                 case Skill.TYPE_MAGIC:
-                    log.magicDamage = (int) (damage * getMagicDamageRate());
+                    log.magicDamage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
                     target.hp -= log.magicDamage;
                     break;
                 case Skill.TYPE_REAL:
@@ -353,19 +352,19 @@ public class Hero {
     }
 
     void updateAttackCanCritical() {
-        double criticalFactor = Math.min(attackFactor, 1);
+        double criticalFactor = Math.min(factor_attack, 1);
         attackCanCritical = (int) (attr_attack * criticalFactor);
-        attackCannotCritical = (int) (attr_attack * (attackFactor - criticalFactor)) + attackBonus;
+        attackCannotCritical = (int) (attr_attack * (factor_attack - criticalFactor)) + attackBonus;
     }
 
-    protected void onHit(CLog log, boolean canCritical) {
+    protected void onHit(CLog log) {
         updateAttackCanCritical();
         double damage = attackCanCritical;
-        if (canCritical && checkCritical()) {
+        if ((hit_normal || hit_can_critical) && checkCritical()) {
             damage *= attr_critical_damage;
             log.critical = true;
         }
-        log.damage = (int) ((damage + attackCannotCritical) * getDamageRate() * normal_factor);
+        log.damage = (int) ((damage + attackCannotCritical) * getDefenseFactor() * getDamageFactor(hit_normal));
         target.hp -= log.damage;
 
         if (target.hp > 0) {
@@ -377,7 +376,7 @@ public class Hero {
                 damage += 60;
             }
             if (damage > 0) {
-                log.extraDamage = (int) (damage * getDamageRate());
+                log.extraDamage = (int) (damage * getDefenseFactor() * getDamageFactor(false));
                 target.hp -= log.extraDamage;
             }
         }
@@ -388,15 +387,15 @@ public class Hero {
             log = new CLog(name, "咒刃", target.name, context.time);
             switch (attr_enchants) {
                 case Item.ENCHANT_TRINITY:
-                    log.damage = (int) (attr_attack * getDamageRate());
+                    log.damage = (int) (attr_attack * getDefenseFactor() * getDamageFactor(false));
                     target.hp -= log.damage;
                     break;
                 case Item.ENCHANT_VOODOO:
-                    log.magicDamage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDamageRate());
+                    log.magicDamage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor(false));
                     target.hp -= log.magicDamage;
                     break;
                 case Item.ENCHANT_ICE:
-                    log.damage = (int) (430 * getDamageRate());
+                    log.damage = (int) (430 * getDefenseFactor() * getDamageFactor(false));
                     target.hp -= log.damage;
                     break;
             }
@@ -413,7 +412,7 @@ public class Hero {
                     damage *= attr_critical_damage;
                     log.critical = true;
                 }
-                log.magicDamage = (int) (damage * getMagicDamageRate());
+                log.magicDamage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
                 target.hp -= log.magicDamage;
                 context.addEvent(this, "冷却", "电弧", 500);
                 checkStorm(log);
@@ -481,20 +480,16 @@ public class Hero {
         }
     }
 
-    double getDamageRate() {
+    protected double getDefenseFactor() {
         int defense = target.attr_defense;
         if (has_penetrate) {
             defense -= (int)(defense * 0.45);
         }
         defense -= attr_penetrate;
-        double rate = 600.0 / (600 + defense);
-        if (has_execute && target.hp * 2 < target.attr_mhp) {
-            rate *= 1.3;
-        }
-        return rate;
+        return 600.0 / (600 + defense);
     }
 
-    double getMagicDamageRate() {
+    protected double getMagicDefenseFactor() {
         int defense = target.attr_magic_defense;
         if (has_magic_penetrate_rate) {
             defense -= (int)(defense * 0.45);
@@ -509,11 +504,18 @@ public class Hero {
         if (defense < 0) {
             defense = 0;
         }
-        double rate = 600.0 / (600 + defense);
-        if (has_execute && target.hp * 2 < target.attr_mhp) {
-            rate *= 1.3;
+        return 600.0 / (600 + defense);
+    }
+
+    protected double getDamageFactor(boolean normal) {
+        int factor = factor_damage;
+        if (normal && target.has_defense_boots) {
+            factor -= 15;
         }
-        return rate;
+        if (has_execute && target.hp * 2 < target.attr_mhp) {
+            factor += 30;
+        }
+        return factor / 100.0;
     }
 
     protected void delayActions(int swing) {

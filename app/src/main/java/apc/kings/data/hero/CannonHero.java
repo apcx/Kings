@@ -54,7 +54,7 @@ public class CannonHero extends Hero {
         super.onAttack(log);
         if (attackBonus > 0) {
             log.action = "强射";
-            attackFactor = 1;
+            factor_attack = 1;
             attackBonus = 0;
             action_attack.time = context.time + 100;
             snipe = true;
@@ -70,7 +70,7 @@ public class CannonHero extends Hero {
         super.onCast(index, log);
         switch (index) {
             case 0:
-                attackFactor = 1.15;
+                factor_attack = 1.15;
                 attackBonus = 480;
                 action_attack.time = 0;
                 break;

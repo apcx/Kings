@@ -66,7 +66,7 @@ public class RobotHero extends Hero {
             if (--quick_bullets <= 0) {
                 normal_bullets = 0;
                 quick_bullets = 0;
-                attackFactor = 1;
+                factor_attack = 1;
                 attr_attack_cd = 800;
             }
         } else {
@@ -92,7 +92,7 @@ public class RobotHero extends Hero {
     private void toStrafe() {
         normal_bullets = 0;
         quick_bullets = 4;
-        attackFactor = 0.7;
+        factor_attack = 0.7;
         attr_attack_cd = 425;
     }
 }

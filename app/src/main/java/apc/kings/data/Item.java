@@ -24,7 +24,7 @@ public class Item {
 
     public static final int FLAG_CUT                   = 0x0100;
     public static final int FLAG_CRITICAL              = 0x0200;
-    public static final int FLAG_BOOTS_DEFENSE         = 0x0400;
+    public static final int FLAG_DEFENSE_BOOTS         = 0x0400;
     public static final int FLAG_EXECUTE               = 0x0800;
 
     public static final int FLAG_CORRUPT               = 0x1000;
@@ -69,7 +69,7 @@ public class Item {
             new Item("急速战靴",  R.drawable.boots_attack,      R.id.item_boots,   710,    0,   0,   0,   0,   0,   0, 15,  0,  0, 0),
             new Item("秘法之靴",  R.drawable.boots_mage,        R.id.item_boots,   790,    0,   0,   0,   0,   0,   0,  0,  0,  0, FLAG_MAGIC_PENETRATE_BOOTS),
             new Item("冷静之靴",  R.drawable.boots_cd,          R.id.item_boots,   710,    0,   0,   0,   0,   0,   0,  0,  0, 10, 0),
-            new Item("影忍之足",  R.drawable.boots_defense,     R.id.item_boots,   690,    0,   0,   0, 110,   0,   0,  0,  0,  0, FLAG_BOOTS_DEFENSE),
+            new Item("影忍之足",  R.drawable.boots_defense,     R.id.item_boots,   690,    0,   0,   0, 110,   0,   0,  0,  0,  0, FLAG_DEFENSE_BOOTS),
             new Item("抵抗之靴",  R.drawable.boots_resist,      R.id.item_boots,   690,    0,   0,   0,   0, 110,   0,  0,  0,  0, 0),
             new Item("疾步之靴",  R.drawable.boots_fly,         R.id.item_boots,   630,    0,   0,   0,   0,   0,   0,  0,  0,  0, 0),
             new Item("贪婪之噬",  R.drawable.mob_attack,        R.id.item_mob,    1460,    0,  45,   0,   0,   0,   0, 12,  0,  0, 0),

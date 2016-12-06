@@ -7,24 +7,22 @@ public class Event implements Comparable<Event> {
     public Hero hero;
     public String action;
     public String target;
+    public int period;
     public int time;
-    public int bonus;
     public int intervals;
-    public double physicalFactor;
-    public double magicFactor;
-    public boolean regen;
-    public boolean canCritical;
 
     public Event(Hero hero, String action, int time) {
         this.hero = hero;
         this.action = action;
         this.time = time;
+        period = time;
     }
 
-    public Event(Hero hero, String action, String target, int time) {
+    public Event(Hero hero, String action, String target, int period, int time) {
         this.hero = hero;
         this.action = action;
         this.target = target;
+        this.period = period;
         this.time = time;
     }
 

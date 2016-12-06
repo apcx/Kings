@@ -11,6 +11,8 @@ public class HunterHero extends Hero {
 
     private int cnt_eagle;
     private int bonus_arrows = 5;
+    private int recharge_time;
+
     private boolean in_wood = true;
     private boolean in_recharge;
 
@@ -43,18 +45,9 @@ public class HunterHero extends Hero {
                 }
                 break;
             case "准备":
+                print(event.action, event.target);
                 bonus_arrows++;
-                event.time += 4000;
                 break;
-        }
-    }
-
-    @Override
-    protected void doSmartCast(int index) {
-        if (bonus_arrows <= 0) {
-            doSkip(index);
-        } else {
-            super.doSmartCast(index);
         }
     }
 
@@ -62,14 +55,29 @@ public class HunterHero extends Hero {
     protected void onAttack(CLog log) {
         if (in_wood) {
             in_wood = false;
-            attackFactor = 0.7;
+            factor_attack = 0.7;
             log.action = "追猎";
-            onHit(log.clone(), true);
-            onHit(log, true);
-            attackFactor = 1;
+            onHit(log.clone());
+            onHit(log);
+            factor_attack = 1;
             context.addEvent(this, "冷却", "追猎", 4000);
         } else {
-            onHit(log, true);
+            onHit(log);
+        }
+    }
+
+    @Override
+    protected void doCast(int index) {
+        super.doCast(index);
+        switch (index) {
+            case 2:
+                if (bonus_arrows <= 0) {
+                    Event action = actions_cast[index];
+                    if (action.time < recharge_time) {
+                        action.time = recharge_time;
+                    }
+                }
+                break;
         }
     }
 
@@ -77,29 +85,32 @@ public class HunterHero extends Hero {
     protected void onCast(int index, CLog log) {
         switch (index) {
             case 2:
+                hit_normal = false;
+                hit_can_critical = true;
                 Skill skill = skills[index];
-                attackFactor = skill.damageFactor;
+                factor_attack = skill.damageFactor;
                 attackBonus = skill.damageBonus;
-                onHit(log, true);
-                attackFactor = 1;
+                onHit(log);
+                factor_attack = 1;
                 attackBonus = 0;
 
                 bonus_arrows--;
                 if (!in_recharge) {
                     in_recharge = true;
                     context.addEvent(this, "准备", "箭矢", 4000);
+                    recharge_time = context.time + 4000;
                 }
                 break;
         }
     }
 
     @Override
-    protected void onHit(CLog log, boolean canCritical) {
-        super.onHit(log, canCritical);
+    protected void onHit(CLog log) {
+        super.onHit(log);
         if (++cnt_eagle >= 3 && target.hp > 0) {
             cnt_eagle = 0;
             log = new CLog(name, "鹰眼", target.name, context.time);
-            log.damage = (int) (((int) (attr_attack * 0.4) + 480) * getDamageRate());
+            log.damage = (int) (((int) (attr_attack * 0.4) + 480) * getDefenseFactor() * getDamageFactor(false));
             target.hp -= log.damage;
             context.logs.add(log);
         }
