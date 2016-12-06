@@ -79,16 +79,21 @@ public class CContext {
         do {
             Collections.sort(events);
             Collections.sort(attacker.actions_active);
-            Event contextEvent = events.get(0);
-            Event attackerEvent = attacker.actions_active.get(0);
-            if (contextEvent.time <= attackerEvent.time) {
-                if (time < contextEvent.time) {
-                    time = contextEvent.time;
-                }
-                contextEvent.hero.onEvent(contextEvent);
+            Event event = events.get(0);
+            Event action = attacker.actions_active.get(0);
+            if (event.time <= action.time) {
+                updateTime(event);
+                event.hero.onEvent(event);
             } else {
-                attackerEvent.hero.onAction(attackerEvent);
+                updateTime(action);
+                action.hero.onAction(action);
             }
         } while (defender.hp > 0);
+    }
+
+    private void updateTime(Event event) {
+        if (time < event.time) {
+            time = event.time;
+        }
     }
 }

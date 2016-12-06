@@ -56,7 +56,7 @@ public class CannonHero extends Hero {
             log.action = "强射";
             factor_attack = 1;
             bonus_damage = 0;
-            action_attack.time = context.time + 100;
+            action_attack.time = 0;
             snipe = true;
         } else if (snipe) {
             snipe = false;

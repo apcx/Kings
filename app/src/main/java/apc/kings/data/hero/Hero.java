@@ -275,9 +275,6 @@ public class Hero {
     }
 
     protected void doAttack() {
-        if (context.time < action_attack.time) {
-            context.time = action_attack.time;
-        }
         action_attack.time = context.time + (int) (attr_attack_cd * 100 / (100 + Math.min(200, attr_attack_speed)));
         hit_normal = true;
         onAttack(new CLog(name, "攻击", target.name, context.time));
@@ -300,21 +297,16 @@ public class Hero {
     }
 
     protected void doCast(int index) {
-        Event action = actions_cast[index];
-        if (context.time < action.time) {
-            context.time = action.time;
-        }
         if (attr_enchants != 0 && !in_cd_enchant) {
             in_cd_enchant = true;
             in_enchant = true;
             context.addEvent(this, "冷却", "咒刃", Item.ENCHANT_ICE == attr_enchants ? 3000 : 2000);
         }
-
         Skill skill = skills[index];
-        action.time = context.time + (int) (skill.cd * (1 - attr_cdr));
+        actions_cast[index].time = context.time + (int) (skill.cd * (1 - attr_cdr));
         CLog log = new CLog(name, skill.name, Skill.TYPE_NONE == skill.damageType ? null : target.name, context.time);
         onCast(index, log);
-        delayActions(skill.swing);
+        delayActions(Math.max(1, skill.swing));
     }
 
     protected void onAttack(CLog log) {

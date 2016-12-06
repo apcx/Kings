@@ -96,8 +96,7 @@ public class HunterHero extends Hero {
                 bonus_arrows--;
                 if (!in_recharge) {
                     in_recharge = true;
-                    context.addEvent(this, "准备", "箭矢", 4000);
-                    recharge_time = context.time + 4000;
+                    recharge_time = context.addEvent(this, "准备", "箭矢", 4000).time + 1;
                 }
                 break;
         }

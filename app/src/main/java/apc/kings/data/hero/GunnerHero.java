@@ -15,8 +15,9 @@ public class GunnerHero extends Hero {
 
     private Event energyEvent;
     private int energy = ENERGY_MAX;
-    private boolean in_silver_bullets;
     private boolean in_energy_restoring;
+    private boolean in_silver_bullets;
+    private boolean in_barrage;
 
     protected GunnerHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -32,10 +33,10 @@ public class GunnerHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        actions_cast[2].time = 4599;
-        actions_cast[0].time = 4599;
-        actions_cast[1].time = 4599;
-        action_attack.time = 4999;
+        actions_cast[0].time = 4999;
+        action_attack.time = 5000;
+        actions_cast[2].time = 5001;
+        actions_cast[1].time = 5002;
         actions_active.add(actions_cast[0]);
         actions_active.add(actions_cast[1]);
         actions_active.add(actions_cast[2]);
@@ -61,38 +62,33 @@ public class GunnerHero extends Hero {
                 break;
             case "狂热弹幕":
                 onHit(new CLog(name, event.action, target.name, context.time));
+                if (event.intervals <= 0) {
+                    in_barrage = false;
+                }
                 break;
         }
+    }
+
+    @Override
+    protected void doAttack() {
+        if (context.far) {
+            checkFrozenHeart();
+        }
+        super.doAttack();
     }
 
     @Override
     protected void doSmartCast(int index) {
         if (energy < ENERGY_COST) {
-            actions_cast[index].time = energyEvent.time;
+            actions_cast[index].time = energyEvent.time + 1;
+        } else if (1 == index) {
+            if (in_barrage) {
+                doCast(index);
+            } else {
+                actions_cast[index].time = Integer.MAX_VALUE;
+            }
         } else {
             super.doSmartCast(index);
-        }
-    }
-
-    @Override
-    protected void doCast(int index) {
-        super.doCast(index);
-        switch (index) {
-            case 2:
-                if (context.far) {
-                    context.far = false;
-                    checkFrozenHeart();
-                }
-            case 0:
-                int time = context.time + SHOOTING_TIMES[index] + 100;
-                if (action_attack.time < time) {
-                    action_attack.time = time;
-                }
-                Event another = actions_cast[2 - index];
-                if (another.time < time) {
-                    another.time = time;
-                }
-                break;
         }
     }
 
@@ -100,9 +96,9 @@ public class GunnerHero extends Hero {
     protected void onAttack(CLog log) {
         bonus_damage = 0;
         factor_attack = 0.7;
-        log.action = "第一枪";
+        log.action = "大弹";
         onHit(log.clone());
-        log.action = "第二枪";
+        log.action = "小弹";
         factor_attack = 0.4;
         onHit(log);
     }
@@ -121,6 +117,8 @@ public class GunnerHero extends Hero {
                 break;
             case 2:
                 startShooting(index, log);
+                in_barrage = true;
+                actions_cast[1].time = context.time + 374;
                 break;
             case 1:
                 super.onCast(index, log);
@@ -157,5 +155,12 @@ public class GunnerHero extends Hero {
 
         int intervals = 4 + 2 * (int) (attr_attack_speed / 75);
         context.addEvent(this, skill.name, intervals, SHOOTING_TIMES[index] / intervals);
+
+        int time = context.time + SHOOTING_TIMES[index] + 1;
+        action_attack.time = time++;
+        Event another = actions_cast[2 - index];
+        if (another.time < time) {
+            another.time = time;
+        }
     }
 }
