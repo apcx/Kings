@@ -41,10 +41,10 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         if (mAttackerFragment.mHeroType != null && mDefenderFragment.mHeroType != null) {
             CContext combat = new CContext(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType);
-            damage.setText(Integer.toString(combat.damage));
-            time.setText(String.format("%.2f", combat.totalTime));
-            dps.setText(String.format("%.0f", combat.dps));
-            costRatio.setText(String.format("%.2f", combat.costRatio));
+            damage.setText(Integer.toString(combat.summary_damage));
+            time.setText(String.format("%.3f", combat.summary_time / 1000.0));
+            dps.setText(String.format("%.0f", combat.summary_dps));
+            costRatio.setText(String.format("%.2f", combat.summary_cost_ratio));
         }
     }
 }

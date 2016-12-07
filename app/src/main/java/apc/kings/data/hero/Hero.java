@@ -323,12 +323,12 @@ public class Hero {
                     target.hp -= log.damage;
                     break;
                 case Skill.TYPE_MAGIC:
-                    log.magicDamage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
-                    target.hp -= log.magicDamage;
+                    log.magic_damage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
+                    target.hp -= log.magic_damage;
                     break;
                 case Skill.TYPE_REAL:
-                    log.realDamage = damage;
-                    target.hp -= log.realDamage;
+                    log.real_damage = (int) (damage * getDamageFactor(false));
+                    target.hp -= log.real_damage;
                     break;
             }
             context.logs.add(log);
@@ -367,8 +367,8 @@ public class Hero {
                 damage += 60;
             }
             if (damage > 0) {
-                log.extraDamage = (int) (damage * getDefenseFactor() * getDamageFactor(false));
-                target.hp -= log.extraDamage;
+                log.extra_damage = (int) (damage * getDefenseFactor() * getDamageFactor(false));
+                target.hp -= log.extra_damage;
             }
         }
         if (target.hp > 0) {
@@ -385,8 +385,8 @@ public class Hero {
                     target.hp -= log.damage;
                     break;
                 case Item.ENCHANT_VOODOO:
-                    log.magicDamage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor(false));
-                    target.hp -= log.magicDamage;
+                    log.magic_damage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor(false));
+                    target.hp -= log.magic_damage;
                     break;
                 case Item.ENCHANT_ICE:
                     log.damage = (int) (430 * getDefenseFactor() * getDamageFactor(false));
@@ -406,8 +406,8 @@ public class Hero {
                     damage *= attr_critical_damage;
                     log.critical = true;
                 }
-                log.magicDamage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
-                target.hp -= log.magicDamage;
+                log.magic_damage = (int) (damage * getMagicDefenseFactor() * getDamageFactor(false));
+                target.hp -= log.magic_damage;
                 context.addEvent(this, "冷却", "电弧", 500);
                 checkStorm(log);
             }

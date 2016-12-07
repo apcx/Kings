@@ -11,10 +11,10 @@ public class HunterHero extends Hero {
 
     private int cnt_eagle;
     private int bonus_arrows = 5;
-    private int recharge_time;
 
-    private boolean in_wood = true;
+    private Event event_recharge;
     private boolean in_recharge;
+    private boolean in_wood = true;
 
     protected HunterHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -67,21 +67,6 @@ public class HunterHero extends Hero {
     }
 
     @Override
-    protected void doCast(int index) {
-        super.doCast(index);
-        switch (index) {
-            case 2:
-                if (bonus_arrows <= 0) {
-                    Event action = actions_cast[index];
-                    if (action.time < recharge_time) {
-                        action.time = recharge_time;
-                    }
-                }
-                break;
-        }
-    }
-
-    @Override
     protected void onCast(int index, CLog log) {
         switch (index) {
             case 2:
@@ -93,10 +78,16 @@ public class HunterHero extends Hero {
                 bonus_damage = skill.damageBonus;
                 onHit(log);
 
-                bonus_arrows--;
                 if (!in_recharge) {
                     in_recharge = true;
-                    recharge_time = context.addEvent(this, "准备", "箭矢", 4000).time + 1;
+                    event_recharge = context.addEvent(this, "准备", "箭矢", 4000);
+                }
+                if (--bonus_arrows <= 0) {
+                    Event action = actions_cast[index];
+                    int time = event_recharge.time + 1;
+                    if (action.time < time) {
+                        action.time = time;
+                    }
                 }
                 break;
         }

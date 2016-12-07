@@ -13,18 +13,17 @@ public class CContext {
 
     public Hero attacker;
     public Hero defender;
-    public int beginTime;
-    public int time;
-    public boolean specific;
-    public boolean far;
     public List<Event> events = new ArrayList<>();
     public List<CLog> logs = new ArrayList<>();
+    public boolean specific;
+    public boolean far;
+    public int time;
+    private int start_time;
 
-    // temp
-    public int damage;
-    public double totalTime;
-    public double dps;
-    public double costRatio;
+    public int summary_damage;
+    public int summary_time;
+    public double summary_dps;
+    public double summary_cost_ratio;
 
     public CContext(HeroType attackerType, HeroType defenderType) {
         attacker = Hero.create(this, attackerType);
@@ -36,15 +35,13 @@ public class CContext {
 
         runAttack();
 
-        // temp
         for (CLog log : logs) {
-            log.sum();
+            summary_damage += log.sum();
             Log.d("CombatLog", log.toString());
         }
-        damage = defender.attr_mhp;
-        totalTime = (logs.get(logs.size() - 1).time - beginTime) / 1000.0;
-        dps = damage / totalTime;
-        costRatio = 100 * dps / (1 + attacker.attr_price);
+        summary_time = logs.get(logs.size() - 1).time - start_time;
+        summary_dps = summary_damage * 1000.0 / summary_time;
+        summary_cost_ratio = 100 * summary_dps / (1 + attacker.attr_price);
     }
 
     public void addEvent(Hero hero, String action, int intervals, int period) {
@@ -75,7 +72,7 @@ public class CContext {
         attacker.initActionMode(defender, false, specific);
         defender.initActionMode(null, true, specific);
         Collections.sort(attacker.actions_active);
-        beginTime = attacker.actions_active.get(0).time;
+        start_time = attacker.actions_active.get(0).time;
         do {
             Collections.sort(events);
             Collections.sort(attacker.actions_active);
@@ -88,7 +85,7 @@ public class CContext {
                 updateTime(action);
                 action.hero.onAction(action);
             }
-        } while (defender.hp > 0);
+        } while (defender.hp > 0 && time < 99000);
     }
 
     private void updateTime(Event event) {

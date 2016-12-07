@@ -13,7 +13,7 @@ public class GunnerHero extends Hero {
     private static final int ENERGY_MAX = 150;
     private static final int ENERGY_COST = 70;
 
-    private Event energyEvent;
+    private Event event_energy;
     private int energy = ENERGY_MAX;
     private boolean in_energy_restoring;
     private boolean in_silver_bullets;
@@ -80,7 +80,7 @@ public class GunnerHero extends Hero {
     @Override
     protected void doSmartCast(int index) {
         if (energy < ENERGY_COST) {
-            actions_cast[index].time = energyEvent.time + 1;
+            actions_cast[index].time = event_energy.time + 1;
         } else if (1 == index) {
             if (in_barrage) {
                 doCast(index);
@@ -108,7 +108,7 @@ public class GunnerHero extends Hero {
         energy -= ENERGY_COST;
         if (!in_energy_restoring) {
             in_energy_restoring = true;
-            energyEvent = context.addEvent(this, "回能量", null, 1000);
+            event_energy = context.addEvent(this, "回能量", null, 1000);
         }
         switch (index) {
             case 0:
@@ -131,8 +131,8 @@ public class GunnerHero extends Hero {
     @Override
     protected void onHitMagic(CLog log) {
         if (in_silver_bullets) {
-            log.magicDamage = (int) (((int) (attr_attack * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor(false));
-            target.hp -= log.magicDamage;
+            log.magic_damage = (int) (((int) (attr_attack * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor(false));
+            target.hp -= log.magic_damage;
         }
     }
 
@@ -140,7 +140,7 @@ public class GunnerHero extends Hero {
         energy += 10;
         if (energy >= ENERGY_MAX) {
             in_energy_restoring = false;
-            context.events.remove(energyEvent);
+            context.events.remove(event_energy);
         }
         print("回能量", Integer.toString(energy));
     }

@@ -11,10 +11,10 @@ public class CLog implements Cloneable {
     public int time;
     public int regen;
     public int damage;
-    public int extraDamage;
-    public int magicDamage;
-    public int realDamage;
-    public int totalDamage;
+    public int extra_damage;
+    public int magic_damage;
+    public int real_damage;
+    public int total_damage;
     public boolean critical;
 
     public CLog(String hero, String action, String target, int time) {
@@ -42,15 +42,15 @@ public class CLog implements Cloneable {
         double time = this.time / 1000.0;
         if (regen > 0) {
             return String.format("%.3f %s %s %d", time, hero, action, regen);
-        } else if (totalDamage > 0) {
-            return String.format("%.3f %s %s %s : %d %d %d %d", time, hero, action, target, damage, extraDamage, magicDamage, realDamage);
+        } else if (total_damage > 0) {
+            return String.format("%.3f %s %s %s : %d %d %d %d", time, hero, action, target, damage, extra_damage, magic_damage, real_damage);
         } else {
             return String.format("%.3f %s %s %s", time, hero, action, target);
         }
     }
 
     public int sum() {
-        totalDamage = damage + extraDamage + magicDamage + realDamage;
-        return totalDamage;
+        total_damage = damage + extra_damage + magic_damage + real_damage;
+        return total_damage;
     }
 }

@@ -8,11 +8,17 @@ import apc.kings.R;
 public class Rune {
 
     public static Rune[] ALL_RUNES = new Rune[] {
-            new Rune("鹰眼", R.drawable.weapon_200, 0, 0.9, 0, 0, 0, 6.4, 0,   0, 0,   0,   0,    0),
-            new Rune("隐匿", R.drawable.weapon_200, 0, 1.6, 0, 0, 0,   0, 0,   0, 0,   0,   0,    0),
-            new Rune("狩猎", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 1,   0,   0,    0),
-            new Rune("无双", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 0, 0.7, 3.6,    0),
-            new Rune("祸源", R.drawable.weapon_200, 0,   0, 0, 0, 0,   0, 0,   0, 0, 1.6,   0,    0),
+            new Rune("鹰眼", R.drawable.weapon_200,  0, 0.9, 0, 0, 0, 6.4, 0, 0, 0,   0,   0,   0),
+            new Rune("隐匿", R.drawable.weapon_200,  0, 1.6, 0, 0, 0, 0,   0, 0, 0,   0,   0,   0),
+            new Rune("狩猎", R.drawable.weapon_200,  0, 0,   0, 0, 0, 0,   0, 0, 1,   0,   0,   0),
+            new Rune("兽痕", R.drawable.weapon_200, 60, 0,   0, 0, 0, 0,   0, 0, 1,   0.5, 0,   0),
+            new Rune("夺萃", R.drawable.weapon_200,  0, 0,   0, 0, 0, 0,   0, 0, 0,   0,   0,   0),
+            new Rune("无双", R.drawable.weapon_200,  0, 0,   0, 0, 0, 0,   0, 0, 0,   0.7, 3.6, 0),
+            new Rune("祸源", R.drawable.weapon_200,  0, 0,   0, 0, 0, 0,   0, 0, 0,   1.6, 0,   0),
+            new Rune("红月", R.drawable.weapon_200,  0, 0,   0, 0, 0, 0,   0, 0, 1.6, 0.5, 0,   0),
+            new Rune("异变", R.drawable.weapon_200,  0, 2,   0, 0, 0, 3.6, 0, 0, 0,   0,   0,   0),
+            new Rune("传承", R.drawable.weapon_200,  0, 3.2, 0, 0, 0, 0,   0, 0, 0,   0,   0,   0),
+            new Rune("纷争", R.drawable.weapon_200,  0, 2.5, 0, 0, 0, 0,   0, 0, 0,   0,   0,   0),
     };
 
     public String name;
