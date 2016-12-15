@@ -43,9 +43,9 @@ public class CLog implements Cloneable {
         if (regen > 0) {
             return String.format("%.3f %s %s %d", time, hero, action, regen);
         } else if (total_damage > 0) {
-            return String.format("%.3f %s %s %s : %d %d %d %d", time, hero, action, target, damage, extra_damage, magic_damage, real_damage);
+            return String.format("%.3f %s %s %s : %d %d %d", time, hero, action, target, damage, extra_damage, magic_damage);
         } else {
-            return String.format("%.3f %s %s %s", time, hero, action, target);
+            return String.format("%.3f %s %s %s", time, hero, action, null == target ? "" : target);
         }
     }
 
