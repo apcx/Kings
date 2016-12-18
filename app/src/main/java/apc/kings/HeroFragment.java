@@ -24,6 +24,9 @@ public class HeroFragment extends Fragment implements View.OnClickListener {
     private SimpleDraweeView mPosterView;
     private TextView mNameView;
     private ItemGroup mItemGroup;
+    private TextView mRedRune;
+    private TextView mCyanRune;
+    private TextView mGreenRune;
 
     @Nullable
     @Override
@@ -32,7 +35,14 @@ public class HeroFragment extends Fragment implements View.OnClickListener {
         mPosterView = (SimpleDraweeView) view.findViewById(R.id.image);
         mNameView = (TextView) view.findViewById(R.id.name);
         mItemGroup = (ItemGroup) view.findViewById(R.id.items);
+        mRedRune = (TextView) view.findViewById(R.id.rune_red);
+        mCyanRune = (TextView) view.findViewById(R.id.rune_cyan);
+        mGreenRune = (TextView) view.findViewById(R.id.rune_green);
+
         mPosterView.setOnClickListener(this);
+        mRedRune.setOnClickListener(this);
+        mCyanRune.setOnClickListener(this);
+        mGreenRune.setOnClickListener(this);
         return view;
     }
 
@@ -56,6 +66,8 @@ public class HeroFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.items:
                 startActivityForResult(new Intent(mHeroType.name, null, context, ItemActivity.class), REQUEST_ITEM);
+                break;
+            case R.id.rune_red:
                 break;
         }
     }
