@@ -42,26 +42,28 @@
         android:background="@drawable/round_item_set" />
 
     <LinearLayout
+        android:id="@+id/rune_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/round_item_set"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/rune_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/rune_red"
+                android:id="@+id/rune_red_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="无双"
-                android:background="#e05e35" />
+                android:background="@color/rune_red" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,6 +73,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/rune_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -78,13 +81,12 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/rune_cyan"
+                android:id="@+id/rune_blue_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="无双"
-                android:background="#2d6493" />
+                android:background="@color/rune_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,6 +96,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/rune_green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -101,13 +104,12 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/rune_green"
+                android:id="@+id/rune_green_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="无双"
-                android:background="#7ca43a" />
+                android:background="@color/rune_green" />
 
             <TextView
                 android:layout_width="wrap_content"
