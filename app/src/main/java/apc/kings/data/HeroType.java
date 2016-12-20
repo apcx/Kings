@@ -60,10 +60,19 @@ public class HeroType {
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "暴烈之甲", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "军团荣耀", "霸者重装"});
 
+        buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
+        buildDefaultRunes("马可波罗", new String[]{"红月", "狩猎", "鹰眼"});
+        buildDefaultRunes("后羿", new String[]{"红月", "隐匿", "鹰眼"});
+        buildDefaultRunes("李元芳", new String[]{"红月", "隐匿", "鹰眼"});
+        buildDefaultRunes("鲁班七号", new String[]{"红月", "隐匿", "鹰眼"});
+        buildDefaultRunes("孙尚香", new String[]{"红月", "隐匿", "鹰眼"});
+        buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
+        buildDefaultRunes("孙悟空", new String[]{"无双", "兽痕", "鹰眼"});
+
         SharedPreferences preferences = App.preferences();
         for (HeroType heroType : ALL_HEROES) {
             boolean loaded = false;
-            String value = preferences.getString(heroType.name, null);
+            String value = preferences.getString("item_" + heroType.name, null);
             if (!TextUtils.isEmpty(value)) {
                 String[] itemNames = value.split(",");
                 if (itemNames.length >= Item.SLOTS) {
@@ -76,6 +85,24 @@ public class HeroType {
             }
             if (!loaded) {
                 heroType.items = heroType.recommendedItems != null ? heroType.recommendedItems : heroType.defaultItems;
+            }
+
+            loaded = false;
+            value = preferences.getString("rune_" + heroType.name, null);
+            if (!TextUtils.isEmpty(value)) {
+                String[] runeNames = value.split(",");
+                if (runeNames.length >= 3) {
+                    for (int i = 0; i < 3; ++i) {
+                        heroType.runes.put(Rune.findRune(runeNames[i]), 10);
+                    }
+                    loaded = true;
+                }
+            }
+            if (!loaded) {
+                Rune[] runes = heroType.recommendedRunes != null ? heroType.recommendedRunes : heroType.defaultRunes;
+                for (Rune rune : runes) {
+                    heroType.runes.put(rune, 10);
+                }
             }
         }
     }
@@ -92,7 +119,9 @@ public class HeroType {
     public Item[] defaultItems = new Item[Item.SLOTS];
     public Item[] recommendedItems = new Item[Item.SLOTS];
     public Item[] items;
-    public Map<Rune, Integer> runes;
+    public Rune[] defaultRunes = new Rune[3];
+    public Rune[] recommendedRunes;
+    public Map<Rune, Integer> runes = new ArrayMap<>();
 
     private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int attackSpeedPerLevel) {
         this.name = name;
@@ -104,11 +133,6 @@ public class HeroType {
         this.defense = defense;
         this.regen = regen;
         this.attackSpeedPerLevel = attackSpeedPerLevel;
-
-        runes = new ArrayMap<>();
-        runes.put(Rune.findRune("无双"), 10);
-        runes.put(Rune.findRune("鹰眼"), 10);
-        runes.put(Rune.findRune("隐匿"), 10);
     }
 
     @Nullable
@@ -128,7 +152,7 @@ public class HeroType {
             String name = null == items[i] ? "empty" : items[i].name;
             value += 0 == i ? name : "," + name;
         }
-        App.preferences().edit().putString(name, value).apply();
+        App.preferences().edit().putString("item_" + name, value).apply();
     }
 
     private static void buildDefaultItems(String name, String[] itemNames) {
@@ -145,6 +169,24 @@ public class HeroType {
         if (heroType != null) {
             for (int i = 0; i < Item.SLOTS; ++i) {
                 heroType.recommendedItems[i] = Item.findItem(itemNames[i]);
+            }
+        }
+    }
+
+    private static void buildDefaultRunes(String name, String[] runeNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            for (int i = 0; i < 3; ++i) {
+                heroType.defaultRunes[i] = Rune.findRune(runeNames[i]);
+            }
+        }
+    }
+
+    private static void buildRecommendedRunes(String name, String[] runeNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            for (int i = 0; i < 3; ++i) {
+                heroType.recommendedRunes[i] = Rune.findRune(runeNames[i]);
             }
         }
     }

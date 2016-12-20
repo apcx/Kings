@@ -159,6 +159,7 @@ public class Hero {
 
     private void initRunes() {
         if (heroType.runes != null) {
+            double hp = 0;
             double attack = 0;
             double magic = 0;
             double defense = 0;
@@ -169,7 +170,7 @@ public class Hero {
                 Rune rune = entry.getKey();
                 int n = entry.getValue();
 
-                attr_mhp += rune.hp * n;
+                hp += rune.hp * n;
                 attack += rune.attack * n;
                 magic += rune.magic * n;
                 defense += rune.defense * n;
@@ -182,12 +183,13 @@ public class Hero {
                 attr_critical_damage += rune.criticalDamage * n / 100;
                 attr_cdr += rune.cdr * n;
             }
-            this.attr_attack += attack;
-            this.attr_magic += magic;
-            this.attr_defense += defense;
-            this.attr_magic_defense += magicDefense;
-            this.attr_penetrate = (int) penetrate;
-            this.attr_magic_penetrate = (int) magicPenetrate;
+            attr_mhp += hp;
+            attr_attack += attack;
+            attr_magic += magic;
+            attr_defense += defense;
+            attr_magic_defense += magicDefense;
+            attr_penetrate = (int) penetrate;
+            attr_magic_penetrate = (int) magicPenetrate;
         }
     }
 

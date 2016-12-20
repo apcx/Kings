@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import apc.kings.common.App;
 import apc.kings.data.HeroType;
 import apc.kings.data.Rune;
 
@@ -26,6 +27,7 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
 
     private static final int REQUEST_HERO = 1;
     private static final int REQUEST_ITEM = 2;
+    private static final String SUFFIX_DEFAULT = " (默认)";
 
     HeroType mHeroType;
     private View mRuneGroup;
@@ -110,6 +112,9 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         String rune = item.getTitle().toString();
+        if (rune.endsWith(SUFFIX_DEFAULT)) {
+            rune = rune.substring(0, rune.length() - SUFFIX_DEFAULT.length());
+        }
         switch (item.getGroupId()) {
             case R.id.rune_red:
                 mRedRune.setText(rune);
@@ -149,9 +154,16 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         Object span = new BackgroundColorSpan(getResources().getColor(colorRes));
         for (Rune rune : Rune.ALL_RUNES) {
             if (id == rune.category) {
-                Spannable name = new SpannableString(rune.name);
-                name.setSpan(span, 0, rune.name.length(), 0);
-                menu.add(id, Menu.NONE, Menu.NONE, name);
+                String name = rune.name;
+                for (Rune rune1 : mHeroType.defaultRunes) {
+                    if (rune1 == rune) {
+                        name += SUFFIX_DEFAULT;
+                        break;
+                    }
+                }
+                Spannable spannable = new SpannableString(name);
+                spannable.setSpan(span, 0, rune.name.length(), 0);
+                menu.add(id, Menu.NONE, Menu.NONE, spannable);
             }
         }
         popup.setOnMenuItemClickListener(this);
@@ -170,5 +182,17 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         }
         mHeroType.runes.remove(old);
         mHeroType.runes.put(neo, 10);
+
+        String value = "";
+        boolean append = false;
+        for (Rune rune : mHeroType.runes.keySet()) {
+            if (append) {
+                value += ",";
+            } else {
+                append = true;
+            }
+            value += rune.name;
+        }
+        App.preferences().edit().putString("rune_" + mHeroType.name, value).apply();
     }
 }
