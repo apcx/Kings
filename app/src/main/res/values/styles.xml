@@ -8,6 +8,7 @@
 
         <item name="android:windowFullscreen">true</item>
         <!--<item name="buttonStyle">@style/Button</item>-->
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="AppTheme.Main">
@@ -17,5 +18,9 @@
 
     <style name="Button" parent="android:Widget.Button" >
         <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="PopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">#c0000000</item>
     </style>
 </resources>

@@ -399,8 +399,8 @@ public class Hero {
         }
 
         if (has_lightning && target.hp > 0 && !in_cd_lighting) {
-            in_cd_lighting = true;
             if (--cnt_lightning <= 0) {
+                in_cd_lighting = true;
                 cnt_lightning = 5;
                 damage = 100;
                 log = new CLog(name, "电弧", target.name, context.time);

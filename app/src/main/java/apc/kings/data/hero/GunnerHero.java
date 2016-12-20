@@ -137,12 +137,14 @@ public class GunnerHero extends Hero {
     }
 
     private void restoreEnergy() {
-        energy += 10;
-        if (energy >= ENERGY_MAX) {
-            in_energy_restoring = false;
-            context.events.remove(event_energy);
+        if (energy < ENERGY_MAX) {
+            energy += 10;
+            if (energy >= ENERGY_MAX) {
+                in_energy_restoring = false;
+                context.events.remove(event_energy);
+            }
+            print("回能量", Integer.toString(energy));
         }
-        print("回能量", Integer.toString(energy));
     }
 
     private void startShooting(int index, CLog log) {

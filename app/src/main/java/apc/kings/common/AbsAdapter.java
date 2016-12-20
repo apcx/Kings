@@ -15,8 +15,6 @@ public abstract class AbsAdapter extends RecyclerView.Adapter<MapHolder> impleme
         mItemRes = itemRes;
     }
 
-    public abstract void onItemChanged(int position);
-
     public void setSelected(int position) {
         if (position != mSelected) {
             int old = mSelected;
@@ -29,6 +27,10 @@ public abstract class AbsAdapter extends RecyclerView.Adapter<MapHolder> impleme
             }
             onItemChanged(position);
         }
+    }
+
+    public void onItemChanged(int position) {
+
     }
 
     @Override
