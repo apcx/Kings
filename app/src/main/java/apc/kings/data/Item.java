@@ -35,9 +35,13 @@ public class Item {
     public static final int FLAG_RECOVER               = 0x00020000;
     public static final int FLAG_WOUND                 = 0x00040000;
 
-    public static final int ENCHANT_TRINITY = 0x0f000000;
-    public static final int ENCHANT_VOODOO  = 0x07000000;
-    public static final int ENCHANT_ICE     = 0x03000000;
+    public static final int MOB_ATTACK                 = 0x00100000;
+    public static final int MOB_MAGIC                  = 0x00200000;
+    public static final int MOB_HP                     = 0x00400000;
+
+    public static final int ENCHANT_TRINITY            = 0x0f000000;
+    public static final int ENCHANT_VOODOO             = 0x07000000;
+    public static final int ENCHANT_ICE                = 0x03000000;
 
     public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,    R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 30,  0,  0, FLAG_CORRUPT),
@@ -72,9 +76,9 @@ public class Item {
             new Item("影忍之足",  R.drawable.boots_defense,     R.id.item_boots,   690,    0,   0,   0, 110,   0,   0,  0,  0,  0, FLAG_DEFENSE_BOOTS),
             new Item("抵抗之靴",  R.drawable.boots_resist,      R.id.item_boots,   690,    0,   0,   0,   0, 110,   0,  0,  0,  0, 0),
             new Item("疾步之靴",  R.drawable.boots_fly,         R.id.item_boots,   630,    0,   0,   0,   0,   0,   0,  0,  0,  0, 0),
-            new Item("贪婪之噬",  R.drawable.mob_attack,        R.id.item_mob,    1460,    0,  45,   0,   0,   0,   0, 12,  0,  0, 0),
-            new Item("符文大剑",  R.drawable.mob_magic,         R.id.item_mob,    1490,    0,   0, 100,   0,   0,   0,  0,  0,  0, 0),
-            new Item("巨人之握",  R.drawable.mob_hp,            R.id.item_mob,    1500,  800,   0,   0,   0,   0,   0,  0,  0,  0, 0),
+            new Item("贪婪之噬",  R.drawable.mob_attack,        R.id.item_mob,    1460,    0,  45,   0,   0,   0,   0, 12,  0,  0, MOB_ATTACK),
+            new Item("符文大剑",  R.drawable.mob_magic,         R.id.item_mob,    1490,    0,   0, 100,   0,   0,   0,  0,  0,  0, MOB_MAGIC),
+            new Item("巨人之握",  R.drawable.mob_hp,            R.id.item_mob,    1500,  800,   0,   0,   0,   0,   0,  0,  0,  0, MOB_HP),
     };
 
     private static final Map<String, Item> map = new ArrayMap<>();
