@@ -117,7 +117,7 @@ public class HeroType {
     public int regen;
     public int attackSpeedPerLevel;
     public Item[] defaultItems = new Item[Item.SLOTS];
-    public Item[] recommendedItems = new Item[Item.SLOTS];
+    public Item[] recommendedItems;
     public Item[] items;
     public Rune[] defaultRunes = new Rune[3];
     public Rune[] recommendedRunes;
@@ -167,6 +167,7 @@ public class HeroType {
     private static void buildRecommendedItems(String name, String[] itemNames) {
         HeroType heroType = findHero(name);
         if (heroType != null) {
+            heroType.recommendedItems = new Item[Item.SLOTS];
             for (int i = 0; i < Item.SLOTS; ++i) {
                 heroType.recommendedItems[i] = Item.findItem(itemNames[i]);
             }
@@ -185,6 +186,7 @@ public class HeroType {
     private static void buildRecommendedRunes(String name, String[] runeNames) {
         HeroType heroType = findHero(name);
         if (heroType != null) {
+            heroType.recommendedRunes = new Rune[3];
             for (int i = 0; i < 3; ++i) {
                 heroType.recommendedRunes[i] = Rune.findRune(runeNames[i]);
             }

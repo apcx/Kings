@@ -2,6 +2,9 @@ package apc.kings.data;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
+
+import java.util.Map;
 
 import apc.kings.R;
 
@@ -22,6 +25,13 @@ public class Rune {
             new Rune("调和", R.id.rune_blue, 45,   0,   0, 0,   0, 0,   0, 5.2, 0,   0,   0,   0),
             new Rune("鹰眼", R.id.rune_green, 0,   0.9, 0, 0,   0, 6.4, 0, 0,   0,   0,   0,   0),
     };
+
+    private static final Map<String, Rune> map = new ArrayMap<>();
+    static {
+        for (Rune rune : ALL_RUNES) {
+            map.put(rune.name, rune);
+        }
+    }
 
     public String name;
     public int category;
@@ -57,11 +67,6 @@ public class Rune {
 
     @Nullable
     public static Rune findRune(@NonNull String name) {
-        for (Rune item : ALL_RUNES) {
-            if (item.name.equals(name)) {
-                return item;
-            }
-        }
-        return null;
+        return map.get(name);
     }
 }

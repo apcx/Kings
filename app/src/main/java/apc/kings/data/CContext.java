@@ -1,7 +1,5 @@
 package apc.kings.data;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +35,6 @@ public class CContext {
 
         for (CLog log : logs) {
             summary_damage += log.sum();
-            Log.d("CombatLog", log.toString());
         }
         summary_time = logs.get(logs.size() - 1).time - start_time;
         summary_dps = summary_damage * 1000.0 / summary_time;
