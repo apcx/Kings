@@ -148,6 +148,16 @@ public class Hero {
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_TRINITY;
 
+            if (has_heal) {
+                attr_heal += 0.2;
+            }
+            if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
+                attr_critical_damage += 0.5;
+            }
+            if ((attr_flags & Item.FLAG_LEGION) != 0) {
+                attr_defense += 120;
+                attr_magic_defense += 120;
+            }
             if ((attr_flags & Item.MOB_ATTACK) != 0) {
                 attr_attack_speed += 30;
             }
@@ -156,12 +166,6 @@ public class Hero {
             }
             if ((attr_flags & Item.MOB_HP) != 0) {
                 attr_mhp += 1050;
-            }
-            if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
-                attr_critical_damage += 0.5;
-            }
-            if (has_heal) {
-                attr_heal += 0.2;
             }
         }
     }

@@ -30,6 +30,7 @@ public class Item {
     public static final int FLAG_CORRUPT               = 0x1000;
     public static final int FLAG_ACCURATE              = 0x2000;
     public static final int FLAG_LIGHTNING             = 0x4000;
+    public static final int FLAG_LEGION                = 0x8000;
 
     public static final int FLAG_HEAL                  = 0x00010000;
     public static final int FLAG_RECOVER               = 0x00020000;
@@ -62,7 +63,7 @@ public class Item {
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0,  0,  0, FLAG_RECOVER),
             new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1200,   0,   0,   0, 360,   0,  0,  0,  0, 0),
             new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0,  0, 10, FLAG_HEAL),
-            new Item("军团荣耀",  R.drawable.armor_legion,      R.id.item_armor,  1970, 1000,   0,   0, 120, 120,  60,  0,  0,  0, 0),
+            new Item("军团荣耀",  R.drawable.armor_legion,      R.id.item_armor,  1970, 1000,   0,   0,   0,   0,  60,  0,  0,  0, FLAG_LEGION),
             new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  2140,    0,  80,   0, 360,   0,   0,  0,  0,  0, 0),
             new Item("冰封之心",  R.drawable.armor_frozen_heart,R.id.item_armor,  2100,    0,   0,   0, 360,   0,   0,  0,  0, 20, FLAG_FROZEN_HEART),
             new Item("冰脉护手",  R.drawable.armor_guanlets,    R.id.item_armor,  2070,    0,   0,  60, 360,   0,   0,  0,  0, 10, 0),
