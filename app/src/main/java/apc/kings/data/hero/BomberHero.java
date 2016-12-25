@@ -23,8 +23,8 @@ public class BomberHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 4599;
-        action_attack.time = 4999;
+        actions_cast[0].time = 3600;
+        action_attack.time = 4000;
         actions_active.add(actions_cast[0]);
     }
 

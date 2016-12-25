@@ -33,7 +33,7 @@ public class GunnerHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 4999;
+        actions_cast[0].time = 4399;
         action_attack.time = 5000;
         actions_cast[2].time = 5001;
         actions_cast[1].time = 5002;

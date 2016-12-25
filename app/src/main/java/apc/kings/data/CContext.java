@@ -38,7 +38,7 @@ public class CContext {
         }
         summary_time = logs.get(logs.size() - 1).time - time_start;
         summary_dps = summary_damage * 1000.0 / summary_time;
-        summary_cost_ratio = 100 * summary_dps / (1 + attacker.attr_price);
+        summary_cost_ratio = 1000000000.0 / summary_time / (1 + attacker.attr_price);
     }
 
     public void addEvent(Hero hero, String action, int intervals, int period) {

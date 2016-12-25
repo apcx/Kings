@@ -21,12 +21,12 @@ public class HeroType {
     public static HeroType[] ALL_HEROES = new HeroType[] {
             new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329, 66, 3),
             new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344, 75, 2),
+            new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323, 69, 3),
             new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 6127, 406, 346, 71, 3),
             new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340, 66, 2),
-            new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323, 69, 3),
             new HeroType("孙尚香",   "cannon",   R.id.cat_archer,  0,                 6014, 421, 346, 69, 3),
-            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 98, 2),
             new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400, 92, 1),
+            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 98, 2),
 //            new HeroType("虞姬",    "hime",     R.id.cat_archer,  0,                 5669, 417, 329,  63,  0.42),
 //            new HeroType("狄仁杰",   "judge",   R.id.cat_archer,  0,                 5710, 386, 338,  66,  0.56),
 //            new HeroType("刘邦",   "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 117,  0.42),
@@ -57,7 +57,7 @@ public class HeroType {
         buildRecommendedItems("孙尚香", attack_item_names);
         buildRecommendedItems("虞姬", attack_item_names);
         buildRecommendedItems("孙悟空", attack_item_names);
-        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "破甲弓", "纯净苍穹", "破灭君主", "贤者的庇护"});
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "影刃", "破灭君主", "破甲弓", "纯净苍穹", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "霸者重装", "冰封之心"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
@@ -72,8 +72,8 @@ public class HeroType {
         String[] archer_rune_names = {"祸源", "狩猎", "鹰眼"};
         String[] attack_rune_names = {"祸源", "隐匿", "鹰眼"};
         buildRecommendedRunes("成吉思汗", archer_rune_names);
-        buildRecommendedRunes("鲁班七号", archer_rune_names);
         buildRecommendedRunes("李元芳", archer_rune_names);
+        buildRecommendedRunes("鲁班七号", attack_rune_names);
         buildRecommendedRunes("后羿", attack_rune_names);
         buildRecommendedRunes("孙尚香", attack_rune_names);
         buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});

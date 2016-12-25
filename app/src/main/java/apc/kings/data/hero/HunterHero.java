@@ -28,8 +28,8 @@ public class HunterHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        action_attack.time = 4999;
-        actions_cast[2].time = 5099;
+        action_attack.time = 4899;
+        actions_cast[2].time = 4999;
         actions_active.add(actions_cast[2]);
     }
 

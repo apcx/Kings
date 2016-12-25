@@ -23,9 +23,9 @@ public class CannonHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 4399;
-        action_attack.time = 4999;
-        actions_cast[2].time = 5199;
+        actions_cast[0].time = 4299;
+        action_attack.time = 4899;
+        actions_cast[2].time = 5099;
         actions_active.add(actions_cast[0]);
         actions_active.add(actions_cast[2]);
     }
