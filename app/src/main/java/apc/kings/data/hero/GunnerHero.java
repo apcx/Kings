@@ -132,7 +132,7 @@ public class GunnerHero extends Hero {
     protected void onHitMagic(CLog log) {
         if (in_silver_bullets) {
             log.magic_damage = (int) (((int) (attr_attack * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor(false));
-            target.hp -= log.magic_damage;
+            target.onDamaged(log.magic_damage);
         }
     }
 

@@ -13,36 +13,43 @@ public class MonkeyHero extends Hero {
         attr_critical += 0.2;
         attr_critical_damage -= 0.5;
         skills = new Skill[]{
-                new Skill("七十二变", 8400, 100),
-                new Skill("斗战冲锋", 5000, 100),
-                new Skill("如意金箍", 24000, 100, 0.5, 230, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
+                new Skill("七十二变", 8400, 400),
+                new Skill("斗战冲锋", 5000, 400),
+                new Skill("如意金箍", 24000, 400, 0.5, 230, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
         };
     }
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
+        actions_cast[0].time = 4599;
         action_attack.time = 4999;
-        actions_cast[0].time = 4899;
-        actions_cast[2].time = 5099;
-        actions_cast[1].time = 5299;
+        actions_cast[2].time = 5199;
+        actions_cast[1].time = 5200;
         actions_active.add(actions_cast[0]);
         actions_active.add(actions_cast[1]);
         actions_active.add(actions_cast[2]);
     }
 
     @Override
-    protected void onCast(int index, CLog log) {
-        super.onCast(index, log);
-        factor_attack = 1.4;
-        bonus_damage = 210;
+    protected void onAttack(CLog log) {
+        if (bonus_damage > 0) {
+            log.action = "神威";
+            super.onAttack(log);
+            action_attack.time = 0;
+            factor_attack = 1;
+            bonus_damage = 0;
+        } else {
+            super.onAttack(log);
+        }
     }
 
     @Override
-    protected void onHit(CLog log) {
-        super.onHit(log);
-        factor_attack = 1;
-        bonus_damage = 0;
+    protected void onCast(int index, CLog log) {
+        super.onCast(index, log);
+        action_attack.time = 0;
+        factor_attack = 1.4;
+        bonus_damage = 420;
     }
 
     @Override

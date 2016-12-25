@@ -127,6 +127,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 case "弱化":
                 case "失效":
+                case "护盾消失":
+                case "护盾击破":
                     action.setTextColor(resources.getColor(R.color.log_magic_damage));
                     break;
                 case "回能量":

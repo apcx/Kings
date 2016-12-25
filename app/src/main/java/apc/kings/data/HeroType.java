@@ -41,33 +41,42 @@ public class HeroType {
 
         buildDefaultItems("成吉思汗", new String[]{"无尽战刃", "急速战靴", "三圣之力", "泣血之刃", "冰霜长矛", "破甲弓"});
         buildDefaultItems("马可波罗", new String[]{"破灭君主", "急速战靴", "无尽战刃", "泣血之刃", "破甲弓", "影刃"});
+        buildDefaultItems("鲁班七号", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
         buildDefaultItems("后羿", new String[]{"破灭君主", "闪电匕首", "急速战靴", "无尽战刃", "破甲弓", "影刃"});
         buildDefaultItems("李元芳", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("鲁班七号", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
         buildDefaultItems("孙尚香", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "三圣之力", "冰封之心", "破军", "破甲弓"});
+        buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archerItemNames = {"影忍之足", "破灭君主", "泣血之刃", "破甲弓", "无尽战刃", "贤者的庇护"};
-        String[] attackItemNames = {"影忍之足", "泣血之刃", "破甲弓", "三圣之力", "无尽战刃", "贤者的庇护"};
-        buildRecommendedItems("后羿", archerItemNames);
-        buildRecommendedItems("李元芳", archerItemNames);
-        buildRecommendedItems("鲁班七号", archerItemNames);
-        buildRecommendedItems("孙尚香", attackItemNames);
-        buildRecommendedItems("虞姬", attackItemNames);
-        buildRecommendedItems("孙悟空", attackItemNames);
-        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "泣血之刃", "三圣之力", "破甲弓", "无尽战刃", "贤者的庇护"});
-        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "暴烈之甲", "贤者的庇护"});
-        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "军团荣耀", "霸者重装"});
+        String[] archer_item_names = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
+        String[] attack_item_names = {"影忍之足", "破甲弓", "三圣之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
+        buildRecommendedItems("成吉思汗", archer_item_names);
+        buildRecommendedItems("鲁班七号", archer_item_names);
+        buildRecommendedItems("后羿", archer_item_names);
+        buildRecommendedItems("李元芳", archer_item_names);
+        buildRecommendedItems("孙尚香", attack_item_names);
+        buildRecommendedItems("虞姬", attack_item_names);
+        buildRecommendedItems("孙悟空", attack_item_names);
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "破甲弓", "纯净苍穹", "破灭君主", "贤者的庇护"});
+        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "霸者重装", "冰封之心"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
         buildDefaultRunes("马可波罗", new String[]{"红月", "狩猎", "鹰眼"});
+        buildDefaultRunes("鲁班七号", new String[]{"红月", "隐匿", "鹰眼"});
         buildDefaultRunes("后羿", new String[]{"红月", "隐匿", "鹰眼"});
         buildDefaultRunes("李元芳", new String[]{"红月", "隐匿", "鹰眼"});
-        buildDefaultRunes("鲁班七号", new String[]{"红月", "隐匿", "鹰眼"});
         buildDefaultRunes("孙尚香", new String[]{"红月", "隐匿", "鹰眼"});
-        buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
         buildDefaultRunes("孙悟空", new String[]{"无双", "兽痕", "鹰眼"});
+        buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
+
+        String[] archer_rune_names = {"祸源", "狩猎", "鹰眼"};
+        String[] attack_rune_names = {"祸源", "隐匿", "鹰眼"};
+        buildRecommendedRunes("成吉思汗", archer_rune_names);
+        buildRecommendedRunes("鲁班七号", archer_rune_names);
+        buildRecommendedRunes("李元芳", archer_rune_names);
+        buildRecommendedRunes("后羿", attack_rune_names);
+        buildRecommendedRunes("孙尚香", attack_rune_names);
+        buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});
 
         SharedPreferences preferences = App.preferences();
         for (HeroType heroType : ALL_HEROES) {

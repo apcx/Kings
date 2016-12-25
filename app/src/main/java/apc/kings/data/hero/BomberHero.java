@@ -53,8 +53,8 @@ public class BomberHero extends Hero {
         if (++marks == 4) {
             log = new CLog(name, "引爆", target.name, context.time);
             log.damage = (int) (((int) (attr_attack * 0.48) + 220) * 5 * getDefenseFactor() * getDamageFactor(false));
-            target.hp -= log.damage;
             context.logs.add(log);
+            target.onDamaged(log.damage);
         }
     }
 

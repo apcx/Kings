@@ -28,6 +28,7 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
     private static final int REQUEST_HERO = 1;
     private static final int REQUEST_ITEM = 2;
     private static final String SUFFIX_DEFAULT = " (默认)";
+    private static final String SUFFIX_RECOMMENDED = " (Apc推荐)";
 
     HeroType mHeroType;
     private View mRuneGroup;
@@ -56,7 +57,7 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         mPosterView.setOnClickListener(this);
         redGroup.setOnClickListener(this);
         blueGroup.setOnClickListener(this);
-//        greenGroup.setOnClickListener(this);
+        greenGroup.setOnClickListener(this);
         return view;
     }
 
@@ -114,6 +115,8 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         String rune = item.getTitle().toString();
         if (rune.endsWith(SUFFIX_DEFAULT)) {
             rune = rune.substring(0, rune.length() - SUFFIX_DEFAULT.length());
+        } else if (rune.endsWith(SUFFIX_RECOMMENDED)) {
+            rune = rune.substring(0, rune.length() - SUFFIX_RECOMMENDED.length());
         }
         switch (item.getGroupId()) {
             case R.id.rune_red:
@@ -155,10 +158,18 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         for (Rune rune : Rune.ALL_RUNES) {
             if (id == rune.category) {
                 String name = rune.name;
-                for (Rune rune1 : mHeroType.defaultRunes) {
-                    if (rune1 == rune) {
+                for (Rune defaultRune : mHeroType.defaultRunes) {
+                    if (defaultRune == rune) {
                         name += SUFFIX_DEFAULT;
                         break;
+                    }
+                }
+                if (!name.endsWith(SUFFIX_DEFAULT) && mHeroType.recommendedRunes != null) {
+                    for (Rune recommendedRune : mHeroType.recommendedRunes) {
+                        if (recommendedRune == rune) {
+                            name += SUFFIX_RECOMMENDED;
+                            break;
+                        }
                     }
                 }
                 Spannable spannable = new SpannableString(name);

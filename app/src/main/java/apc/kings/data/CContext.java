@@ -16,7 +16,7 @@ public class CContext {
     public boolean specific;
     public boolean far;
     public int time;
-    private int start_time;
+    public int time_start;
 
     public int summary_damage;
     public int summary_time;
@@ -36,7 +36,7 @@ public class CContext {
         for (CLog log : logs) {
             summary_damage += log.sum();
         }
-        summary_time = logs.get(logs.size() - 1).time - start_time;
+        summary_time = logs.get(logs.size() - 1).time - time_start;
         summary_dps = summary_damage * 1000.0 / summary_time;
         summary_cost_ratio = 100 * summary_dps / (1 + attacker.attr_price);
     }
@@ -67,14 +67,20 @@ public class CContext {
 
     private void runAttack() {
         attacker.initActionMode(defender, false, specific);
-        defender.initActionMode(null, true, specific);
         Collections.sort(attacker.actions_active);
-        start_time = attacker.actions_active.get(0).time;
+        time_start = attacker.actions_active.get(0).time;
+        defender.initActionMode(null, true, specific);
         do {
             Collections.sort(events);
             Collections.sort(attacker.actions_active);
             Event event = events.get(0);
             Event action = attacker.actions_active.get(0);
+            if (!defender.actions_active.isEmpty()) {
+                Event defenderAction = defender.actions_active.get(0);
+                if (defenderAction.time <= action.time) {
+                    action = defenderAction;
+                }
+            }
             if (event.time <= action.time) {
                 updateTime(event);
                 event.hero.onEvent(event);
