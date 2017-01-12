@@ -40,7 +40,7 @@ public class Item {
     public static final int MOB_MAGIC                  = 0x00200000;
     public static final int MOB_HP                     = 0x00400000;
 
-    public static final int ENCHANT_TRINITY            = 0x0f000000;
+    public static final int ENCHANT_MASTER             = 0x0f000000;
     public static final int ENCHANT_VOODOO             = 0x07000000;
     public static final int ENCHANT_ICE                = 0x03000000;
 
@@ -50,7 +50,7 @@ public class Item {
             new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0,  0,  0,  0, FLAG_WOUND),
             new Item("破甲弓",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0,   0,  0,  0, 10, FLAG_PENETRATE),
             new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,    0,  85,   0,   0,   0,   0,  0,  0, 15, FLAG_CUT),
-            new Item("三圣之力",  R.drawable.weapon_trinity,    R.id.item_weapon, 2510,  300,  60,  60,   0,   0,   0, 20, 15,  0, ENCHANT_TRINITY),
+            new Item("宗师之力",  R.drawable.weapon_master,     R.id.item_weapon, 2100,  400,  60,   0,   0,   0,   0,  0, 20,  0, ENCHANT_MASTER),
             new Item("影刃",      R.drawable.weapon_storm,      R.id.item_weapon, 2070,    0,   0,   0,   0,   0,   0, 40, 10,  0, FLAG_STORM),
             new Item("纯净苍穹",  R.drawable.weapon_dispel,     R.id.item_weapon, 2230,    0,   0,   0,   0,   0,   0, 40, 20,  0, FLAG_ACCURATE),
             new Item("闪电匕首",  R.drawable.weapon_lightning,  R.id.item_weapon, 1840,    0,   0,   0,   0,   0,   0, 30, 20,  0, FLAG_LIGHTNING),

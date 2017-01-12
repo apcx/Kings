@@ -39,17 +39,17 @@ public class HeroType {
             map.put(heroType.name, heroType);
         }
 
-        buildDefaultItems("成吉思汗", new String[]{"无尽战刃", "急速战靴", "三圣之力", "泣血之刃", "冰霜长矛", "破甲弓"});
+        buildDefaultItems("成吉思汗", new String[]{"无尽战刃", "急速战靴", "宗师之力", "泣血之刃", "冰霜长矛", "破甲弓"});
         buildDefaultItems("马可波罗", new String[]{"破灭君主", "急速战靴", "无尽战刃", "泣血之刃", "破甲弓", "影刃"});
         buildDefaultItems("鲁班七号", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
         buildDefaultItems("后羿", new String[]{"破灭君主", "闪电匕首", "急速战靴", "无尽战刃", "破甲弓", "影刃"});
         buildDefaultItems("李元芳", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
         buildDefaultItems("孙尚香", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "三圣之力", "冰封之心", "破军", "破甲弓"});
+        buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "冰封之心", "破军", "破甲弓"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
         String[] archer_item_names = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
-        String[] attack_item_names = {"影忍之足", "破甲弓", "三圣之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
+        String[] attack_item_names = {"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
         buildRecommendedItems("成吉思汗", archer_item_names);
         buildRecommendedItems("鲁班七号", archer_item_names);
         buildRecommendedItems("后羿", archer_item_names);

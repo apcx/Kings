@@ -146,7 +146,7 @@ public class Hero {
             has_heal = (attr_flags & Item.FLAG_HEAL) != 0;
             has_recover = (attr_flags & Item.FLAG_RECOVER) != 0;
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
-            attr_enchants = attr_flags & Item.ENCHANT_TRINITY;
+            attr_enchants = attr_flags & Item.ENCHANT_MASTER;
 
             if (has_heal) {
                 attr_heal += 0.2;
@@ -263,7 +263,7 @@ public class Hero {
             case "冷却":
                 context.events.remove(event);
                 switch (event.target) {
-                    case "咒刃":
+                    case "强击":
                         in_cd_enchant = false;
                         break;
                     case "电弧":
@@ -320,7 +320,7 @@ public class Hero {
         if (attr_enchants != 0 && !in_cd_enchant) {
             in_cd_enchant = true;
             in_enchant = true;
-            context.addEvent(this, "冷却", "咒刃", Item.ENCHANT_ICE == attr_enchants ? 3000 : 2000);
+            context.addEvent(this, "冷却", "强击", Item.ENCHANT_ICE == attr_enchants ? 3000 : 2000);
         }
         Skill skill = skills[index];
         actions_cast[index].time = context.time + (int) (skill.cd * (1 - attr_cdr));
@@ -397,10 +397,10 @@ public class Hero {
 
         if (in_enchant && target.hp > 0) {
             in_enchant = false;
-            log = new CLog(name, "咒刃", target.name, context.time);
+            log = new CLog(name, "强击", target.name, context.time);
             int damage_enchant = 0;
             switch (attr_enchants) {
-                case Item.ENCHANT_TRINITY:
+                case Item.ENCHANT_MASTER:
                     damage_enchant = log.damage = (int) (attr_attack * getDefenseFactor() * getDamageFactor(false));
                     break;
                 case Item.ENCHANT_VOODOO:

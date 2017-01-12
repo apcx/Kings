@@ -37,7 +37,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
-        setTitle("Res " + App.RES_VERSION + " [alpha_1]");
+        setTitle("Res " + App.RES_VERSION + " [alpha_2]");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mAttackerFragment = (HeroFragment) fragmentManager.findFragmentById(R.id.attacker);
