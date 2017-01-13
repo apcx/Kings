@@ -30,7 +30,7 @@ public class Item {
     public static final int FLAG_CORRUPT               = 0x1000;
     public static final int FLAG_ACCURATE              = 0x2000;
     public static final int FLAG_LIGHTNING             = 0x4000;
-    public static final int FLAG_LEGION                = 0x8000;
+    public static final int FLAG_SENTINEL              = 0x8000;
 
     public static final int FLAG_HEAL                  = 0x00010000;
     public static final int FLAG_RECOVER               = 0x00020000;
@@ -47,9 +47,9 @@ public class Item {
     public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,    R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 30,  0,  0, FLAG_CORRUPT),
             new Item("泣血之刃",  R.drawable.weapon_drain,      R.id.item_weapon, 1740,    0, 100,   0,   0,   0,   0,  0,  0,  0, 0),
-            new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1600,    0, 100,   0,   0,   0,   0,  0,  0,  0, FLAG_WOUND),
+            new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1800,    0, 100,   0,   0,   0,   0,  0,  0,  0, FLAG_WOUND),
             new Item("破甲弓",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0,   0,  0,  0, 10, FLAG_PENETRATE),
-            new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,    0,  85,   0,   0,   0,   0,  0,  0, 15, FLAG_CUT),
+            new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,  400,  85,   0,   0,   0,   0,  0,  0, 15, FLAG_CUT),
             new Item("宗师之力",  R.drawable.weapon_master,     R.id.item_weapon, 2100,  400,  60,   0,   0,   0,   0,  0, 20,  0, ENCHANT_MASTER),
             new Item("影刃",      R.drawable.weapon_storm,      R.id.item_weapon, 2070,    0,   0,   0,   0,   0,   0, 40, 10,  0, FLAG_STORM),
             new Item("纯净苍穹",  R.drawable.weapon_dispel,     R.id.item_weapon, 2230,    0,   0,   0,   0,   0,   0, 40, 20,  0, FLAG_ACCURATE),
@@ -61,12 +61,12 @@ public class Item {
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0,   0,  0,  0,  0, 0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0,   0,  0,  0,  0, FLAG_COLD_IRON),
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0,  0,  0, FLAG_RECOVER),
-            new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1200,   0,   0,   0, 360,   0,  0,  0,  0, 0),
+            new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1000,   0,   0,   0, 360,   0,  0,  0,  0, 0),
             new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0,  0, 10, FLAG_HEAL),
-            new Item("军团荣耀",  R.drawable.armor_legion,      R.id.item_armor,  1970, 1000,   0,   0,   0,   0,  60,  0,  0,  0, FLAG_LEGION),
-            new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  2140,    0,  80,   0, 360,   0,   0,  0,  0,  0, 0),
+            new Item("近卫荣耀",  R.drawable.armor_sentinel,    R.id.item_armor,  1510,  500,   0,   0,   0,   0,   0,  0,  0,  0, FLAG_SENTINEL),
+            new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  2140,    0,  80,   0, 420,   0,   0,  0,  0,  0, 0),
             new Item("冰封之心",  R.drawable.armor_frozen_heart,R.id.item_armor,  2100,    0,   0,   0, 360,   0,   0,  0,  0, 20, FLAG_FROZEN_HEART),
-            new Item("冰脉护手",  R.drawable.armor_guanlets,    R.id.item_armor,  2070,    0,   0,  60, 360,   0,   0,  0,  0, 10, 0),
+            new Item("冰痕之握",  R.drawable.armor_guanlets,    R.id.item_armor,  2020,  800,   0,   0, 200,   0,   0,  0,  0, 10, 0),
             new Item("暴烈之甲",  R.drawable.armor_berserk,     R.id.item_armor,  1820, 1000,  60,   0,   0,   0,   0,  0,  0,  0, 0),
             new Item("血魔之怒",  R.drawable.armor_fury,        R.id.item_armor,  2120, 1000,  20,   0,   0,   0,   0,  0,  0,  0, 0),
             new Item("奔狼纹章",  R.drawable.armor_horn,        R.id.item_armor,  1530,  400,   0,   0, 100,   0,   0,  0,  0,  0, 0),
