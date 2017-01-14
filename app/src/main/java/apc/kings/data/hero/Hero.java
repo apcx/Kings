@@ -72,6 +72,7 @@ public class Hero {
     private int cnt_hit;
     private int cnt_critical;
     private int cnt_lightning = 5;
+    private int shield_magic;
 
     private boolean in_storm;
     private boolean in_cold_iron;
@@ -143,7 +144,7 @@ public class Hero {
             has_heal = (attr_flags & Item.FLAG_HEAL) != 0;
             has_recover = (attr_flags & Item.FLAG_RECOVER) != 0;
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
-            attr_enchants = attr_flags & Item.ENCHANT_MASTER;
+            attr_enchants = attr_flags & Item.ENCHANT_VOODOO;
 
             if (has_heal) {
                 attr_heal += 0.2;
@@ -157,6 +158,9 @@ public class Hero {
             if ((attr_flags & Item.FLAG_SENTINEL) != 0) {
                 attr_attack += 60;
                 attr_magic += 120;
+            }
+            if ((attr_flags & Item.FLAG_MAGIC_SHIELD) != 0) {
+                shield_magic = 2000;
             }
             if ((attr_flags & Item.MOB_ATTACK) != 0) {
                 attr_attack_speed += 30;
@@ -401,14 +405,17 @@ public class Hero {
             context.logs.add(log);
             int damage_enchant = 0;
             switch (attr_enchants) {
-                case Item.ENCHANT_MASTER:
-                    damage_enchant = log.damage = (int) (attr_attack * getDefenseFactor() * getDamageFactor());
-                    break;
                 case Item.ENCHANT_VOODOO:
                     damage_enchant = log.magic_damage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor());
                     break;
+                case Item.ENCHANT_MASTER:
+                    damage_enchant = log.damage = (int) (attr_attack * getDefenseFactor() * getDamageFactor());
+                    break;
                 case Item.ENCHANT_ICE:
-                    damage_enchant = log.damage = (int) (430 * getDefenseFactor() * getDamageFactor());
+                    damage_enchant = log.damage = (int) (450 * getDefenseFactor() * getDamageFactor());
+                    break;
+                case Item.MOB_MAGIC:
+                    damage_enchant = log.magic_damage = (int) ((int) (attr_magic * 0.3) * getMagicDefenseFactor() * getDamageFactor());
                     break;
             }
             target.onDamaged(damage_enchant);

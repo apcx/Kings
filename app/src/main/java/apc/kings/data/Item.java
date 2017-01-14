@@ -35,14 +35,14 @@ public class Item {
     public static final int FLAG_HEAL                  = 0x00010000;
     public static final int FLAG_RECOVER               = 0x00020000;
     public static final int FLAG_WOUND                 = 0x00040000;
+    public static final int FLAG_MAGIC_SHIELD          = 0x00080000;
 
-    public static final int MOB_ATTACK                 = 0x00100000;
-    public static final int MOB_MAGIC                  = 0x00200000;
-    public static final int MOB_HP                     = 0x00400000;
-
-    public static final int ENCHANT_MASTER             = 0x0f000000;
-    public static final int ENCHANT_VOODOO             = 0x07000000;
+    public static final int ENCHANT_VOODOO             = 0x0f000000;
+    public static final int ENCHANT_MASTER             = 0x07000000;
     public static final int ENCHANT_ICE                = 0x03000000;
+    public static final int MOB_MAGIC                  = 0x01000000;
+    public static final int MOB_ATTACK                 = 0x00100000;
+    public static final int MOB_HP                     = 0x00200000;
 
     public static final Item[] ALL_ITEMS = new Item[] {
             new Item("破灭君主",  R.drawable.weapon_corrupt,    R.id.item_weapon, 2160,    0,  60,   0,   0,   0,   0, 30,  0,  0, FLAG_CORRUPT),
@@ -61,7 +61,7 @@ public class Item {
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0,   0,  0,  0,  0, 0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0,   0,  0,  0,  0, FLAG_COLD_IRON),
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 100,  0,  0,  0, FLAG_RECOVER),
-            new Item("魔女斗篷",  R.drawable.armor_mist,        R.id.item_armor,  2120, 1000,   0,   0,   0, 360,   0,  0,  0,  0, 0),
+            new Item("魔女斗篷",  R.drawable.armor_magic_shield,R.id.item_armor,  2120, 1000,   0,   0,   0, 360,   0,  0,  0,  0, FLAG_MAGIC_SHIELD),
             new Item("振兴之铠",  R.drawable.armor_heal,        R.id.item_armor,  2100, 1100,   0,   0,   0, 180,  45,  0,  0, 10, FLAG_HEAL),
             new Item("近卫荣耀",  R.drawable.armor_sentinel,    R.id.item_armor,  1510,  500,   0,   0,   0,   0,   0,  0,  0,  0, FLAG_SENTINEL),
             new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  2140,    0,  80,   0, 420,   0,   0,  0,  0,  0, 0),

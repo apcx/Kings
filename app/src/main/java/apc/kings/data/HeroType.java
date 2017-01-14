@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import apc.kings.R;
@@ -58,7 +59,7 @@ public class HeroType {
         buildRecommendedItems("虞姬", attack_item_names);
         buildRecommendedItems("孙悟空", attack_item_names);
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "影刃", "破灭君主", "破甲弓", "纯净苍穹", "贤者的庇护"});
-        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "不祥征兆", "魔女斗篷", "霸者重装", "冰封之心"});
+        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
         buildDefaultRunes("马可波罗", new String[]{"红月", "狩猎", "鹰眼"});
@@ -156,12 +157,29 @@ public class HeroType {
     
     public void setItems(@NonNull Item[] items) {
         this.items = items;
-        String value = "";
-        for (int i = 0; i < Item.SLOTS; ++i) {
-            String name = null == items[i] ? "empty" : items[i].name;
-            value += 0 == i ? name : "," + name;
+
+        SharedPreferences.Editor editor = App.preferences().edit();
+        String key = "item_" + name;
+        boolean reset = false;
+        if (recommendedItems != null) {
+            if (Arrays.equals(items, recommendedItems)) {
+                editor.remove(key);
+                reset = true;
+            }
+        } else if (Arrays.equals(items, defaultItems)) {
+            editor.remove(key);
+            reset = true;
         }
-        App.preferences().edit().putString("item_" + name, value).apply();
+
+        if (!reset) {
+            String value = "";
+            for (int i = 0; i < Item.SLOTS; ++i) {
+                String name = null == items[i] ? "empty" : items[i].name;
+                value += 0 == i ? name : "," + name;
+            }
+            editor.putString(key, value);
+        }
+        editor.apply();
     }
 
     private static void buildDefaultItems(String name, String[] itemNames) {
