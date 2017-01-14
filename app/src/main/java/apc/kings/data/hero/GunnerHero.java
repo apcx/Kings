@@ -33,10 +33,9 @@ public class GunnerHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 4399;
-        action_attack.time = 5000;
-        actions_cast[2].time = 5001;
-        actions_cast[1].time = 5002;
+        action_attack.time = 601;
+        actions_cast[2].time = 602;
+        actions_cast[1].time = 603;
         actions_active.add(actions_cast[0]);
         actions_active.add(actions_cast[1]);
         actions_active.add(actions_cast[2]);
@@ -132,7 +131,7 @@ public class GunnerHero extends Hero {
     protected void onHitMagic(CLog log) {
         if (in_silver_bullets) {
             log.magic_damage = (int) (((int) (attr_attack * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor());
-            target.onDamaged(log.magic_damage);
+            target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
         }
     }
 

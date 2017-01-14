@@ -23,8 +23,7 @@ public class BomberHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 3600;
-        action_attack.time = 4000;
+        action_attack.time = 400;
         actions_active.add(actions_cast[0]);
     }
 
@@ -54,7 +53,7 @@ public class BomberHero extends Hero {
             log = new CLog(name, "引爆", target.name, context.time);
             log.damage = (int) (((int) (attr_attack * 0.48) + 220) * 5 * getDefenseFactor() * getDamageFactor());
             context.logs.add(log);
-            target.onDamaged(log.damage);
+            target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
         }
     }
 

@@ -49,7 +49,7 @@ public class HeroType {
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "冰封之心", "破军", "破甲弓"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archer_item_names = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
+        String[] archer_item_names = {"影忍之足", "破灭君主", "制裁之刃", "破甲弓", "影刃", "贤者的庇护"};
         String[] attack_item_names = {"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
         buildRecommendedItems("成吉思汗", archer_item_names);
         buildRecommendedItems("鲁班七号", archer_item_names);
@@ -72,7 +72,7 @@ public class HeroType {
 
         String[] archer_rune_names = {"祸源", "狩猎", "鹰眼"};
         String[] attack_rune_names = {"祸源", "隐匿", "鹰眼"};
-        buildRecommendedRunes("成吉思汗", archer_rune_names);
+        buildRecommendedRunes("成吉思汗", attack_rune_names);
         buildRecommendedRunes("李元芳", archer_rune_names);
         buildRecommendedRunes("鲁班七号", attack_rune_names);
         buildRecommendedRunes("后羿", attack_rune_names);

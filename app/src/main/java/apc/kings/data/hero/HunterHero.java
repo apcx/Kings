@@ -28,8 +28,7 @@ public class HunterHero extends Hero {
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
-        action_attack.time = 4899;
-        actions_cast[2].time = 4999;
+        actions_cast[2].time = 100;
         actions_active.add(actions_cast[2]);
     }
 
@@ -101,7 +100,7 @@ public class HunterHero extends Hero {
             log = new CLog(name, "鹰眼", target.name, context.time);
             log.damage = (int) (((int) (attr_attack * 0.4) + 480) * getDefenseFactor() * getDamageFactor());
             context.logs.add(log);
-            target.onDamaged(log.damage);
+            target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
         }
     }
 }

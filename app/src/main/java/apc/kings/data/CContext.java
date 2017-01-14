@@ -16,7 +16,6 @@ public class CContext {
     public boolean specific;
     public boolean far;
     public int time;
-    public int time_start;
 
     public int summary_damage;
     public int summary_time;
@@ -36,7 +35,7 @@ public class CContext {
         for (CLog log : logs) {
             summary_damage += log.sum();
         }
-        summary_time = logs.get(logs.size() - 1).time - time_start;
+        summary_time = logs.get(logs.size() - 1).time;
         summary_dps = summary_damage * 1000.0 / summary_time;
         summary_cost_ratio = 1000000000.0 / summary_time / (1 + attacker.attr_price);
     }
@@ -67,8 +66,6 @@ public class CContext {
 
     private void runAttack() {
         attacker.initActionMode(defender, false, specific);
-        Collections.sort(attacker.actions_active);
-        time_start = attacker.actions_active.get(0).time;
         defender.initActionMode(null, true, specific);
         do {
             Collections.sort(events);

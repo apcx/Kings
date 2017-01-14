@@ -27,7 +27,6 @@ public class ClaymoreHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
         if (attacked) {
-            actions_cast[1].time = --context.time_start;
             actions_active.add(actions_cast[1]);
         }
     }
@@ -50,9 +49,9 @@ public class ClaymoreHero extends Hero {
     }
 
     @Override
-    protected void onDamaged(int damage) {
+    protected int onSpecificShield(int damage) {
         if (shield > 0) {
-            int damage_shield = Math.min(shield, damage);
+            int damage_shield = Math.min(damage, shield);
             shield -= damage_shield;
             damage -= damage_shield;
             if (shield <= 0) {
@@ -60,8 +59,6 @@ public class ClaymoreHero extends Hero {
                 print("护盾击破", event_shield.target);
             }
         }
-        if (damage > 0) {
-            hp -= damage;
-        }
+        return damage;
     }
 }

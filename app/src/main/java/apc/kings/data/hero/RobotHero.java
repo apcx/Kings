@@ -25,9 +25,8 @@ public class RobotHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        actions_cast[0].time = 4000;
-        action_attack.time = 4500;
-        actions_cast[1].time = 4501;
+        action_attack.time = 500;
+        actions_cast[1].time = 501;
         actions_active.add(actions_cast[0]);
         actions_active.add(actions_cast[1]);
     }
@@ -82,9 +81,16 @@ public class RobotHero extends Hero {
         super.onCast(index, log);
         switch (index) {
             case 0:
+                toStrafe();
+                action_attack.time = 0;
+                break;
             case 1:
                 toStrafe();
                 action_attack.time = 0;
+                if (target.hp > 0) {
+                    log.magic_damage = (int) ((target.attr_mhp - target.hp) / 10 * getMagicDefenseFactor() * getDamageFactor());
+                    target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+                }
                 break;
         }
     }
