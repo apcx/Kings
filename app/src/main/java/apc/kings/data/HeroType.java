@@ -72,10 +72,10 @@ public class HeroType {
 
         String[] archer_rune_names = {"祸源", "狩猎", "鹰眼"};
         String[] attack_rune_names = {"祸源", "隐匿", "鹰眼"};
-        buildRecommendedRunes("成吉思汗", attack_rune_names);
+        buildRecommendedRunes("成吉思汗", archer_rune_names);
+        buildRecommendedRunes("鲁班七号", archer_rune_names);
+        buildRecommendedRunes("后羿", archer_rune_names);
         buildRecommendedRunes("李元芳", archer_rune_names);
-        buildRecommendedRunes("鲁班七号", attack_rune_names);
-        buildRecommendedRunes("后羿", attack_rune_names);
         buildRecommendedRunes("孙尚香", attack_rune_names);
         buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});
 
