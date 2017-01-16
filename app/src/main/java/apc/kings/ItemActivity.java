@@ -152,11 +152,6 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        public void onItemChanged(int position) {
-            mSelectedItem = position < 0 ? null : mItems.get(position);
-        }
-
-        @Override
         @SuppressLint("SetTextI18n")
         public void onBindViewHolder(MapHolder holder, int position) {
             SdView image = holder.get(R.id.image);
@@ -172,6 +167,11 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public int getItemCount() {
             return mItems.size();
+        }
+
+        @Override
+        protected void onItemChanged(int position) {
+            mSelectedItem = position < 0 ? null : mItems.get(position);
         }
     }
 }

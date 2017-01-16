@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import apc.kings.common.AbsAdapter;
-import apc.kings.common.App;
 import apc.kings.common.MapHolder;
 import apc.kings.data.CContext;
 import apc.kings.data.CLog;
@@ -37,7 +36,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
-        setTitle("Res " + App.RES_VERSION + " [alpha_2]");
+        setTitle("Res v" + BuildConfig.VERSION_NAME);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mAttackerFragment = (HeroFragment) fragmentManager.findFragmentById(R.id.attacker);
@@ -62,7 +61,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                     mDamageView.setText(Integer.toString(mCombat.summary_damage));
                     mTimeView.setText(String.format("%.3f", mCombat.summary_time / 1000.0));
                     mDpsView.setText(String.format("%.0f", mCombat.summary_dps));
-                    mCostRatioView.setText(String.format("%.2f", mCombat.summary_cost_ratio));
+                    mCostRatioView.setText(String.format("%.3f", mCombat.summary_cost_ratio));
                     mAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -172,7 +171,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 magic_damage.setText(Integer.toString(log.magic_damage));
                 if (log.critical && "电弧".equals(log.action)) {
                     magic_damage.setTextSize(largeSize);
-                    magic_damage.setTypeface(typeface, Typeface.BOLD);
+                    magic_damage.setTypeface(typeface, Typeface.BOLD_ITALIC);
                 }
             } else {
                 magic_damage.setText(null);

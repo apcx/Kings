@@ -33,11 +33,17 @@ public class CContext {
         runAttack();
 
         for (CLog log : logs) {
-            summary_damage += log.sum();
+            int damage = log.sum();
+            switch (log.action) {
+                case "扫射":
+                    damage *= 2;
+                    break;
+            }
+            summary_damage += damage;
         }
         summary_time = logs.get(logs.size() - 1).time;
         summary_dps = summary_damage * 1000.0 / summary_time;
-        summary_cost_ratio = 1000000000.0 / summary_time / (1 + attacker.attr_price);
+        summary_cost_ratio = summary_dps * 10 / (1 + attacker.attr_price);
     }
 
     public void addEvent(Hero hero, String action, int intervals, int period) {

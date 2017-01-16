@@ -104,14 +104,6 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        public void onItemChanged(int position) {
-            mLockButton.setEnabled(true);
-            if (position >= 0) {
-                mSelectedHeroType = mHeroTypes.get(position);
-            }
-        }
-
-        @Override
         public void onBindViewHolder(MapHolder holder, int position) {
             SdView view = (SdView) holder.itemView;
             view.setImage(mHeroTypes.get(position).getImageUri(view.getContext(), HeroType.TYPE_HERO), position == mSelected);
@@ -120,6 +112,14 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public int getItemCount() {
             return mHeroTypes.size();
+        }
+
+        @Override
+        protected void onItemChanged(int position) {
+            mLockButton.setEnabled(true);
+            if (position >= 0) {
+                mSelectedHeroType = mHeroTypes.get(position);
+            }
         }
     }
 }
