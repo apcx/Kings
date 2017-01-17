@@ -58,7 +58,7 @@ public class HeroType {
         buildRecommendedItems("孙尚香", attack_item_names);
         buildRecommendedItems("虞姬", attack_item_names);
         buildRecommendedItems("孙悟空", attack_item_names);
-        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "影刃", "破灭君主", "破甲弓", "纯净苍穹", "贤者的庇护"});
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "影刃", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});

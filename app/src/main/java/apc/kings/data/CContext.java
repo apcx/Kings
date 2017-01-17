@@ -34,9 +34,21 @@ public class CContext {
 
         for (CLog log : logs) {
             int damage = log.sum();
+
+            // Some kinds of damages can have multiple targets.
             switch (log.action) {
+                case "狂热弹幕":
+                    damage *= 1.5;
+                    break;
+                case "电弧":
+                    damage *= 1.3;
+                    break;
                 case "扫射":
-                    damage *= 2;
+                case "引爆":
+                    damage *= 1.2;
+                    break;
+                case "强射":
+                    damage *= 1.1;
                     break;
             }
             summary_damage += damage;
@@ -91,7 +103,7 @@ public class CContext {
                 updateTime(action);
                 action.hero.onAction(action);
             }
-        } while (defender.hp > 0 && time < 99000);
+        } while (defender.hp > 0 && time <= 99000);
     }
 
     private void updateTime(Event event) {

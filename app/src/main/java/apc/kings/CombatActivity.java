@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import apc.kings.common.AbsAdapter;
 import apc.kings.common.MapHolder;
@@ -17,7 +18,7 @@ import apc.kings.data.CContext;
 import apc.kings.data.CLog;
 import apc.kings.data.HeroType;
 
-public class CombatActivity extends AppCompatActivity implements View.OnClickListener {
+public class CombatActivity extends AppCompatActivity implements View.OnClickListener, Runnable {
 
     CContext mCombat;
 
@@ -27,9 +28,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTimeView;
     private TextView mDpsView;
     private TextView mCostRatioView;
-
     private RecyclerView mLogView;
     private RecyclerView.Adapter mAdapter;
+    private Toast mToast;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -77,9 +78,32 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     public void onBackPressed() {
         if (mLogView.getVisibility() == View.VISIBLE) {
             mLogView.setVisibility(View.GONE);
+        } else if (null == mToast) {
+            mToast = Toast.makeText(this, "再按一次【回退键】可退出", Toast.LENGTH_SHORT);
+            mToast.show();
+            new Thread(this).start();
         } else {
-            super.onBackPressed();
+            finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // ignore
+        }
+        mToast = null;
     }
 
     private class Adapter extends AbsAdapter {

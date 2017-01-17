@@ -9,6 +9,8 @@ import apc.kings.data.Skill;
 @SuppressWarnings("unused")
 public class GunnerHero extends Hero {
 
+    private static final boolean DEBUG_FRENZY = false;
+
     private static final int[] SHOOTING_TIMES = {1800, 0, 3000};
     private static final int ENERGY_MAX = 150;
     private static final int ENERGY_COST = 70;
@@ -154,7 +156,11 @@ public class GunnerHero extends Hero {
         bonus_damage = skill.damageBonus;
         onHit(log);
 
-        int intervals = 4 + 2 * (int) (attr_attack_speed / 75);
+        double speed = attr_attack_speed;
+        if (DEBUG_FRENZY && 2 == index) {
+            speed += 60;
+        }
+        int intervals = 4 + 2 * (int) (speed / 75);
         context.addEvent(this, skill.name, intervals, SHOOTING_TIMES[index] / intervals);
 
         int time = context.time + SHOOTING_TIMES[index] + 1;
