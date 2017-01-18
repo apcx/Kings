@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference android:key="combat_specific"
+        android:title="特殊指标 (测试)" />
+
+    <SwitchPreference android:key="combat_frenzy"
+        android:title="技能: 狂暴 (测试)" />
+</PreferenceScreen>

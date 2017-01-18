@@ -9,8 +9,7 @@
     android:layout_marginBottom="8dp"
     android:gravity="center_vertical">
 
-    <apc.kings.common.SdView
-        android:id="@+id/image"
+    <apc.kings.common.SdView android:id="@+id/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:roundAsCircle="true"
@@ -23,15 +22,13 @@
         android:orientation="vertical"
         android:layout_marginLeft="1dp">
 
-        <TextView
-            android:id="@+id/name"
+        <TextView android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="9sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/price"
+        <TextView android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="9sp"

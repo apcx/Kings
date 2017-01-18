@@ -2,6 +2,7 @@ package apc.kings.common;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -13,7 +14,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
-        preferences = getSharedPreferences("app", MODE_PRIVATE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     public static SharedPreferences preferences() {

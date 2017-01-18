@@ -28,8 +28,7 @@
             android:orientation="vertical"
             android:layout_marginTop="12dp">
 
-            <Button
-                android:id="@+id/item_weapon"
+            <Button android:id="@+id/item_weapon"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:background="@drawable/btn_category_hero"
@@ -37,8 +36,7 @@
                 android:text="攻击"
                 android:onClick="onSelect" />
 
-            <Button
-                android:id="@+id/item_magic"
+            <Button android:id="@+id/item_magic"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="1dp"
@@ -47,8 +45,7 @@
                 android:text="法术"
                 android:onClick="onSelect" />
 
-            <Button
-                android:id="@+id/item_armor"
+            <Button android:id="@+id/item_armor"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="1dp"
@@ -57,8 +54,7 @@
                 android:text="防御"
                 android:onClick="onSelect" />
 
-            <Button
-                android:id="@+id/item_boots"
+            <Button android:id="@+id/item_boots"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="1dp"
@@ -67,8 +63,7 @@
                 android:text="移动"
                 android:onClick="onSelect" />
 
-            <Button
-                android:id="@+id/item_mob"
+            <Button android:id="@+id/item_mob"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="1dp"
@@ -83,8 +78,7 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/items"
+        <android.support.v7.widget.RecyclerView android:id="@+id/items"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="25"
@@ -102,8 +96,7 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp">
 
-        <include
-            android:id="@+id/hero"
+        <include android:id="@+id/hero"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -123,15 +116,13 @@
                 android:orientation="horizontal"
                 android:gravity="right">
 
-                <ImageView
-                    android:id="@+id/cancel"
+                <ImageView android:id="@+id/cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_cancel"
                     android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/edit"
+                <ImageView android:id="@+id/edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -139,8 +130,7 @@
                     android:src="@drawable/btn_item_edit" />
             </LinearLayout>
 
-            <apc.kings.ItemGroup
-                android:id="@+id/item_set"
+            <apc.kings.ItemGroup android:id="@+id/item_set"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
@@ -158,15 +148,13 @@
             android:layout_marginRight="2dp"
             android:orientation="vertical">
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/reset_recommended"
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/reset_recommended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="3.4038"
                 app:placeholderImage="@drawable/item_recommended" />
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/reset_default"
+            <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/reset_default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="3.4038"

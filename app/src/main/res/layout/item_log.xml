@@ -7,46 +7,40 @@
     android:gravity="center_vertical"
     android:background="#40008080">
 
-    <TextView
-        android:id="@+id/time"
+    <TextView android:id="@+id/time"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:textSize="12sp" />
 
-    <ImageView
-        android:id="@+id/hero"
+    <ImageView android:id="@+id/hero"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center" />
 
-    <TextView
-        android:id="@+id/action"
+    <TextView android:id="@+id/action"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:gravity="center"
         android:textSize="12sp" />
 
-    <ImageView
-        android:id="@+id/target_hero"
+    <ImageView android:id="@+id/target_hero"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
         android:gravity="center" />
 
-    <TextView
-        android:id="@+id/target_text"
+    <TextView android:id="@+id/target_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
         android:gravity="center"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/damage"
+    <TextView android:id="@+id/damage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
@@ -54,8 +48,7 @@
         android:textSize="12sp"
         android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/extra_damage"
+    <TextView android:id="@+id/extra_damage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -64,8 +57,7 @@
         android:textSize="12sp"
         android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/magic_damage"
+    <TextView android:id="@+id/magic_damage"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

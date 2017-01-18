@@ -1,12 +1,15 @@
 package apc.kings;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +53,18 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         mAdapter = new Adapter();
         mLogView = (RecyclerView) findViewById(R.id.log);
         mLogView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -146,6 +161,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             switch (log.action) {
                 case "强化":
                 case "准备":
+                case "击败":
                     action.setTextColor(0xff00ffff);
                     break;
                 case "弱化":
@@ -183,7 +199,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 damage.setTextColor(resources.getColor(R.color.log_damage));
                 if (log.critical) {
                     damage.setTextSize(largeSize);
-                    damage.setTypeface(typeface, Typeface.BOLD);
+                    damage.setTypeface(typeface, Typeface.BOLD_ITALIC);
                 }
             } else {
                 damage.setText(null);

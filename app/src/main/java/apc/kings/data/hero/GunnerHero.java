@@ -9,8 +9,6 @@ import apc.kings.data.Skill;
 @SuppressWarnings("unused")
 public class GunnerHero extends Hero {
 
-    private static final boolean DEBUG_FRENZY = false;
-
     private static final int[] SHOOTING_TIMES = {1800, 0, 3000};
     private static final int ENERGY_MAX = 150;
     private static final int ENERGY_COST = 70;
@@ -65,6 +63,7 @@ public class GunnerHero extends Hero {
                 onHit(new CLog(name, event.action, target.name, context.time));
                 if (event.intervals <= 0) {
                     in_barrage = false;
+                    context.checkExit();
                 }
                 break;
         }
@@ -157,7 +156,7 @@ public class GunnerHero extends Hero {
         onHit(log);
 
         double speed = attr_attack_speed;
-        if (DEBUG_FRENZY && 2 == index) {
+        if (context.option_frenzy && 2 == index) {
             speed += 60;
         }
         int intervals = 4 + 2 * (int) (speed / 75);
