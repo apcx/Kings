@@ -41,7 +41,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             mLockButton.setEnabled(false);
         }
-        onSelected(R.id.cat_all);
+        onCategoryChanged(R.id.cat_all);
 
         mLockButton.setOnClickListener(this);
     }
@@ -54,11 +54,11 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             default:
-                onSelected(v.getId());
+                onCategoryChanged(v.getId());
         }
     }
 
-    private void onSelected(int id) {
+    private void onCategoryChanged(int id) {
         if (id != mCategory) {
             if (mCategory > 0) {
                 findViewById(mCategory).setSelected(false);
@@ -116,9 +116,11 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onItemChanged(int position) {
-            mLockButton.setEnabled(true);
             if (position >= 0) {
                 mSelectedHeroType = mHeroTypes.get(position);
+                mLockButton.setEnabled(true);
+            } else {
+                mLockButton.setEnabled(false);
             }
         }
     }

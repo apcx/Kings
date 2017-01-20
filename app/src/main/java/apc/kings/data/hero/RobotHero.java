@@ -10,6 +10,7 @@ public class RobotHero extends Hero {
 
     private int quick_bullets;
     private int normal_bullets;
+    private boolean missile_launched;
 
     protected RobotHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -67,6 +68,9 @@ public class RobotHero extends Hero {
                 quick_bullets = 0;
                 factor_attack = 1;
                 attr_attack_cd = 800;
+                if (missile_launched) {
+                    context.checkExit();
+                }
             }
         } else {
             super.onAttack(log);
@@ -91,6 +95,7 @@ public class RobotHero extends Hero {
                     log.magic_damage = (int) ((target.attr_mhp - target.hp) / 10 * getMagicDefenseFactor() * getDamageFactor());
                     target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                 }
+                missile_launched = true;
                 break;
         }
     }

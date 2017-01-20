@@ -34,6 +34,11 @@ public abstract class AbsAdapter extends RecyclerView.Adapter<MapHolder> impleme
     }
 
     @Override
+    public void onBindViewHolder(MapHolder holder, int position) {
+        holder.itemView.setSelected(position == mSelected);
+    }
+
+    @Override
     public void onClick(View v) {
         Object tag = v.getTag();
         if (tag instanceof RecyclerView.ViewHolder) {   // check tag-changed case

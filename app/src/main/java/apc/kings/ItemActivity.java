@@ -49,7 +49,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         mAdapter = new Adapter();
         ((RecyclerView) findViewById(R.id.items)).setAdapter(mAdapter);
-        onSelected(R.id.item_weapon);
+        onCategoryChanged(R.id.item_weapon);
 
         mEditButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
@@ -57,44 +57,11 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.reset_default).setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.edit:
-                if (mEditButton.isSelected()) {
-                    mEditButton.setSelected(false);
-                    mCancelButton.setVisibility(View.GONE);
-                    mHeroType.setItems(mItemGroup.editDone());
-                } else {
-                    mEditButton.setSelected(true);
-                    mCancelButton.setVisibility(View.VISIBLE);
-                    mItemGroup.edit();
-                }
-                break;
-            case R.id.cancel:
-                mEditButton.setSelected(false);
-                mCancelButton.setVisibility(View.GONE);
-                mItemGroup.editCancel();
-                break;
-            case R.id.reset_recommended:
-            case R.id.reset_default:
-                showConfirmDialog(id);
-                break;
-        }
-    }
-
-    public void onFill(View v) {
-        if (mSelectedItem != null) {
-            mItemGroup.editItem(v.getId(), mSelectedItem);
-        }
-    }
-
     public void onSelect(View v) {
-        onSelected(v.getId());
+        onCategoryChanged(v.getId());
     }
 
-    private void onSelected(int id) {
+    private void onCategoryChanged(int id) {
         if (id != mCategory) {
             if (mCategory > 0) {
                 findViewById(mCategory).setSelected(false);
@@ -120,6 +87,52 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             mAdapter.setSelected(selected);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.edit:
+                if (mEditButton.isSelected()) {
+                    mEditButton.setSelected(false);
+                    mCancelButton.setVisibility(View.GONE);
+                    mHeroType.setItems(mItemGroup.editDone());
+                } else {
+                    mEditButton.setSelected(true);
+                    mCancelButton.setVisibility(View.VISIBLE);
+                    mItemGroup.edit();
+                }
+                break;
+            case R.id.cancel:
+                onCancel();
+                break;
+            case R.id.reset_recommended:
+            case R.id.reset_default:
+                showConfirmDialog(id);
+                break;
+        }
+    }
+
+    public void onFill(View v) {
+        if (mSelectedItem != null) {
+            mItemGroup.editItem(v.getId(), mSelectedItem);
+        }
+    }
+
+    public void onCancel() {
+        mEditButton.setSelected(false);
+        mCancelButton.setVisibility(View.GONE);
+        mItemGroup.editCancel();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mEditButton.isSelected()) {
+            onCancel();
+        } else {
+            super.onBackPressed();
         }
     }
 

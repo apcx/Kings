@@ -98,13 +98,14 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             mToast.show();
             new Thread(this).start();
         } else {
-            finish();
+            super.onBackPressed();
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mLogView.setVisibility(View.GONE);
         if (mToast != null) {
             mToast.cancel();
             mToast = null;
@@ -129,6 +130,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
+        @SuppressWarnings("deprecation")
         public void onBindViewHolder(MapHolder holder, int position) {
             Resources resources = getResources();
             String packageName = getPackageName();
