@@ -39,7 +39,7 @@ public class HunterHero extends Hero {
             case "冷却":
                 switch (event.target) {
                     case "追猎":
-                        in_wood = true;
+                        in_wood = context.option_hunt;
                         break;
                 }
                 break;
@@ -88,6 +88,7 @@ public class HunterHero extends Hero {
                         action.time = time;
                     }
                 }
+                context.checkExit();
                 break;
         }
     }

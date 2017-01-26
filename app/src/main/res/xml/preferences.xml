@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference android:key="combat_specific"
-        android:title="特殊指标 (测试)" />
+    <SwitchPreference android:key="@string/combat_combo"
+        android:title="Combo (测试)" />
 
-    <SwitchPreference android:key="combat_frenzy"
+    <SwitchPreference android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
+
+    <SwitchPreference android:key="@string/combat_hunt"
+        android:title="强行追猎 (成吉思汗)"
+        android:summaryOff="仅开战时站在草丛中"
+        android:summaryOn="始终站在草丛中" />
 </PreferenceScreen>

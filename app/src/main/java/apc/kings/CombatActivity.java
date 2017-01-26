@@ -73,7 +73,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.fight:
                 if (mAttackerFragment.mHeroType != null && mDefenderFragment.mHeroType != null) {
-                    mCombat = new CContext(mAttackerFragment.mHeroType, mDefenderFragment.mHeroType);
+                    mCombat = new CContext(this, mAttackerFragment.mHeroType, mDefenderFragment.mHeroType);
                     mDamageView.setText(Integer.toString(mCombat.summary_damage));
                     mTimeView.setText(String.format("%.3f", mCombat.summary_time / 1000.0));
                     mDpsView.setText(String.format("%.0f", mCombat.summary_dps));

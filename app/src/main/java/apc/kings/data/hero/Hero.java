@@ -38,6 +38,7 @@ public class Hero {
     protected double attr_attack_speed;
     protected double attr_critical;
     protected double attr_critical_damage = 2;
+    private double attr_critical_damage_average;
     protected double attr_cdr;
     protected double attr_heal = 1;
 
@@ -101,6 +102,7 @@ public class Hero {
         if (attr_critical > 1) {
             attr_critical = 1;
         }
+        attr_critical_damage_average = attr_critical_damage * attr_critical + 1 - attr_critical;
         attr_cdr /= 100;
         if (attr_cdr > 0.4) {
             attr_cdr = 0.4;
@@ -363,9 +365,13 @@ public class Hero {
     protected void onHit(CLog log) {
         onUpdateAttackCanCritical();
         double damage = attackCanCritical;
-        if ((hit_normal || hit_can_critical) && checkCritical()) {
-            damage *= attr_critical_damage;
-            log.critical = true;
+        if ((hit_normal || hit_can_critical)) {
+            log.critical = checkCritical();
+            if (context.option_combo) {
+                damage *= attr_critical_damage_average;
+            } else if (log.critical) {
+                damage *= attr_critical_damage;
+            }
         }
         log.damage = (int) ((damage + attackCannotCritical) * getDefenseFactor() * getDamageFactor(hit_normal));
         context.logs.add(log);

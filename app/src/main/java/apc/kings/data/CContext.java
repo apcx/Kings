@@ -1,10 +1,14 @@
 package apc.kings.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import apc.kings.common.App;
+import apc.kings.R;
 import apc.kings.data.hero.Hero;
 
 // Combat context
@@ -12,7 +16,9 @@ public class CContext {
 
     public List<Event> events = new ArrayList<>();
     public List<CLog> logs = new ArrayList<>();
+    public boolean option_combo;
     public boolean option_frenzy;
+    public boolean option_hunt;
     public boolean far;
     public int time;
 
@@ -23,14 +29,16 @@ public class CContext {
 
     private Hero attacker;
     private Hero defender;
-    private boolean option_specific;
     private boolean exit;
 
-    public CContext(HeroType attackerType, HeroType defenderType) {
+    public CContext(Context context, HeroType attackerType, HeroType defenderType) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
+        option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
+        option_hunt = preferences.getBoolean(context.getString(R.string.combat_hunt), false);
+
         attacker = Hero.create(this, attackerType);
         defender = Hero.create(this, defenderType);
-        option_specific = App.preferences().getBoolean("combat_specific", false);
-        option_frenzy = App.preferences().getBoolean("combat_frenzy", false);
         if (attackerType == defenderType) {
             attacker.name += "A";
             defender.name += "B";
@@ -89,14 +97,14 @@ public class CContext {
     }
 
     public void checkExit() {
-        if (option_specific) {
+        if (option_combo) {
             exit = true;
         }
     }
 
     private void runAttack() {
-        attacker.initActionMode(defender, false, option_specific);
-        defender.initActionMode(null, true, option_specific);
+        attacker.initActionMode(defender, false, option_combo);
+        defender.initActionMode(null, true, option_combo);
         do {
             Collections.sort(events);
             Collections.sort(attacker.actions_active);

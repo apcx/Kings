@@ -47,6 +47,7 @@ public class StalkerHero extends Hero {
             if (--quick_arrows <= 0) {
                 factor_attack = 1;
                 bonus_damage = 0;
+                context.checkExit();
             }
         } else {
             onHit(log);
