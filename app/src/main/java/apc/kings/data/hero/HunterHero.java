@@ -29,7 +29,9 @@ public class HunterHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
         actions_cast[2].time = 100;
-        actions_active.add(actions_cast[2]);
+        if (target != null) {
+            actions_active.add(actions_cast[2]);
+        }
     }
 
     @Override

@@ -25,9 +25,11 @@ public class MonkeyHero extends Hero {
         action_attack.time = 400;
         actions_cast[2].time = 600;
         actions_cast[1].time = 601;
-        actions_active.add(actions_cast[0]);
-        actions_active.add(actions_cast[1]);
-        actions_active.add(actions_cast[2]);
+        if (target != null) {
+            actions_active.add(actions_cast[0]);
+            actions_active.add(actions_cast[1]);
+            actions_active.add(actions_cast[2]);
+        }
     }
 
     @Override

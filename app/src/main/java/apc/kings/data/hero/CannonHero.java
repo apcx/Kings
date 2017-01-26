@@ -25,8 +25,10 @@ public class CannonHero extends Hero {
         super.initActionMode(target, attacked, specific);
         action_attack.time = 600;
         actions_cast[2].time = 800;
-        actions_active.add(actions_cast[0]);
-        actions_active.add(actions_cast[2]);
+        if (target != null) {
+            actions_active.add(actions_cast[0]);
+            actions_active.add(actions_cast[2]);
+        }
     }
 
     @Override

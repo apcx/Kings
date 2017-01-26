@@ -207,8 +207,8 @@ public class Hero {
             attr_magic += magic;
             attr_defense += defense;
             attr_magic_defense += magicDefense;
-            attr_penetrate = (int) penetrate;
-            attr_magic_penetrate = (int) magicPenetrate;
+            attr_penetrate += (int) penetrate;
+            attr_magic_penetrate += (int) magicPenetrate;
         }
     }
 

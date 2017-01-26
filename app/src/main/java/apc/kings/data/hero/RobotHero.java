@@ -28,8 +28,10 @@ public class RobotHero extends Hero {
         super.initActionMode(target, attacked, specific);
         action_attack.time = 500;
         actions_cast[1].time = 501;
-        actions_active.add(actions_cast[0]);
-        actions_active.add(actions_cast[1]);
+        if (target != null) {
+            actions_active.add(actions_cast[0]);
+            actions_active.add(actions_cast[1]);
+        }
     }
 
     @Override

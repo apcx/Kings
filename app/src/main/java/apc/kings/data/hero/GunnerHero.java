@@ -36,9 +36,11 @@ public class GunnerHero extends Hero {
         action_attack.time = 601;
         actions_cast[2].time = 602;
         actions_cast[1].time = 603;
-        actions_active.add(actions_cast[0]);
-        actions_active.add(actions_cast[1]);
-        actions_active.add(actions_cast[2]);
+        if (target != null) {
+            actions_active.add(actions_cast[0]);
+            actions_active.add(actions_cast[1]);
+            actions_active.add(actions_cast[2]);
+        }
     }
 
     @Override
