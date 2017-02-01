@@ -46,9 +46,7 @@ public class Hero {
     private boolean has_cold_iron;
     private boolean has_frozen_heart;
     private boolean has_penetrate;
-    private boolean has_magic_penetrate_rate;
-    private boolean has_magic_penetrate_boots;
-    private boolean has_magic_penetrate_mask;
+    private boolean has_magic_penetrate;
     private boolean has_defense_boots;
     private boolean has_corrupt;
     private boolean has_accurate;
@@ -132,9 +130,7 @@ public class Hero {
                 }
             }
             has_penetrate = (attr_flags & Item.FLAG_PENETRATE) != 0;
-            has_magic_penetrate_rate = (attr_flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
-            has_magic_penetrate_boots = (attr_flags & Item.FLAG_MAGIC_PENETRATE_BOOTS) != 0;
-            has_magic_penetrate_mask = (attr_flags & Item.FLAG_MAGIC_PENETRATE_MASK) != 0;
+            has_magic_penetrate = (attr_flags & Item.FLAG_MAGIC_PENETRATE_RATE) != 0;
             has_defense_boots = (attr_flags & Item.FLAG_DEFENSE_BOOTS) != 0;
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
             has_accurate = (attr_flags & Item.FLAG_ACCURATE) != 0;
@@ -157,6 +153,12 @@ public class Hero {
             if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
                 attr_critical_damage += 0.5;
             }
+            if ((attr_flags & Item.FLAG_MAGIC_PENETRATE_MASK) != 0) {
+                attr_magic_penetrate += 75;
+            }
+            if ((attr_flags & Item.FLAG_MAGIC_PENETRATE_BOOTS) != 0) {
+                attr_magic_penetrate += 75;
+            }
             if ((attr_flags & Item.FLAG_SENTINEL) != 0) {
                 attr_attack += 60;
                 attr_magic += 120;
@@ -178,8 +180,8 @@ public class Hero {
 
     private void initRunes() {
         if (heroType.runes != null) {
-            double hp = 0;
-            double attack = 0;
+            int hp = 0;
+            int attack = 0;
             double magic = 0;
             double defense = 0;
             double magicDefense = 0;
@@ -202,8 +204,8 @@ public class Hero {
                 attr_critical_damage += rune.criticalDamage * n / 100;
                 attr_cdr += rune.cdr * n;
             }
-            attr_mhp += hp;
-            attr_attack += attack;
+            attr_mhp += hp / 10;
+            attr_attack += attack / 10;
             attr_magic += magic;
             attr_defense += defense;
             attr_magic_defense += magicDefense;
@@ -545,14 +547,8 @@ public class Hero {
 
     double getMagicDefenseFactor() {
         int defense = target.attr_magic_defense;
-        if (has_magic_penetrate_rate) {
+        if (has_magic_penetrate) {
             defense -= (int)(defense * 0.45);
-        }
-        if (has_magic_penetrate_boots) {
-            defense -= 75;
-        }
-        if (has_magic_penetrate_mask) {
-            defense -= 75;
         }
         defense -= attr_magic_penetrate;
         if (defense < 0) {

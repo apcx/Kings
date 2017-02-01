@@ -49,14 +49,14 @@ public class HeroType {
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "冰封之心", "破军", "破甲弓"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archer_item_names = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
-        String[] attack_item_names = {"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
-        buildRecommendedItems("成吉思汗", archer_item_names);
-        buildRecommendedItems("李元芳", archer_item_names);
-        buildRecommendedItems("孙尚香", attack_item_names);
-        buildRecommendedItems("虞姬", attack_item_names);
-        buildRecommendedItems("孙悟空", attack_item_names);
-        buildRecommendedItems("鲁班七号", new String[]{"影忍之足", "破灭君主", "破甲弓", "影刃", "破军", "贤者的庇护"});
+        String[] archer_items = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
+        String[] attack_items = {"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
+        buildRecommendedItems("成吉思汗", archer_items);
+        buildRecommendedItems("鲁班七号", archer_items);
+        buildRecommendedItems("李元芳", archer_items);
+        buildRecommendedItems("孙尚香", attack_items);
+        buildRecommendedItems("虞姬", attack_items);
+        buildRecommendedItems("孙悟空", attack_items);
         buildRecommendedItems("后羿", new String[]{"影忍之足", "破灭君主", "破甲弓", "暗影战斧", "影刃", "贤者的庇护"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "影刃", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
@@ -70,12 +70,12 @@ public class HeroType {
         buildDefaultRunes("孙悟空", new String[]{"无双", "兽痕", "鹰眼"});
         buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
 
-        String[] archer_rune_names = {"祸源", "狩猎", "鹰眼"};
-        String[] attack_rune_names = {"祸源", "隐匿", "鹰眼"};
-        buildRecommendedRunes("李元芳", archer_rune_names);
-        buildRecommendedRunes("成吉思汗", attack_rune_names);
-        buildRecommendedRunes("孙尚香", attack_rune_names);
-        buildRecommendedRunes("鲁班七号", new String[]{"祸源", "夺萃", "鹰眼"});
+        String[] archer_runes = {"祸源", "狩猎", "鹰眼"};
+        String[] attack_runes = {"祸源", "隐匿", "鹰眼"};
+        buildRecommendedRunes("鲁班七号", archer_runes);
+        buildRecommendedRunes("李元芳", archer_runes);
+        buildRecommendedRunes("成吉思汗", attack_runes);
+        buildRecommendedRunes("孙尚香", attack_runes);
         buildRecommendedRunes("后羿", new String[]{"祸源", "夺萃", "鹰眼"});
         buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});
 
