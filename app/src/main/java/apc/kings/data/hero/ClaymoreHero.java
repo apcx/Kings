@@ -14,8 +14,6 @@ public class ClaymoreHero extends Hero {
 
     protected ClaymoreHero(CContext context, HeroType heroType) {
         super(context, heroType);
-        attr_critical += 0.2;
-        attr_critical_damage -= 0.5;
         skills = new Skill[]{
                 new Skill("豪气斩", 7000, 400, 1, 490, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
                 new Skill("龙卷闪", 7000, 400),

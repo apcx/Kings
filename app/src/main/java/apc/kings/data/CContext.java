@@ -16,9 +16,6 @@ public class CContext {
 
     public List<Event> events = new ArrayList<>();
     public List<CLog> logs = new ArrayList<>();
-    public boolean option_combo;
-    public boolean option_frenzy;
-    public boolean option_hunt;
     public boolean far;
     public int time;
 
@@ -29,6 +26,9 @@ public class CContext {
 
     private Hero attacker;
     private Hero defender;
+    private boolean option_combo;
+    private boolean option_hunt;
+    private boolean option_frenzy;
     private boolean exit;
 
     public CContext(Context context, HeroType attackerType, HeroType defenderType) {
@@ -70,6 +70,18 @@ public class CContext {
         summary_time = logs.get(logs.size() - 1).time;
         summary_dps = summary_damage * 1000.0 / summary_time;
         summary_cost_ratio = summary_dps * 10 / (1 + attacker.attr_price);
+    }
+
+    public boolean isCombo() {
+        return option_combo;
+    }
+
+    public boolean isHunt() {
+        return option_hunt;
+    }
+
+    public boolean isFrenzy() {
+        return option_frenzy;
     }
 
     public void addEvent(Hero hero, String action, int intervals, int period) {

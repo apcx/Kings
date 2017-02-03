@@ -97,14 +97,14 @@ public class Item {
     public int attack;
     public int magic;
     public int defense;
-    public int magicDefense;
+    public int magic_defense;
     public int regen;
-    public int attackSpeed;
+    public int attack_speed;
     public int critical;
-    public double cdr;
+    public int cdr;
     public int flags;
 
-    private Item(String name, int imageRes, int category, int price, int hp, int attack, int magic, int defense, int magicDefense, int regen, int attackSpeed, int critical, double cdr, int flags) {
+    private Item(String name, int imageRes, int category, int price, int hp, int attack, int magic, int defense, int magic_defense, int regen, int attack_speed, int critical, int cdr, int flags) {
         this.name = name;
         this.imageRes = imageRes;
         this.category = category;
@@ -113,9 +113,9 @@ public class Item {
         this.attack = attack;
         this.magic = magic;
         this.defense = defense;
-        this.magicDefense = magicDefense;
+        this.magic_defense = magic_defense;
         this.regen = regen;
-        this.attackSpeed = attackSpeed;
+        this.attack_speed = attack_speed;
         this.critical = critical;
         this.cdr = cdr;
         this.flags = flags;

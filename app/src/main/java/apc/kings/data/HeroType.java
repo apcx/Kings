@@ -49,16 +49,16 @@ public class HeroType {
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "冰封之心", "破军", "破甲弓"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archer_items = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
-        String[] attack_items = {"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "贤者的庇护"};
+        String[] archer_items = {"影忍之足", "破灭君主", "破甲弓", "闪电匕首", "泣血之刃", "贤者的庇护"};
+        String[] attack_items = {"影忍之足", "暗影战斧", "宗师之力", "破甲弓", "闪电匕首", "泣血之刃"};
         buildRecommendedItems("成吉思汗", archer_items);
         buildRecommendedItems("鲁班七号", archer_items);
+        buildRecommendedItems("后羿", archer_items);
         buildRecommendedItems("李元芳", archer_items);
         buildRecommendedItems("孙尚香", attack_items);
         buildRecommendedItems("虞姬", attack_items);
         buildRecommendedItems("孙悟空", attack_items);
-        buildRecommendedItems("后羿", new String[]{"影忍之足", "破灭君主", "破甲弓", "暗影战斧", "影刃", "贤者的庇护"});
-        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "影刃", "贤者的庇护"});
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "破甲弓", "纯净苍穹", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
@@ -72,11 +72,12 @@ public class HeroType {
 
         String[] archer_runes = {"祸源", "狩猎", "鹰眼"};
         String[] attack_runes = {"祸源", "隐匿", "鹰眼"};
+        String[] critical_runes = {"无双", "隐匿", "鹰眼"};
         buildRecommendedRunes("鲁班七号", archer_runes);
+        buildRecommendedRunes("后羿", archer_runes);
         buildRecommendedRunes("李元芳", archer_runes);
         buildRecommendedRunes("成吉思汗", attack_runes);
-        buildRecommendedRunes("孙尚香", attack_runes);
-        buildRecommendedRunes("后羿", new String[]{"祸源", "夺萃", "鹰眼"});
+        buildRecommendedRunes("孙尚香", critical_runes);
         buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});
 
         SharedPreferences preferences = App.preferences();
@@ -125,7 +126,7 @@ public class HeroType {
     public int attack;
     public int defense;
     public int regen;
-    public int attackSpeedPerLevel;
+    public int attack_speed_per_level;
     public Item[] defaultItems = new Item[Item.SLOTS];
     public Item[] recommendedItems;
     public Item[] items;
@@ -133,7 +134,7 @@ public class HeroType {
     public Rune[] recommendedRunes;
     public Map<Rune, Integer> runes = new ArrayMap<>();
 
-    private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int attackSpeedPerLevel) {
+    private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int attack_speed_per_level) {
         this.name = name;
         this.resName = resName;
         this.category = category;
@@ -142,7 +143,7 @@ public class HeroType {
         this.attack = attack;
         this.defense = defense;
         this.regen = regen;
-        this.attackSpeedPerLevel = attackSpeedPerLevel;
+        this.attack_speed_per_level = attack_speed_per_level;
     }
 
     @Nullable

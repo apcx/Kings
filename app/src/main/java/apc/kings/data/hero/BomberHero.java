@@ -36,7 +36,7 @@ public class BomberHero extends Hero {
             case "失效":
                 switch (event.target) {
                     case "谍影加速":
-                        attr_attack_speed -= 50;
+                        attr_attack_speed -= 500;
                         break;
                 }
                 break;
@@ -65,7 +65,7 @@ public class BomberHero extends Hero {
         switch (index) {
             case 0:
                 marks = 0;
-                attr_attack_speed += 50;
+                attr_attack_speed += 500;
                 context.addEvent(this, "失效", "谍影加速", 4000);
                 log.target = target.name;
                 break;

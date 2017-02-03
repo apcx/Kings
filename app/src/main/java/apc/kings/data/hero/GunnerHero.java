@@ -157,11 +157,11 @@ public class GunnerHero extends Hero {
         bonus_damage = skill.damageBonus;
         onHit(log);
 
-        double speed = attr_attack_speed;
-        if (context.option_frenzy && 2 == index) {
-            speed += 60;
+        int speed = attr_attack_speed;
+        if (context.isFrenzy() && 2 == index) {
+            speed += 600;
         }
-        int intervals = 4 + 2 * (int) (speed / 75);
+        int intervals = 4 + 2 * (Math.min(1500, speed) / 750);
         context.addEvent(this, skill.name, intervals, SHOOTING_TIMES[index] / intervals);
 
         int time = context.time + SHOOTING_TIMES[index] + 1;

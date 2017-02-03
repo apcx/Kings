@@ -62,6 +62,7 @@ public class CannonHero extends Hero {
         } else if (snipe) {
             snipe = false;
             log.action = "远射";
+            context.checkExit();
         }
         actions_cast[0].time -= 500;
     }
