@@ -161,14 +161,9 @@ public class GunnerHero extends Hero {
         if (context.isFrenzy() && 2 == index) {
             speed += 600;
         }
-        int intervals = 4 + 2 * (Math.min(1500, speed) / 750);
+        int intervals = 4 + 2 * (Math.min(speed, 1500) / 750);
         context.addEvent(this, skill.name, intervals, SHOOTING_TIMES[index] / intervals);
-
-        int time = context.time + SHOOTING_TIMES[index] + 1;
-        action_attack.time = time++;
-        Event another = actions_cast[2 - index];
-        if (another.time < time) {
-            another.time = time;
-        }
+        action_attack.time = context.time + SHOOTING_TIMES[index] + 1;
+        actions_cast[2 - index].delayTo(action_attack.time + 1);
     }
 }

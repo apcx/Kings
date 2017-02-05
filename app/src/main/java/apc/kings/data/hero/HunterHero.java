@@ -84,11 +84,7 @@ public class HunterHero extends Hero {
                     event_recharge = context.addEvent(this, "准备", "箭矢", 4000);
                 }
                 if (--bonus_arrows <= 0) {
-                    Event action = actions_cast[index];
-                    int time = event_recharge.time + 1;
-                    if (action.time < time) {
-                        action.time = time;
-                    }
+                    actions_cast[index].delayTo(event_recharge.time + 1);
                 }
                 context.checkExit();
                 break;

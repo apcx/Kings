@@ -26,6 +26,12 @@ public class Event implements Comparable<Event> {
         this.time = time;
     }
 
+    public void delayTo(int time) {
+        if (this.time < time) {
+            this.time = time;
+        }
+    }
+
     @Override
     public int compareTo(@SuppressWarnings("NullableProblems") Event another) {
         return time - another.time;

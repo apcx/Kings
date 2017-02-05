@@ -544,11 +544,7 @@ public class Hero {
         if (has_penetrate) {
             defense -= (int)(defense * 0.45);
         }
-        defense -= attr_penetrate;
-        if (defense < 0) {
-            defense = 0;
-        }
-        return 600.0 / (600 + defense);
+        return 600.0 / (600 + Math.max(0, defense - attr_penetrate));
     }
 
     double getMagicDefenseFactor() {
@@ -556,11 +552,7 @@ public class Hero {
         if (has_magic_penetrate) {
             defense -= (int)(defense * 0.45);
         }
-        defense -= attr_magic_penetrate;
-        if (defense < 0) {
-            defense = 0;
-        }
-        return 600.0 / (600 + defense);
+        return 600.0 / (600 + Math.max(0, defense - attr_magic_penetrate));
     }
 
     double getDamageFactor() {
@@ -585,10 +577,7 @@ public class Hero {
     private void delayActions(int swing) {
         swing += context.time;
         for (int i = 0, n = actions_active.size(); i < n; ++i) {
-            Event action = actions_active.get(i);
-            if (action.time < swing) {
-                action.time = swing;
-            }
+            actions_active.get(i).delayTo(swing);
         }
     }
 }
