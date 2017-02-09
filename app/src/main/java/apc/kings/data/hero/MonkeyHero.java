@@ -59,6 +59,6 @@ public class MonkeyHero extends Hero {
 
     @Override
     protected void onUpdateAttackCanCritical() {
-        attackCanCritical = (int) (attr_attack * factor_attack) + bonus_damage;
+        attackCanCritical = (int) (attr_attack_panel * factor_attack) + bonus_damage;
     }
 }

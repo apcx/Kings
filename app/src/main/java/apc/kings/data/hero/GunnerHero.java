@@ -133,7 +133,7 @@ public class GunnerHero extends Hero {
     @Override
     protected void onHitMagic(CLog log) {
         if (in_silver_bullets) {
-            log.magic_damage = (int) (((int) (attr_attack * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor());
+            log.magic_damage = (int) (((int) (attr_attack_panel * 0.11) + 65) * getMagicDefenseFactor() * getDamageFactor());
             target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
         }
     }

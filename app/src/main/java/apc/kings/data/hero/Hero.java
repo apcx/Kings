@@ -27,7 +27,8 @@ public class Hero {
 
     public int attr_price;
     int attr_mhp;
-    int attr_attack;
+    int attr_attack_base;
+    int attr_attack_panel;
     int attr_magic;
     private int attr_defense;
     private int attr_magic_defense;
@@ -87,7 +88,7 @@ public class Hero {
         this.heroType = heroType;
         name = heroType.name;
         attr_mhp = heroType.hp;
-        attr_attack = heroType.attack;
+        attr_attack_base = heroType.attack;
         attr_defense = heroType.defense;
         attr_magic_defense = 169;
         attr_regen = heroType.regen;
@@ -95,10 +96,11 @@ public class Hero {
         initItems();
         initRunes();
         initSpecificCritical();
-        attr_critical = Math.min(attr_critical, 1000);
-        attr_critical_damage_average = attr_critical_damage * attr_critical + 1000 - attr_critical;
+        int critical = Math.min(attr_critical, 1000);
+        attr_critical_damage_average = attr_critical_damage * critical + 1000 - critical;
         attr_cdr = Math.min(attr_cdr, 400);
         hp = attr_mhp;
+        attr_attack_panel = attr_attack_base;
 
         actions_cast[0] = new Event(this, "cast1", 0);
         actions_cast[1] = new Event(this, "cast2", 0);
@@ -111,7 +113,7 @@ public class Hero {
                 if (item != null) {
                     attr_price += item.price;
                     attr_mhp += item.hp;
-                    attr_attack += item.attack;
+                    attr_attack_base += item.attack;
                     attr_magic += item.magic;
                     attr_defense += item.defense;
                     attr_magic_defense += item.magic_defense;
@@ -153,7 +155,7 @@ public class Hero {
                 attr_magic_penetrate += 75;
             }
             if ((attr_flags & Item.FLAG_SENTINEL) != 0) {
-                attr_attack += 60;
+                attr_attack_base += 60;
                 attr_magic += 120;
             }
             if ((attr_flags & Item.FLAG_MAGIC_SHIELD) != 0) {
@@ -202,7 +204,7 @@ public class Hero {
                 attr_cdr += rune.cdr * n;
             }
             attr_mhp += hp / 10;
-            attr_attack += attack / 10;
+            attr_attack_base += attack / 10;
             attr_magic += magic / 10;
             attr_defense += defense / 10;
             attr_magic_defense += magic_defense / 10;
@@ -347,7 +349,7 @@ public class Hero {
         Skill skill = skills[index];
         if (skill.damageType != Skill.TYPE_NONE) {
             context.logs.add(log);
-            int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack : attr_magic) * skill.damageFactor) + skill.damageBonus;
+            int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? attr_attack_panel : attr_magic) * skill.damageFactor) + skill.damageBonus;
             switch (skill.damageType) {
                 case Skill.TYPE_PHYSICAL:
                     damage = log.damage = (int) (damage * getDefenseFactor() * getDamageFactor());
@@ -405,11 +407,11 @@ public class Hero {
             context.logs.add(log);
             switch (attr_enchants) {
                 case Item.ENCHANT_VOODOO:
-                    log.magic_damage = (int) (((int) (attr_attack * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor());
+                    log.magic_damage = (int) (((int) (attr_attack_panel * 0.3) + (int) (attr_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor());
                     target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                     break;
                 case Item.ENCHANT_MASTER:
-                    log.damage = (int) (attr_attack * getDefenseFactor() * getDamageFactor());
+                    log.damage = (int) (attr_attack_panel * getDefenseFactor() * getDamageFactor());
                     target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_ICE:
@@ -445,8 +447,8 @@ public class Hero {
 
     protected void onUpdateAttackCanCritical() {
         double criticalFactor = Math.min(factor_attack, 1);
-        attackCanCritical = (int) (attr_attack * criticalFactor);
-        attackCannotCritical = (int) (attr_attack * (factor_attack - criticalFactor)) + bonus_damage;
+        attackCanCritical = (int) (attr_attack_panel * criticalFactor);
+        attackCannotCritical = (int) (attr_attack_panel * (factor_attack - criticalFactor)) + bonus_damage;
     }
 
     protected void onHitMagic(CLog log) {
@@ -521,7 +523,7 @@ public class Hero {
             history = new int[2];
             critical_histories.put(log.action, history);
         }
-        if (attr_critical * ++history[0] >= 1000 * (history[1] + 1)) {
+        if (Math.min(attr_critical, 1000) * ++history[0] >= 1000 * (history[1] + 1)) {
             ++history[1];
             log.critical = true;
         }

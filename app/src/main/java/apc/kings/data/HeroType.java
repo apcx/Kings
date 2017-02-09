@@ -25,7 +25,8 @@ public class HeroType {
             new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323, 69, 3),
             new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 6127, 406, 346, 71, 3),
             new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340, 66, 2),
-            new HeroType("孙尚香",   "cannon",   R.id.cat_archer,  0,                 6014, 421, 346, 69, 3),
+            new HeroType("孙尚香",   "sniper",   R.id.cat_archer,  0,                 6014, 421, 346, 69, 3),
+            new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319, 68, 3),
             new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400, 92, 1),
             new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 98, 2),
 //            new HeroType("虞姬",    "hime",     R.id.cat_archer,  0,                 5669, 417, 329,  63,  0.42),
@@ -46,6 +47,7 @@ public class HeroType {
         buildDefaultItems("后羿", new String[]{"破灭君主", "闪电匕首", "急速战靴", "无尽战刃", "破甲弓", "影刃"});
         buildDefaultItems("李元芳", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
         buildDefaultItems("孙尚香", new String[]{"破灭君主", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
+        buildDefaultItems("黄忠", new String[]{"破灭君主", "急速战靴", "无尽战刃", "泣血之刃", "破甲弓", "影刃"});
         buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "冰封之心", "破军", "破甲弓"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
@@ -67,6 +69,7 @@ public class HeroType {
         buildDefaultRunes("后羿", new String[]{"红月", "隐匿", "鹰眼"});
         buildDefaultRunes("李元芳", new String[]{"红月", "隐匿", "鹰眼"});
         buildDefaultRunes("孙尚香", new String[]{"红月", "隐匿", "鹰眼"});
+        buildDefaultRunes("黄忠", new String[]{"无双", "兽痕", "鹰眼"});
         buildDefaultRunes("孙悟空", new String[]{"无双", "兽痕", "鹰眼"});
         buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
 
