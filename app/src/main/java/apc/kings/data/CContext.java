@@ -84,10 +84,11 @@ public class CContext {
         return option_frenzy;
     }
 
-    public void addEvent(Hero hero, String action, int intervals, int period) {
+    public Event addEvent(Hero hero, String action, int intervals, int period) {
         Event event = new Event(hero, action, null, period, time + period);
         event.intervals = intervals;
         events.add(event);
+        return event;
     }
 
     public Event addEvent(Hero hero, String action, String target, int duration) {

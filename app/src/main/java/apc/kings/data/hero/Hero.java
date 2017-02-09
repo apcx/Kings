@@ -1,6 +1,6 @@
 package apc.kings.data.hero;
 
-import android.support.v4.util.ArrayMap;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,8 @@ public class Hero {
     int attr_attack_base;
     int attr_attack_panel;
     int attr_magic;
-    private int attr_defense;
-    private int attr_magic_defense;
+    int attr_defense;
+    int attr_magic_defense;
     private int attr_penetrate;
     private int attr_magic_penetrate;
     private int attr_regen;
@@ -62,6 +62,7 @@ public class Hero {
     boolean hit_normal;
     boolean hit_can_critical;
     int factor_damage = 100;
+    double factor_damage_specific = 1;
     double factor_attack = 1;
     int bonus_damage;
 
@@ -72,7 +73,7 @@ public class Hero {
 
     private int cnt_lightning = 5;
     private int shield_magic;
-    private Map<String, int[]> critical_histories = new ArrayMap<>();
+    private SparseArray<int[]> critical_histories = new SparseArray<>();
 
     private boolean in_storm;
     private boolean in_cold_iron;
@@ -429,8 +430,8 @@ public class Hero {
             if (--cnt_lightning <= 0) {
                 in_cd_lighting = true;
                 cnt_lightning = 5;
-                damage = 100;
                 log = new CLog(name, "电弧", target.name, context.time);
+                damage = attackCanCritical = 100;
                 if (checkCritical(log)) {
                     damage *= attr_critical_damage / 1000.0;
                 }
@@ -518,10 +519,14 @@ public class Hero {
     }
 
     private boolean checkCritical(CLog log) {
-        int[] history = critical_histories.get(log.action);
+        int key = attackCanCritical;
+        if ("黄忠".equals(name) && !"电弧".equals(log.action)) {
+            key = attr_attack_base;
+        }
+        int[] history = critical_histories.get(key);
         if (null == history) {
             history = new int[2];
-            critical_histories.put(log.action, history);
+            critical_histories.put(key, history);
         }
         if (Math.min(attr_critical, 1000) * ++history[0] >= 1000 * (history[1] + 1)) {
             ++history[1];
@@ -569,7 +574,7 @@ public class Hero {
         if (has_execute && target.hp * 2 < target.attr_mhp) {
             factor += 30;
         }
-        return factor / 100.0;
+        return factor / 100.0 * factor_damage_specific;
     }
 
     void print(String action, String target) {

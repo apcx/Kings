@@ -100,8 +100,8 @@ public class GunnerHero extends Hero {
         factor_attack = 0.7;
         log.action = "大弹";
         onHit(log.clone());
-        log.action = "小弹";
         factor_attack = 0.4;
+        log.action = "小弹";
         onHit(log);
     }
 
