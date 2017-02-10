@@ -39,7 +39,6 @@ public class Hero {
     int attr_attack_speed;
     int attr_critical;
     int attr_critical_damage = 2000;
-    private int attr_critical_damage_average;
     private int attr_cdr;
     int attr_heal = 10;
     private int attr_flags;
@@ -62,19 +61,20 @@ public class Hero {
     boolean hit_normal;
     boolean hit_can_critical;
     int factor_damage = 100;
-    double factor_damage_specific = 1;
+    double factor_damage_attack = 1;
     double factor_attack = 1;
     int bonus_damage;
 
     public Hero target;
     public int hp;
-    int attackCanCritical;
-    int attackCannotCritical;
+    int damage_can_critical;
+    private int damage_cannot_critical;
 
     private int cnt_lightning = 5;
     private int shield_magic;
     private SparseArray<int[]> critical_histories = new SparseArray<>();
 
+    boolean in_alert_mine;
     private boolean in_storm;
     private boolean in_cold_iron;
     private boolean in_enchant;
@@ -96,9 +96,6 @@ public class Hero {
         attr_attack_speed = heroType.attack_speed_per_level * 14;
         initItems();
         initRunes();
-        initSpecificCritical();
-        int critical = Math.min(attr_critical, 1000);
-        attr_critical_damage_average = attr_critical_damage * critical + 1000 - critical;
         attr_cdr = Math.min(attr_cdr, 400);
         hp = attr_mhp;
         attr_attack_panel = attr_attack_base;
@@ -215,10 +212,6 @@ public class Hero {
         }
     }
 
-    protected void initSpecificCritical() {
-
-    }
-
     public static Hero create(CContext context, HeroType heroType) {
         try {
             Class clazz = Class.forName(Hero.class.getPackage().getName() + "." + (char) (heroType.resName.charAt(0) - 32) + heroType.resName.substring(1) + "Hero");
@@ -263,6 +256,7 @@ public class Hero {
                 onRegen(log, Math.round(attr_mhp * attr_heal * 0.003f));
                 break;
             case "失效":
+            case "复原":
             case "护盾消失":
                 context.events.remove(event);
                 print(event.action, event.target);
@@ -270,6 +264,9 @@ public class Hero {
                     case "暴风":
                         in_storm = false;
                         attr_attack_speed -= 500;
+                        break;
+                    case "地雷破甲":
+                        in_alert_mine = false;
                         break;
                 }
                 break;
@@ -371,16 +368,11 @@ public class Hero {
 
     protected void onHit(CLog log) {
         onUpdateAttackCanCritical();
-        double damage = attackCanCritical;
+        double damage = damage_can_critical;
         if ((hit_normal || hit_can_critical)) {
-            checkCritical(log);
-            if (context.isCombo()) {
-                damage *= attr_critical_damage_average / 1000;
-            } else if (log.critical) {
-                damage *= attr_critical_damage / 1000;
-            }
+            damage = getCriticalDamage(log);
         }
-        log.damage = (int) ((damage + attackCannotCritical) * getDefenseFactor() * getDamageFactor(hit_normal));
+        log.damage = (int) ((damage + damage_cannot_critical) * getDefenseFactor() * getDamageFactor(hit_normal) * factor_damage_attack);
         context.logs.add(log);
         target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
 
@@ -430,12 +422,9 @@ public class Hero {
             if (--cnt_lightning <= 0) {
                 in_cd_lighting = true;
                 cnt_lightning = 5;
+                damage_can_critical = 100;
                 log = new CLog(name, "电弧", target.name, context.time);
-                damage = attackCanCritical = 100;
-                if (checkCritical(log)) {
-                    damage *= attr_critical_damage / 1000.0;
-                }
-                log.magic_damage = (int) (damage * getMagicDefenseFactor() * getDamageFactor());
+                log.magic_damage = (int) (getCriticalDamage(log) * getMagicDefenseFactor() * getDamageFactor());
                 context.logs.add(log);
                 target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                 context.addEvent(this, "冷却", "电弧", 500);
@@ -448,8 +437,8 @@ public class Hero {
 
     protected void onUpdateAttackCanCritical() {
         double criticalFactor = Math.min(factor_attack, 1);
-        attackCanCritical = (int) (attr_attack_panel * criticalFactor);
-        attackCannotCritical = (int) (attr_attack_panel * (factor_attack - criticalFactor)) + bonus_damage;
+        damage_can_critical = (int) (attr_attack_panel * criticalFactor);
+        damage_cannot_critical = (int) (attr_attack_panel * (factor_attack - criticalFactor)) + bonus_damage;
     }
 
     protected void onHitMagic(CLog log) {
@@ -518,21 +507,28 @@ public class Hero {
         }
     }
 
-    private boolean checkCritical(CLog log) {
-        int key = attackCanCritical;
-        if ("黄忠".equals(name) && !"电弧".equals(log.action)) {
-            key = attr_attack_base;
-        }
+    private double getCriticalDamage(CLog log) {
+        int key = "黄忠".equals(name) && !"电弧".equals(log.action) ? attr_attack_base : damage_can_critical;
         int[] history = critical_histories.get(key);
         if (null == history) {
             history = new int[2];
+            // history[0]: theoretical critical count (*1000)
+            // history[1]: actual critical count
             critical_histories.put(key, history);
         }
-        if (Math.min(attr_critical, 1000) * ++history[0] >= 1000 * (history[1] + 1)) {
+        int critical = Math.min(attr_critical, 1000);
+        history[0] += critical;
+        if (history[0] >= 1000 * (history[1] + 1)) {
             ++history[1];
             log.critical = true;
         }
-        return log.critical;
+        double damage = damage_can_critical;
+        if (context.isCombo()) {
+            damage *= (attr_critical_damage * critical + 1000 * (1000 - critical)) / 1000000.0;
+        } else if (log.critical) {
+            damage *= attr_critical_damage / 1000.0;
+        }
+        return damage;
     }
 
     private void checkStorm(CLog log) {
@@ -548,10 +544,14 @@ public class Hero {
 
     double getDefenseFactor() {
         int defense = target.attr_defense;
+        int reduce = 0;
         if (has_penetrate) {
-            defense -= (int)(defense * 0.45);
+            reduce += 45;
         }
-        return 600.0 / (600 + Math.max(0, defense - attr_penetrate));
+        if (target.in_alert_mine) {
+            reduce += 30;
+        }
+        return 600.0 / (600 + Math.max(0, defense - defense * reduce / 100 - attr_penetrate));
     }
 
     double getMagicDefenseFactor() {
@@ -574,7 +574,7 @@ public class Hero {
         if (has_execute && target.hp * 2 < target.attr_mhp) {
             factor += 30;
         }
-        return factor / 100.0 * factor_damage_specific;
+        return factor / 100.0;
     }
 
     void print(String action, String target) {

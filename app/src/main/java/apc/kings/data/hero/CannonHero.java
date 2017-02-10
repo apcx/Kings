@@ -31,7 +31,7 @@ public class CannonHero extends Hero {
         action_attack.time = 800;
         actions_cast[1].time = 900;
         if (target != null) {
-//            actions_active.add(actions_cast[1]);
+            actions_active.add(actions_cast[1]);
             actions_active.add(actions_cast[2]);
         }
     }
@@ -47,7 +47,6 @@ public class CannonHero extends Hero {
                 break;
             case "炮台加强":
                 siege_rate += 20;
-                factor_damage_specific = 1 + siege_rate / 100.0;
                 print(event.action, siege_rate + "%");
                 break;
             case "结束架起":
@@ -59,7 +58,10 @@ public class CannonHero extends Hero {
     @Override
     protected void onAttack(CLog log) {
         if (siege) {
+            factor_damage_attack = 1 + siege_rate / 100.0;
             log.action = "炮击";
+        } else {
+            factor_damage_attack = 1;
         }
         super.onAttack(log);
         if (rage < 5) {
@@ -79,7 +81,8 @@ public class CannonHero extends Hero {
                 }
                 break;
             case 1:
-                // todo
+                target.in_alert_mine = true;
+                context.updateBuff(target, "复原", "地雷破甲", 2000);
                 break;
             case 2:
                 if (siege) {
@@ -99,9 +102,8 @@ public class CannonHero extends Hero {
         attr_defense += 50;
         attr_magic_defense += 50;
 
-        factor_damage_specific = 1;
         siege_rate = 0;
-        context.addEvent(this, "完成架起", 1, 800);
+        context.addEvent(this, "完成架起", 1, skills[2].swing);
     }
 
     private void toNormalMode() {
@@ -111,7 +113,6 @@ public class CannonHero extends Hero {
         attr_defense -= 50;
         attr_magic_defense -= 50;
 
-        factor_damage_specific = 1;
         siege_rate = 0;
         context.events.remove(event_siege_power);
         context.events.remove(event_siege_end);

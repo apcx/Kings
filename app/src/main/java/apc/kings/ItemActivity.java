@@ -53,8 +53,12 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
         mEditButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
-        findViewById(R.id.reset_recommended).setOnClickListener(this);
         findViewById(R.id.reset_default).setOnClickListener(this);
+        if (mHeroType.recommendedItems != null) {
+            View recommendedButton = findViewById(R.id.reset_recommended);
+            recommendedButton.setVisibility(View.VISIBLE);
+            recommendedButton.setOnClickListener(this);
+        }
     }
 
     public void onSelect(View v) {

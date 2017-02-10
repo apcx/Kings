@@ -152,7 +152,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="3.4038"
-                app:placeholderImage="@drawable/item_recommended" />
+                app:placeholderImage="@drawable/item_recommended"
+                android:visibility="gone" />
 
             <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/reset_default"
                 android:layout_width="match_parent"

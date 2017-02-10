@@ -162,6 +162,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             target_text.setTextColor(0xffffffff);
             switch (log.action) {
                 case "强化":
+                case "复原":
                 case "准备":
                 case "炮手燃魂":
                 case "炮台加强":
