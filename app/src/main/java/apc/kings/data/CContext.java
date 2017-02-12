@@ -59,9 +59,12 @@ public class CContext {
                     break;
                 case "扫射":
                 case "引爆":
+                case "炮击":
+                case "警戒地雷":
                     damage *= 1.2;
                     break;
                 case "强射":
+                case "红莲爆弹":
                     damage *= 1.1;
                     break;
             }
