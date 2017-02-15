@@ -11,7 +11,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 23
         versionCode 1
-        versionName "1.17.15-alpha"
+        versionName "1.17.19-alpha"
         archivesBaseName = "Kings-$versionName"
     }
     buildTypes {
@@ -28,5 +28,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     //noinspection GradleDependency
     compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.facebook.fresco:fresco:1.0.1'
+    compile 'com.facebook.fresco:fresco:1.1.0'
 }

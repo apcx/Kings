@@ -52,14 +52,11 @@ public class HeroType {
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
         String[] archer_items = {"影忍之足", "破灭君主", "破甲弓", "闪电匕首", "泣血之刃", "贤者的庇护"};
-        String[] attack_items = {"影忍之足", "暗影战斧", "宗师之力", "破甲弓", "闪电匕首", "泣血之刃"};
         buildRecommendedItems("成吉思汗", archer_items);
         buildRecommendedItems("鲁班七号", archer_items);
         buildRecommendedItems("后羿", archer_items);
         buildRecommendedItems("李元芳", archer_items);
-        buildRecommendedItems("孙尚香", attack_items);
-        buildRecommendedItems("虞姬", attack_items);
-        buildRecommendedItems("孙悟空", attack_items);
+        buildRecommendedItems("孙尚香", new String[]{"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "破军", "泣血之刃"});
         buildRecommendedItems("黄忠", new String[]{"影忍之足", "破灭君主", "泣血之刃", "破甲弓", "影刃", "贤者的庇护"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
