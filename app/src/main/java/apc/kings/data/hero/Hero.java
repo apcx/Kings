@@ -542,31 +542,10 @@ public class Hero {
         }
     }
 
-    // old formulas
-//    double getDefenseFactor() {
-//        int defense = target.attr_defense;
-//        int reduce = 0;
-//        if (has_penetrate) {
-//            reduce += 45;
-//        }
-//        if (target.in_alert_mine) {
-//            reduce += 30;
-//        }
-//        return 600.0 / (600 + Math.max(0, defense - defense * reduce / 100 - attr_penetrate));
-//    }
-
-//    double getMagicDefenseFactor() {
-//        int defense = target.attr_magic_defense;
-//        if (has_magic_penetrate) {
-//            defense -= (int)(defense * 0.45);
-//        }
-//        return 600.0 / (600 + Math.max(0, defense - attr_magic_penetrate));
-//    }
-
     double getDefenseFactor() {
         int defense = target.attr_defense;
         if (target.in_alert_mine) {
-            defense -= defense * 3 / 10;
+            defense -= defense * 30 / 100;
         }
         defense = Math.max(0, defense - attr_penetrate);
         if (has_penetrate) {

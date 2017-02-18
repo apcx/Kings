@@ -10,7 +10,12 @@
         android:title="技能: 狂暴 (测试)" />
 
     <SwitchPreference android:key="@string/combat_hunt"
-        android:title="强行追猎 (成吉思汗)"
+        android:title="成吉思汗: 草丛强行追猎"
         android:summaryOff="仅开战时站在草丛中"
         android:summaryOn="始终站在草丛中" />
+
+    <SwitchPreference android:key="@string/combat_siege"
+        android:title="黄忠: 提前架起炮台"
+        android:summaryOff="开战时仓促架起炮台"
+        android:summaryOn="开战前提前5秒架起炮台" />
 </PreferenceScreen>

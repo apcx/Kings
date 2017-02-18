@@ -28,6 +28,7 @@ public class CContext {
     private Hero defender;
     private boolean option_combo;
     private boolean option_hunt;
+    private boolean option_siege;
     private boolean option_frenzy;
     private boolean exit;
 
@@ -36,6 +37,7 @@ public class CContext {
         option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
         option_hunt = preferences.getBoolean(context.getString(R.string.combat_hunt), false);
+        option_siege = preferences.getBoolean(context.getString(R.string.combat_siege), false);
 
         attacker = Hero.create(this, attackerType);
         defender = Hero.create(this, defenderType);
@@ -81,6 +83,10 @@ public class CContext {
 
     public boolean isHunt() {
         return option_hunt;
+    }
+
+    public boolean isSiege() {
+        return option_siege;
     }
 
     public boolean isFrenzy() {

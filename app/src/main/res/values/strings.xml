@@ -6,4 +6,5 @@
     <string name="combat_combo">combat_combo</string>
     <string name="combat_frenzy">combat_frenzy</string>
     <string name="combat_hunt">combat_hunt</string>
+    <string name="combat_siege">combat_siege</string>
 </resources>

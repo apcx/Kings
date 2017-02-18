@@ -10,7 +10,7 @@ import apc.kings.data.Skill;
 public class CannonHero extends Hero {
 
     private int rage;
-    private int siege_rate;
+    private int siege_power;
     private boolean siege;
     private Event event_siege_power;
     private Event event_siege_end;
@@ -34,6 +34,9 @@ public class CannonHero extends Hero {
             actions_active.add(actions_cast[1]);
             actions_active.add(actions_cast[2]);
         }
+        if (context.isSiege()) {
+            toSiegeMode(5);
+        }
     }
 
     @Override
@@ -41,13 +44,10 @@ public class CannonHero extends Hero {
         super.onEvent(event);
         switch (event.action) {
             case "完成架起":
-                event_siege_power = context.addEvent(this, "炮台加强", 5, 1000);
-                event_siege_end = context.addEvent(this, "结束架起", 1, 15000);
-                actions_active.remove(actions_cast[2]);
+                toSiegeMode(0);
                 break;
             case "炮台加强":
-                siege_rate += 20;
-                print(event.action, siege_rate + "%");
+                print(event.action, 20 * ++siege_power + "%");
                 break;
             case "结束架起":
                 toNormalMode();
@@ -58,7 +58,7 @@ public class CannonHero extends Hero {
     @Override
     protected void onAttack(CLog log) {
         if (siege) {
-            factor_damage_attack = 1 + siege_rate / 100.0;
+            factor_damage_attack = 1 + siege_power / 5.0;
             log.action = "炮击";
         } else {
             factor_damage_attack = 1;
@@ -89,21 +89,25 @@ public class CannonHero extends Hero {
                     toNormalMode();
                     log.action = "取消架起";
                 } else {
-                    toSiegeMode();
+                    context.addEvent(this, "完成架起", 1, skills[2].swing);
                 }
                 break;
         }
     }
 
-    private void toSiegeMode() {
+    private void toSiegeMode(int seconds) {
         siege = true;
         factor_attack = 0.8;
         bonus_damage = 120;
         attr_defense += 50;
         attr_magic_defense += 50;
 
-        siege_rate = 0;
-        context.addEvent(this, "完成架起", 1, skills[2].swing);
+        siege_power = Math.min(seconds, 5);
+        if (siege_power < 5) {
+            event_siege_power = context.addEvent(this, "炮台加强", 5 - siege_power, 1000);
+        }
+        event_siege_end = context.addEvent(this, "结束架起", 1, 1000 * (15 - seconds));
+        actions_active.remove(actions_cast[2]);
     }
 
     private void toNormalMode() {
@@ -113,7 +117,7 @@ public class CannonHero extends Hero {
         attr_defense -= 50;
         attr_magic_defense -= 50;
 
-        siege_rate = 0;
+        siege_power = 0;
         context.events.remove(event_siege_power);
         context.events.remove(event_siege_end);
         if (!actions_active.contains(actions_cast[2])) {
