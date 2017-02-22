@@ -40,7 +40,10 @@ public class Hero {
     int attr_critical;
     int attr_critical_damage = 2000;
     private int attr_cdr;
-    int attr_heal = 10;
+    private int attr_move_base;
+    private int attr_move_panel;
+    private int attr_heal = 10;
+    private int attr_flags_panel;
     private int attr_flags;
     private int attr_enchants;
 
@@ -93,7 +96,8 @@ public class Hero {
         attr_defense = heroType.defense;
         attr_magic_defense = 169;
         attr_regen = heroType.regen;
-        attr_attack_speed = heroType.attack_speed_per_level * 14;
+        attr_attack_speed = heroType.level_up_attack_speed * 14;
+        attr_move_base = heroType.move;
         initItems();
         initRunes();
         attr_cdr = Math.min(attr_cdr, 400);
@@ -119,6 +123,7 @@ public class Hero {
                     attr_attack_speed += item.attack_speed;
                     attr_critical += item.critical;
                     attr_cdr += item.cdr;
+                    attr_flags_panel |= item.flags_panel;
                     attr_flags |= item.flags;
                 }
             }
@@ -137,6 +142,9 @@ public class Hero {
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_VOODOO;
 
+            if ((attr_flags_panel & Item.FP_BOOTS) != 0) {
+                attr_move_base += 60;
+            }
             if (has_heal) {
                 attr_heal += 2;
             }
@@ -145,9 +153,6 @@ public class Hero {
             }
             if ((attr_flags & Item.FLAG_CRITICAL) != 0) {
                 attr_critical_damage += 500;
-            }
-            if ((attr_flags & Item.FLAG_MAGIC_PENETRATE_MASK) != 0) {
-                attr_magic_penetrate += 75;
             }
             if ((attr_flags & Item.FLAG_MAGIC_PENETRATE_BOOTS) != 0) {
                 attr_magic_penetrate += 75;

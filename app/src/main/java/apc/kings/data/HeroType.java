@@ -20,18 +20,18 @@ public class HeroType {
     public static final String TYPE_POSTER = "poster";
 
     public static HeroType[] ALL_HEROES = new HeroType[] {
-            new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329, 66, 3),
-            new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319, 68, 3),
-            new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344, 75, 2),
+            new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329, 66, 3, 370),
+            new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319, 68, 3, 340),
+            new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344, 75, 2, 350),
 //            new HeroType("虞姬",    "hime",     R.id.cat_archer,  0,                 5669, 417, 329,  63,  3),
-            new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340, 66, 2),
+            new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340, 66, 2, 340),
 //            new HeroType("刘备",
 //            new HeroType("狄仁杰",   "judge",   R.id.cat_archer,  0,                 5710, 386, 338,  66,  4),
-            new HeroType("孙尚香",   "sniper",   R.id.cat_archer,  0,                 6014, 421, 346, 69, 3),
-            new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323, 69, 3),
-            new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 6127, 406, 346, 71, 3),
-            new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400, 92, 1),
-            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 98, 2),
+            new HeroType("孙尚香",   "sniper",   R.id.cat_archer,  0,                 6014, 421, 346, 69, 3, 340),
+            new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323, 69, 3, 360),
+            new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 5986, 406, 336, 71, 3, 340),
+            new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400, 92, 1, 380),
+            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 98, 2, 380),
 //            new HeroType("刘邦",   "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 117,  3),
 //            new HeroType("吕布",     "stark",    R.id.cat_warrior, R.id.cat_tank,     7344, 353, 390,  97,  1),
     };
@@ -53,14 +53,16 @@ public class HeroType {
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
         String[] archer_items = {"影忍之足", "破灭君主", "破甲弓", "影刃", "泣血之刃", "贤者的庇护"};
+        String[] tank_items = {"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "冰封之心", "霸者重装"};
+        String[] warrior_items = {"影忍之足", "红莲斗篷", "振兴之铠", "反伤刺甲", "冰痕之握", "霸者重装"};
         buildRecommendedItems("成吉思汗", archer_items);
-        buildRecommendedItems("黄忠", new String[]{"影忍之足", "影刃", "无尽战刃", "破甲弓", "闪电匕首", "破灭君主"});
+        buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "破甲弓", "无尽战刃"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("李元芳", archer_items);
         buildRecommendedItems("孙尚香", new String[]{"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "破军"});
         buildRecommendedItems("鲁班七号", archer_items);
         buildRecommendedItems("后羿", archer_items);
-        buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "不祥征兆", "霸者重装", "冰痕之握"});
+        buildRecommendedItems("夏侯惇", tank_items);
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
         buildDefaultRunes("黄忠", new String[]{"无双", "兽痕", "鹰眼"});
@@ -76,7 +78,7 @@ public class HeroType {
         String[] attack_runes = {"祸源", "隐匿", "鹰眼"};
         String[] critical_runes = {"无双", "隐匿", "鹰眼"};
         buildRecommendedRunes("成吉思汗", attack_runes);
-        buildRecommendedRunes("黄忠", new String[]{"无双", "夺萃", "鹰眼"});
+        buildRecommendedRunes("黄忠", new String[]{"无双", "狩猎", "鹰眼"});
         buildRecommendedRunes("李元芳", archer_runes);
         buildRecommendedRunes("孙尚香", critical_runes);
         buildRecommendedRunes("鲁班七号", archer_runes);
@@ -129,7 +131,8 @@ public class HeroType {
     public int attack;
     public int defense;
     public int regen;
-    public int attack_speed_per_level;
+    public int level_up_attack_speed;
+    public int move;
     public Item[] defaultItems = new Item[Item.SLOTS];
     public Item[] recommendedItems;
     public Item[] items;
@@ -137,7 +140,7 @@ public class HeroType {
     public Rune[] recommendedRunes;
     public Map<Rune, Integer> runes = new ArrayMap<>();
 
-    private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int attack_speed_per_level) {
+    private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int level_up_attack_speed, int move) {
         this.name = name;
         this.resName = resName;
         this.category = category;
@@ -146,7 +149,8 @@ public class HeroType {
         this.attack = attack;
         this.defense = defense;
         this.regen = regen;
-        this.attack_speed_per_level = attack_speed_per_level;
+        this.level_up_attack_speed = level_up_attack_speed;
+        this.move = move;
     }
 
     @Nullable

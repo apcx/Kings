@@ -21,7 +21,7 @@ public class HunterHero extends Hero {
         skills = new Skill[]{
                 new Skill("鹰眼", 5000, 0),
                 new Skill("百兽陷阱", 2000, 0),
-                new Skill("可汗狂猎", 2000, 400, 1.15, 360, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
+                new Skill("可汗狂猎", 2000, 400, 1, 320, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
         };
     }
 
@@ -56,7 +56,7 @@ public class HunterHero extends Hero {
         bonus_damage = 0;
         if (in_wood) {
             in_wood = false;
-            factor_attack = 0.7;
+            factor_attack = 0.65;
             log.action = "追猎";
             onHit(log.clone());
             onHit(log);
