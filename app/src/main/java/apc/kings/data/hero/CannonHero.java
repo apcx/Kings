@@ -20,7 +20,7 @@ public class CannonHero extends Hero {
         skills = new Skill[]{
                 new Skill("追击潜能", 8000, 0),
                 new Skill("警戒地雷", 6000, 100, 0.6, 400, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
-                new Skill("重装炮台", 2000, 800),
+                new Skill("重装炮台", 2000, 1000),
         };
     }
 
@@ -28,14 +28,16 @@ public class CannonHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
-        action_attack.time = 800;
-        actions_cast[1].time = 900;
         if (target != null) {
             actions_active.add(actions_cast[1]);
             actions_active.add(actions_cast[2]);
         }
         if (context.isSiege()) {
             toSiegeMode(5);
+            actions_cast[1].time = 100;
+        } else {
+            action_attack.time = 1000;
+            actions_cast[1].time = 1100;
         }
     }
 

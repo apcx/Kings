@@ -145,7 +145,7 @@ public class CContext {
                 updateTime(action);
                 action.hero.onAction(action);
             }
-        } while (defender.hp > 0 && time <= 99000 && !exit);
+        } while (defender.hp > 0 && time < 90000 && !exit);
 
         if (defender.hp <= 0) {
             logs.add(new CLog(attacker.name, "击败", defender.name, time));

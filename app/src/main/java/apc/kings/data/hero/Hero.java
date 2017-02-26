@@ -550,11 +550,11 @@ public class Hero {
     double getDefenseFactor() {
         int defense = target.attr_defense;
         if (target.in_alert_mine) {
-            defense -= defense * 30 / 100;
+            defense = defense * 70 / 100;   // Round down. Confirmed!
         }
         defense = Math.max(0, defense - attr_penetrate);
         if (has_penetrate) {
-            defense -= defense * 45 / 100;
+            defense = defense * 55 / 100;
         }
         return 600.0 / (600 + defense);
     }
@@ -562,7 +562,7 @@ public class Hero {
     double getMagicDefenseFactor() {
         int defense = Math.max(0, target.attr_magic_defense - attr_magic_penetrate);
         if (has_magic_penetrate) {
-            defense -= defense * 45 / 100;
+            defense = defense * 55 / 100;
         }
         return 600.0 / (600 + defense);
     }
