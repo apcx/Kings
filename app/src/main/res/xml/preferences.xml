@@ -15,7 +15,7 @@
         android:summaryOn="始终站在草丛中" />
 
     <SwitchPreference android:key="@string/combat_siege"
-        android:title="黄忠: 提前架起炮台"
-        android:summaryOff="开战时仓促架起炮台"
-        android:summaryOn="开战前提前5秒架起炮台" />
+        android:title="黄忠: 预先架起炮台"
+        android:summaryOff="移动作战"
+        android:summaryOn="预先架起炮台" />
 </PreferenceScreen>

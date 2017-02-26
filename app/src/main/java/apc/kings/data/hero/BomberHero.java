@@ -36,7 +36,7 @@ public class BomberHero extends Hero {
             case "失效":
                 switch (event.target) {
                     case "谍影加速":
-                        attr_attack_speed -= 500;
+                        panel_attack_speed -= 500;
                         break;
                 }
                 break;
@@ -53,7 +53,7 @@ public class BomberHero extends Hero {
         super.onAttack(log);
         if (++marks == 4) {
             log = new CLog(name, "引爆", target.name, context.time);
-            log.damage = (int) (((int) (attr_attack_panel * 0.48) + 220) * 5 * getDefenseFactor() * getDamageFactor());
+            log.damage = (int) (((int) (panel_attack * 0.48) + 220) * 5 * getDefenseFactor() * getDamageFactor());
             context.logs.add(log);
             target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
         }
@@ -65,7 +65,7 @@ public class BomberHero extends Hero {
         switch (index) {
             case 0:
                 marks = 0;
-                attr_attack_speed += 500;
+                panel_attack_speed += 500;
                 context.addEvent(this, "失效", "谍影加速", 4000);
                 log.target = target.name;
                 break;

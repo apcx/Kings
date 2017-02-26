@@ -94,7 +94,7 @@ public class RobotHero extends Hero {
                 toStrafe();
                 action_attack.time = 0;
                 if (target.hp > 0) {
-                    log.magic_damage = (int) ((target.attr_mhp - target.hp) / 10 * getMagicDefenseFactor() * getDamageFactor());
+                    log.magic_damage = (int) ((target.panel_hp - target.hp) / 10 * getMagicDefenseFactor() * getDamageFactor());
                     target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                 }
                 missile_launched = true;

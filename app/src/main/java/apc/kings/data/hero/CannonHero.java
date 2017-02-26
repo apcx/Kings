@@ -28,16 +28,12 @@ public class CannonHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         context.far = true;
         super.initActionMode(target, attacked, specific);
+        actions_cast[1].time = 100;
         if (target != null) {
             actions_active.add(actions_cast[1]);
-            actions_active.add(actions_cast[2]);
-        }
-        if (context.isSiege()) {
-            toSiegeMode(5);
-            actions_cast[1].time = 100;
-        } else {
-            action_attack.time = 1000;
-            actions_cast[1].time = 1100;
+            if (context.isSiege()) {
+                toSiegeMode(0);
+            }
         }
     }
 
@@ -64,11 +60,14 @@ public class CannonHero extends Hero {
             log.action = "炮击";
         } else {
             factor_damage_attack = 1;
+            if (context.far) {
+                checkFrozenHeart();
+            }
         }
         super.onAttack(log);
         if (rage < 5) {
-            attr_critical += 30;
-            attr_attack_panel = attr_attack_base * (100 + 2 * ++rage) / 100;
+            panel_critical += 30;
+            panel_attack = base_attack * (100 + 2 * ++rage) / 100;
             print("炮手燃魂", Integer.toString(rage));
         }
     }
@@ -97,12 +96,17 @@ public class CannonHero extends Hero {
         }
     }
 
+    @Override
+    protected double getAverageMove() {
+        return (getPanelMove(base_move * (1700 + panel_move_speed) / 1000) * 2 + super.getAverageMove() * 6) / 8;
+    }
+
     private void toSiegeMode(int seconds) {
         siege = true;
         factor_attack = 0.8;
         bonus_damage = 120;
-        attr_defense += 50;
-        attr_magic_defense += 50;
+        panel_defense += 50;
+        panel_magic_defense += 50;
 
         siege_power = Math.min(seconds, 5);
         if (siege_power < 5) {
@@ -116,8 +120,8 @@ public class CannonHero extends Hero {
         siege = false;
         factor_attack = 1;
         bonus_damage = 0;
-        attr_defense -= 50;
-        attr_magic_defense -= 50;
+        panel_defense -= 50;
+        panel_magic_defense -= 50;
 
         siege_power = 0;
         context.events.remove(event_siege_power);
