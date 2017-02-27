@@ -44,7 +44,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -75,15 +75,6 @@
                 android:textColor="@android:color/white"
                 android:text="DPS" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:background="@color/colorPrimary"
-                android:textColor="@android:color/white"
-                android:text="性价比" />
-
             <Button android:id="@+id/fight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -96,7 +87,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -118,18 +109,11 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal" />
 
-            <TextView android:id="@+id/costRatio"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal" />
-
             <Button android:id="@+id/show_log"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="bold|italic"
-                android:text="Log"
+                android:text="战斗记录"
                 android:onClick="onClick" />
         </LinearLayout>
     </LinearLayout>

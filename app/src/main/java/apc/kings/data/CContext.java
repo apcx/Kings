@@ -22,7 +22,8 @@ public class CContext {
     public int summary_damage;
     public int summary_time;
     public double summary_dps;
-    public double summary_cost_ratio;
+    public double[] summary_marks = new double[2];
+    public double[] summary_cost_ratios = new double[2];
 
     private Hero attacker;
     private Hero defender;
@@ -74,7 +75,10 @@ public class CContext {
         }
         summary_time = logs.get(logs.size() - 1).time;
         summary_dps = summary_damage * 1000.0 / summary_time;
-        summary_cost_ratio = summary_dps * 10 / (1 + attacker.attr_price);
+        summary_marks[0] = summary_dps * Math.pow(attacker.getAverageMove() / 400, 2);
+        summary_marks[1] = summary_time / 5.0 * Math.pow(defender.getAverageMove() / 430, 0.5);
+        summary_cost_ratios[0] = summary_marks[0] * 10 / (1 + attacker.attr_price);
+        summary_cost_ratios[1] = summary_marks[1] * 10 / (1 + defender.attr_price);
     }
 
     public boolean isCombo() {

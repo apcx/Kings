@@ -11,20 +11,20 @@ import apc.kings.R;
 public class Rune {
 
     public static Rune[] ALL_RUNES = new Rune[] {
-            new Rune("无双", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0,  0,  7, 36, 0, 0),
-            new Rune("祸源", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0,  0, 16,  0, 0, 0),
-            new Rune("红月", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0, 16,  5,  0, 0, 0),
-            new Rune("异变", R.id.rune_red,     0, 20, 0,  0, 0, 36, 0,  0,  0,  0,  0, 0, 0),
-            new Rune("传承", R.id.rune_red,     0, 32, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0, 0),
-            new Rune("纷争", R.id.rune_red,     0, 25, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0, 0),
-            new Rune("宿命", R.id.rune_red,   337,  0, 0, 23, 0,  0, 0,  0, 10,  0,  0, 0, 0),
-            new Rune("隐匿", R.id.rune_blue,    0, 16, 0,  0, 0,  0, 0, 10,  0,  0,  0, 0, 0),
-            new Rune("狩猎", R.id.rune_blue,    0,  0, 0,  0, 0,  0, 0, 10, 10,  0,  0, 0, 0),
-            new Rune("兽痕", R.id.rune_blue,  600,  0, 0,  0, 0,  0, 0,  0,  0,  5,  0, 0, 0),
-            new Rune("夺萃", R.id.rune_blue,    0,  0, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0, 0),
+            new Rune("无双", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0,  0,  7, 36, 0,  0),
+            new Rune("祸源", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0,  0, 16,  0, 0,  0),
+            new Rune("红月", R.id.rune_red,     0,  0, 0,  0, 0,  0, 0,  0, 16,  5,  0, 0,  0),
+            new Rune("异变", R.id.rune_red,     0, 20, 0,  0, 0, 36, 0,  0,  0,  0,  0, 0,  0),
+            new Rune("传承", R.id.rune_red,     0, 32, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0,  0),
+            new Rune("纷争", R.id.rune_red,     0, 25, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0,  0),
+            new Rune("宿命", R.id.rune_red,   337,  0, 0, 23, 0,  0, 0,  0, 10,  0,  0, 0,  0),
+            new Rune("隐匿", R.id.rune_blue,    0, 16, 0,  0, 0,  0, 0, 10,  0,  0,  0, 0,  0),
+            new Rune("狩猎", R.id.rune_blue,    0,  0, 0,  0, 0,  0, 0, 10, 10,  0,  0, 0,  0),
+            new Rune("兽痕", R.id.rune_blue,  600,  0, 0,  0, 0,  0, 0,  0,  0,  5,  0, 0,  0),
+            new Rune("夺萃", R.id.rune_blue,    0,  0, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0,  0),
             new Rune("调和", R.id.rune_blue,  450,  0, 0,  0, 0,  0, 0,  0,  0,  0,  0, 0, 52),
-            new Rune("鹰眼", R.id.rune_green,   0,  9, 0,  0, 0, 64, 0,  0,  0,  0,  0, 0, 0),
-            new Rune("虚空", R.id.rune_green, 375,  0, 0,  0, 0,  0, 0,  0,  0,  0,  0, 6, 0),
+            new Rune("鹰眼", R.id.rune_green,   0,  9, 0,  0, 0, 64, 0,  0,  0,  0,  0, 0,  0),
+            new Rune("虚空", R.id.rune_green, 375,  0, 0,  0, 0,  0, 0,  0,  0,  0,  0, 6,  0),
     };
 
     private static final Map<String, Rune> map = new ArrayMap<>();

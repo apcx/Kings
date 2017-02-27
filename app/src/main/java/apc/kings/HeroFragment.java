@@ -1,5 +1,6 @@
 package apc.kings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,10 +33,13 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
 
     HeroType mHeroType;
     private View mRuneGroup;
+    private View mMarkGroup;
     private TextView mNameView;
     private TextView mRedRune;
     private TextView mBlueRune;
     private TextView mGreenRune;
+    private TextView mMarkView;
+    private TextView mCostRatioView;
     private SimpleDraweeView mPosterView;
     private ItemGroup mItemGroup;
 
@@ -53,6 +57,9 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         mRedRune = (TextView) redGroup.findViewById(R.id.rune_red_text);
         mBlueRune = (TextView) blueGroup.findViewById(R.id.rune_blue_text);
         mGreenRune = (TextView) greenGroup.findViewById(R.id.rune_green_text);
+        mMarkGroup = view.findViewById(R.id.mark_group);
+        mMarkView = (TextView) mMarkGroup.findViewById(R.id.mark);
+        mCostRatioView = (TextView) mMarkGroup.findViewById(R.id.cost_ratio);
 
         mPosterView.setOnClickListener(this);
         redGroup.setOnClickListener(this);
@@ -85,6 +92,13 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
                 }
             }
         }
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void setSummary(double mark, double costRatio) {
+        mMarkGroup.setVisibility(View.VISIBLE);
+        mMarkView.setText(String.format("%.0f", mark));
+        mCostRatioView.setText(String.format("%.3f", costRatio));
     }
 
     @Override

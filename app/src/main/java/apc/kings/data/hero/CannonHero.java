@@ -97,7 +97,7 @@ public class CannonHero extends Hero {
     }
 
     @Override
-    protected double getAverageMove() {
+    public double getAverageMove() {
         return (getPanelMove(base_move * (1700 + panel_move_speed) / 1000) * 2 + super.getAverageMove() * 6) / 8;
     }
 

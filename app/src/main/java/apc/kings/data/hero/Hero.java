@@ -608,7 +608,7 @@ public class Hero {
         return factor / 100.0;
     }
 
-    protected double getAverageMove() {
+    public double getAverageMove() {
         return getPanelMove(base_move * (1000 + panel_move_speed) / 1000);
     }
 

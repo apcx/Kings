@@ -30,7 +30,6 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mDamageView;
     private TextView mTimeView;
     private TextView mDpsView;
-    private TextView mCostRatioView;
     private RecyclerView mLogView;
     private RecyclerView.Adapter mAdapter;
     private Toast mToast;
@@ -48,7 +47,6 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         mDamageView = (TextView) findViewById(R.id.damage);
         mTimeView = (TextView) findViewById(R.id.time);
         mDpsView = (TextView) findViewById(R.id.dps);
-        mCostRatioView = (TextView) findViewById(R.id.costRatio);
 
         mAdapter = new Adapter();
         mLogView = (RecyclerView) findViewById(R.id.log);
@@ -74,10 +72,11 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.fight:
                 if (mAttackerFragment.mHeroType != null && mDefenderFragment.mHeroType != null) {
                     mCombat = new CContext(this, mAttackerFragment.mHeroType, mDefenderFragment.mHeroType);
+                    mAttackerFragment.setSummary(mCombat.summary_marks[0], mCombat.summary_cost_ratios[0]);
+                    mDefenderFragment.setSummary(mCombat.summary_marks[1], mCombat.summary_cost_ratios[1]);
                     mDamageView.setText(Integer.toString(mCombat.summary_damage));
                     mTimeView.setText(String.format("%.3f", mCombat.summary_time / 1000.0));
                     mDpsView.setText(String.format("%.0f", mCombat.summary_dps));
-                    mCostRatioView.setText(String.format("%.3f", mCombat.summary_cost_ratio));
                     mAdapter.notifyDataSetChanged();
                 }
                 break;
