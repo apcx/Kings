@@ -8,12 +8,11 @@
 
         <item name="android:windowFullscreen">true</item>
         <!--<item name="buttonStyle">@style/Button</item>-->
-        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
-    <style name="AppTheme.Main">
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">false</item>
+    <style name="ActionTheme" parent="Theme.AppCompat">
+        <item name="android:windowFullscreen">true</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="Button" parent="android:Widget.Button" >

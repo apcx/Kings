@@ -62,6 +62,7 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
         mCostRatioView = (TextView) mMarkGroup.findViewById(R.id.cost_ratio);
 
         mPosterView.setOnClickListener(this);
+        mItemGroup.setOnClickListener(this);
         redGroup.setOnClickListener(this);
         blueGroup.setOnClickListener(this);
         greenGroup.setOnClickListener(this);
@@ -75,8 +76,7 @@ public class HeroFragment extends Fragment implements View.OnClickListener, Popu
             mPosterView.setImageURI(heroType.getImageUri(getContext(), HeroType.TYPE_POSTER));
             mNameView.setText(name);
             mItemGroup.setItems(heroType.items);
-            mItemGroup.setOnClickListener(this);
-
+            mItemGroup.setVisibility(View.VISIBLE);
             mRuneGroup.setVisibility(View.VISIBLE);
             for (Rune rune : heroType.runes.keySet()) {
                 switch (rune.category) {

@@ -14,6 +14,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -54,7 +60,6 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:background="@color/colorPrimary"
-                android:textColor="@android:color/white"
                 android:text="伤害" />
 
             <TextView
@@ -63,7 +68,6 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:background="@color/colorPrimary"
-                android:textColor="@android:color/white"
                 android:text="计时" />
 
             <TextView
@@ -72,7 +76,6 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:background="@color/colorPrimary"
-                android:textColor="@android:color/white"
                 android:text="DPS" />
 
             <Button android:id="@+id/fight"

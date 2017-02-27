@@ -57,7 +57,7 @@ public class HeroType {
         buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "破甲弓", "无尽战刃"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("李元芳", archer_items);
-        buildRecommendedItems("孙尚香", new String[]{"影忍之足", "破甲弓", "宗师之力", "无尽战刃", "泣血之刃", "破军"});
+        buildRecommendedItems("孙尚香", new String[]{"影忍之足", "闪电匕首", "无尽战刃", "破甲弓", "宗师之力", "破军"});
         buildRecommendedItems("鲁班七号", archer_items);
         buildRecommendedItems("后羿", archer_items);
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "冰封之心", "血魔之怒"});
@@ -74,11 +74,10 @@ public class HeroType {
 
         String[] archer_runes = {"祸源", "狩猎", "鹰眼"};
         String[] attack_runes = {"祸源", "隐匿", "鹰眼"};
-        String[] critical_runes = {"无双", "隐匿", "鹰眼"};
         buildRecommendedRunes("成吉思汗", attack_runes);
         buildRecommendedRunes("黄忠", new String[]{"无双", "狩猎", "鹰眼"});
         buildRecommendedRunes("李元芳", archer_runes);
-        buildRecommendedRunes("孙尚香", critical_runes);
+        buildRecommendedRunes("孙尚香", new String[]{"无双", "夺萃", "鹰眼"});
         buildRecommendedRunes("鲁班七号", archer_runes);
         buildRecommendedRunes("后羿", archer_runes);
         buildRecommendedRunes("夏侯惇", new String[]{"宿命", "调和", "虚空"});
