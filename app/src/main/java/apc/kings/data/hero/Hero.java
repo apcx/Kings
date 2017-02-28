@@ -30,7 +30,7 @@ public class Hero {
     int base_move;
 
     private int panel_flags;
-    int panel_hp;
+    public int panel_hp;
     int panel_attack;
     private int panel_magic;
     int panel_defense;
@@ -74,6 +74,7 @@ public class Hero {
 
     public Hero target;
     private Hero attacker;
+    private int level = 15;
     public int hp;
     int damage_can_critical;
     private int damage_cannot_critical;
@@ -102,7 +103,7 @@ public class Hero {
         panel_defense = heroType.defense;
         panel_magic_defense = 169;
         base_move = heroType.move;
-        panel_attack_speed = heroType.level_up_attack_speed * 14;
+        panel_attack_speed = heroType.level_up_attack_speed * (level - 1);
         panel_regen = heroType.regen;
         initItems();
         initRunes();
@@ -156,14 +157,14 @@ public class Hero {
                 panel_magic_penetrate += 75;
             }
             if ((panel_flags & Item.FP_PN) != 0) {
-                panel_penetrate += 250;
+                panel_penetrate += 100 + level * 10;
             }
             if ((panel_flags & Item.FP_PNP) != 0) {
                 panel_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_SENTINEL) != 0) {
-                base_attack += 60;
-                base_magic += 120;
+                base_attack += 30 + level * 2;
+                base_magic += 60 + level * 4;
             }
             if ((panel_flags & Item.FP_CRITICAL) != 0) {
                 panel_critical_damage += 500;
@@ -182,7 +183,7 @@ public class Hero {
                 attr_heal += 2;
             }
             if ((attr_flags & Item.FLAG_SHIELD_MAGIC) != 0) {
-                shield_magic = 2000;
+                shield_magic = 200 + level * 120;
             }
         }
         panel_move_speed *= 10;
@@ -273,6 +274,10 @@ public class Hero {
                 break;
             case "血铠":
                 onRegen(log, Math.round(panel_hp * attr_heal * 0.003f));
+                break;
+            case "持续伤害":
+                context.events.remove(event);
+                onRedPower();
                 break;
             case "失效":
             case "复原":
@@ -431,7 +436,7 @@ public class Hero {
                     target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_ICE:
-                    log.damage = (int) (450 * getDefenseFactor() * getDamageFactor());
+                    log.damage = (int) ((150 + level * 20) * getDefenseFactor() * getDamageFactor());
                     target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_MOB:
@@ -456,6 +461,11 @@ public class Hero {
         }
 
         onCrash();
+
+        if (context.hasRedPower()) {
+            target.onRedPower();
+            context.updateBuff(target, "持续伤害", "绯红之力", 500);
+        }
     }
 
     protected void onUpdateAttackCanCritical() {
@@ -466,6 +476,13 @@ public class Hero {
 
     protected void onHitMagic(CLog log) {
 
+    }
+
+    private void onRedPower() {
+        CLog log = new CLog(name, "持续伤害", "绯红之力", context.time);
+        log.real_damage = (int) ((17 + attacker.level * 2) * attacker.getDamageFactor());
+        context.logs.add(log);
+        onDamaged(log.real_damage, Skill.TYPE_REAL);
     }
 
     void onDamaged(int damage, int type) {

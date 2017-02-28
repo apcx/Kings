@@ -28,6 +28,7 @@ public class CContext {
     private Hero attacker;
     private Hero defender;
     private boolean option_combo;
+    private boolean option_red_power;
     private boolean option_hunt;
     private boolean option_siege;
     private boolean option_frenzy;
@@ -36,6 +37,7 @@ public class CContext {
     public CContext(Context context, HeroType attackerType, HeroType defenderType) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
+        option_red_power = preferences.getBoolean(context.getString(R.string.combat_red_power), false);
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
         option_hunt = preferences.getBoolean(context.getString(R.string.combat_hunt), false);
         option_siege = preferences.getBoolean(context.getString(R.string.combat_siege), false);
@@ -76,6 +78,13 @@ public class CContext {
         summary_time = logs.get(logs.size() - 1).time;
         summary_dps = summary_damage * 1000.0 / summary_time;
 
+        if (option_combo) {
+            summary_marks[0] = summary_damage;
+            summary_marks[1] = 5000.0 * Math.max(0, defender.hp) / defender.panel_hp;
+        } else {
+            summary_marks[0] = summary_dps;
+            summary_marks[1] = summary_time / 5.0;
+        }
         int base_move = 400;
         double weight = 2;
         switch (attacker.name) {
@@ -86,8 +95,8 @@ public class CContext {
                 }
                 break;
         }
-        summary_marks[0] = summary_dps * Math.pow(attacker.getAverageMove() / base_move, weight);
-        summary_marks[1] = summary_time / 5.0 * Math.pow(defender.getAverageMove() / 430, 0.5);
+        summary_marks[0] *= Math.pow(attacker.getAverageMove() / base_move, weight);
+        summary_marks[1] *= Math.pow(defender.getAverageMove() / 430, 0.5);
         summary_cost_ratios[0] = summary_marks[0] * 10 / (1 + attacker.attr_price);
         summary_cost_ratios[1] = summary_marks[1] * 10 / (1 + defender.attr_price);
     }
@@ -96,7 +105,11 @@ public class CContext {
         return option_combo;
     }
 
-    public boolean isHunt() {
+    public boolean hasRedPower() {
+        return option_red_power;
+    }
+
+    public boolean hasHunt() {
         return option_hunt;
     }
 

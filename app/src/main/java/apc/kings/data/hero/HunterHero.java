@@ -41,7 +41,7 @@ public class HunterHero extends Hero {
             case "冷却":
                 switch (event.target) {
                     case "追猎":
-                        in_wood = context.isHunt();
+                        in_wood = context.hasHunt();
                         break;
                 }
                 break;

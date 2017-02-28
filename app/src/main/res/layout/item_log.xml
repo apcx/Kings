@@ -62,7 +62,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/log_magic_damage"
         android:textSize="12sp"
         android:textStyle="italic" />
 </LinearLayout>

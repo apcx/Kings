@@ -40,7 +40,7 @@
         android:visibility="gone" />
 
     <LinearLayout android:id="@+id/rune_group"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/round_item_set"
@@ -48,15 +48,17 @@
         android:visibility="gone">
 
         <LinearLayout android:id="@+id/rune_red"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <TextView android:id="@+id/rune_red_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textStyle="bold"
+                android:gravity="center_horizontal"
                 android:background="@color/rune_red" />
 
             <TextView
@@ -67,16 +69,18 @@
         </LinearLayout>
 
         <LinearLayout android:id="@+id/rune_blue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="2dp">
 
             <TextView android:id="@+id/rune_blue_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textStyle="bold"
+                android:gravity="center_horizontal"
                 android:background="@color/rune_blue" />
 
             <TextView
@@ -87,16 +91,18 @@
         </LinearLayout>
 
         <LinearLayout android:id="@+id/rune_green"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="2dp">
 
             <TextView android:id="@+id/rune_green_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textStyle="bold"
+                android:gravity="center_horizontal"
                 android:background="@color/rune_green" />
 
             <TextView

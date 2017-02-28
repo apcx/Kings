@@ -6,6 +6,9 @@
         android:summaryOff="全程战斗"
         android:summaryOn="仅一套连招" />
 
+    <SwitchPreference android:key="@string/combat_red_power"
+        android:title="绯红之力" />
+
     <SwitchPreference android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
 

@@ -3,6 +3,7 @@ package apc.kings;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -157,8 +158,8 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             hero.setImageResource(resources.getIdentifier("hero_" + HeroType.findHero(heroName).resName, "drawable", packageName));
 
             action.setText(log.action);
-            action.setTextColor(0xffffffff);
-            target_text.setTextColor(0xffffffff);
+            action.setTextColor(Color.WHITE);
+            target_text.setTextColor(Color.WHITE);
             switch (log.action) {
                 case "强化":
                 case "复原":
@@ -166,16 +167,17 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 case "炮手燃魂":
                 case "炮台加强":
                 case "击败":
-                    action.setTextColor(0xff00ffff);
+                    action.setTextColor(Color.CYAN);
                     break;
+                case "持续伤害":
                 case "弱化":
                 case "失效":
                 case "护盾消失":
                 case "护盾击破":
-                    action.setTextColor(resources.getColor(R.color.log_magic_damage));
+                    action.setTextColor(Color.MAGENTA);
                     break;
                 case "回能量":
-                    target_text.setTextColor(0xffffff00);
+                    target_text.setTextColor(Color.YELLOW);
                     break;
             }
 
@@ -197,7 +199,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             damage.setTypeface(typeface, Typeface.ITALIC);
             if (log.regen > 0) {
                 damage.setText(Integer.toString(log.regen));
-                damage.setTextColor(0xff00ff00);
+                damage.setTextColor(Color.GREEN);
             } else if (log.damage > 0) {
                 damage.setText(Integer.toString(log.damage));
                 damage.setTextColor(resources.getColor(R.color.log_damage));
@@ -217,6 +219,10 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                     magic_damage.setTextSize(largeSize);
                     magic_damage.setTypeface(typeface, Typeface.BOLD_ITALIC);
                 }
+                magic_damage.setTextColor(Color.MAGENTA);
+            } else if (log.real_damage > 0) {
+                magic_damage.setText(Integer.toString(log.real_damage));
+                magic_damage.setTextColor(Color.WHITE);
             } else {
                 magic_damage.setText(null);
             }
