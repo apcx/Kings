@@ -12,8 +12,10 @@
         <activity android:name=".CombatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,6 +24,9 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".ItemActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".RuneActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".SettingsActivity"

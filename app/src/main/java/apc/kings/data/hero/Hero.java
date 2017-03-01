@@ -49,7 +49,7 @@ public class Hero {
     private int attr_flags;
     public int attr_price;
     int attr_attack_cd = 1000;
-    private int attr_heal = 10;
+    private int attr_heal = 100;
     private int attr_enchants;
 
     private boolean has_storm;
@@ -85,6 +85,7 @@ public class Hero {
     private SparseArray<int[]> critical_histories = new SparseArray<>();
 
     boolean in_alert_mine;
+    private boolean in_red_power;
     private boolean in_storm;
     private boolean in_cold_iron;
     private boolean in_enchant;
@@ -180,7 +181,7 @@ public class Hero {
             }
 
             if (has_heal) {
-                attr_heal += 2;
+                attr_heal += 20;
             }
             if ((attr_flags & Item.FLAG_SHIELD_MAGIC) != 0) {
                 shield_magic = 200 + level * 120;
@@ -249,6 +250,10 @@ public class Hero {
             if (!context.far) {
                 checkFrozenHeart();
             }
+            if (context.hasRedPower()) {
+                in_red_power = true;
+                context.addEvent(this, "失效", "绯红之力", 70000);
+            }
         }
         if (attacked) {
             context.events.add(new Event(this, "回血", 5000));
@@ -270,10 +275,10 @@ public class Hero {
                 onRegen(log, panel_regen);
                 break;
             case "振兴回复":
-                onRegen(log, Math.round(panel_hp * attr_heal * 0.001f));
+                onRegen(log, Math.round(panel_hp * attr_heal * 0.0001f));
                 break;
             case "血铠":
-                onRegen(log, Math.round(panel_hp * attr_heal * 0.003f));
+                onRegen(log, Math.round(panel_hp * attr_heal * 0.0003f));
                 break;
             case "持续伤害":
                 context.events.remove(event);
@@ -289,12 +294,15 @@ public class Hero {
                         in_storm = false;
                         panel_attack_speed -= 500;
                         break;
-                    case "地雷破甲":
-                        in_alert_mine = false;
-                        break;
                     case "血怒":
                         base_attack -= 40;
                         shield_bottom = 0;
+                        break;
+                    case "绯红之力":
+                        in_red_power = false;
+                        break;
+                    case "地雷破甲":
+                        in_alert_mine = false;
                         break;
                 }
                 break;
@@ -388,7 +396,7 @@ public class Hero {
                     break;
             }
             target.onDamaged(damage, skill.damageType);
-            onCrash();
+            onImpact();
         } else {
             context.logs.add(log);
         }
@@ -460,9 +468,9 @@ public class Hero {
             }
         }
 
-        onCrash();
+        onImpact();
 
-        if (context.hasRedPower()) {
+        if (in_red_power && target.hp > 0) {
             target.onRedPower();
             context.updateBuff(target, "持续伤害", "绯红之力", 500);
         }
@@ -512,11 +520,6 @@ public class Hero {
                 context.addEvent(this, "振兴回复", 4, 500);
                 context.addEvent(this, "冷却", "振兴回复", 10000);
             }
-            if (attacker.has_wound && !in_wound) {
-                in_wound = true;
-                attr_heal -= 5;
-                print("弱化", "重伤");
-            }
             if (hp < panel_hp * 30 / 100) {
                 if (has_shield_bottom) {
                     has_shield_bottom = false;
@@ -538,11 +541,16 @@ public class Hero {
         return damage;
     }
 
-    private void onCrash() {
+    private void onImpact() {
         if (target.has_cold_iron && !in_cold_iron) {
             in_cold_iron = true;
             panel_attack_speed -= 300;
             print("弱化", "寒铁");
+        }
+        if (has_wound && !target.in_wound) {
+            target.in_wound = true;
+            target.attr_heal -= 50;
+            target.print("弱化", "重伤");
         }
     }
 

@@ -6,6 +6,11 @@
         android:summaryOff="全程战斗"
         android:summaryOn="仅一套连招" />
 
+    <SwitchPreference android:key="@string/combat_mark_damage"
+        android:title="评分: 巨舰大炮"
+        android:summaryOff="综合参考火力和移动速度"
+        android:summaryOn="仅参考火力" />
+
     <SwitchPreference android:key="@string/combat_red_power"
         android:title="绯红之力" />
 
