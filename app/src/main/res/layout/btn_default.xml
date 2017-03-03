@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<apc.kings.common.SdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reset_default"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:viewAspectRatio="3.4038"
+    app:placeholderImage="@drawable/reset_default" />

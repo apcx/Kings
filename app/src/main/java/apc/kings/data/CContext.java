@@ -86,7 +86,7 @@ public class CContext {
             summary_marks[1] = summary_time / 5.0;
         }
         if (!preferences.getBoolean(context.getString(R.string.combat_mark_damage), false)) {
-            int base_move = 400;
+            int base_move = attackerType.move + 60;
             double weight = 2;
             switch (attacker.name) {
                 case "黄忠":

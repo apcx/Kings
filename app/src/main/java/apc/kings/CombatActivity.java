@@ -63,7 +63,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         startActivity(new Intent(this, SettingsActivity.class));
-//        startActivity(new Intent(this, RuneActivity.class));
+//        startActivity(new Intent("李元芳", null, this, RuneActivity.class));
         return super.onOptionsItemSelected(item);
     }
 

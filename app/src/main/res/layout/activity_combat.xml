@@ -9,10 +9,9 @@
     android:animateLayoutChanges="true"
     tools:context="apc.kings.CombatActivity">
 
-    <LinearLayout
+    <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <View
             android:layout_width="match_parent"
@@ -20,11 +19,10 @@
             android:background="@android:color/darker_gray"
             android:layout_marginBottom="1dp" />
 
-        <LinearLayout
+        <LinearLayout android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <fragment android:name="apc.kings.HeroFragment"
@@ -48,10 +46,9 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <TextView
@@ -88,10 +85,9 @@
                 android:onClick="onClick" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <TextView android:id="@+id/damage"
@@ -122,11 +118,11 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView android:id="@+id/log"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:orientation="vertical"
         android:background="#c0000000"
         android:visibility="gone" />
 </FrameLayout>

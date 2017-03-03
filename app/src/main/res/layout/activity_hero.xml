@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText,RtlHardcoded"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="apc.kings.HeroActivity">
 
@@ -15,10 +15,9 @@
         app:viewAspectRatio="10.6891"
         app:placeholderImage="@drawable/title_hero" />
 
-    <LinearLayout
+    <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="2dp">
 
         <Button android:id="@+id/cat_all"
@@ -107,12 +106,12 @@
         android:background="#43c9f3" />
 
     <android.support.v7.widget.RecyclerView android:id="@+id/heroes"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
-        app:spanCount="5"
-        android:orientation="vertical" />
+        app:spanCount="5" />
 
     <ImageView android:id="@+id/lock"
         android:layout_width="wrap_content"

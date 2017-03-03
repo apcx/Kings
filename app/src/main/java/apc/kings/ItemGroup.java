@@ -42,6 +42,7 @@ public class ItemGroup extends BambooView {
         mItemRes = R.layout.item_item_set;
         mWeightSum = Item.SLOTS;
         super.initUI();
+        setBackgroundResource(R.drawable.round_item_set);
 
         OnClickListener listener = new OnClickListener() {
             @Override

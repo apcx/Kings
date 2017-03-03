@@ -98,6 +98,7 @@ public class RobotHero extends Hero {
                     target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                 }
                 missile_launched = true;
+                actions_active.remove(actions_cast[1]);
                 break;
         }
     }
