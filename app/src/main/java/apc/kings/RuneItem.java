@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.Map;
 
+import apc.kings.common.Utils;
 import apc.kings.data.HeroType;
 import apc.kings.data.Rune;
 
@@ -68,12 +69,15 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
         mRuneButton.setBackgroundResource(background);
     }
 
-    void initRune(HeroType heroType, Rune rune) {
+    void resetRune(HeroType heroType, Rune rune) {
         mHeroType = heroType;
+        mRune = rune;
         if (rune != null) {
-            mRune = rune;
             mRuneButton.setText(rune.name);
             mQuantityView.setText("x" + heroType.runes.get(rune));
+        } else {
+            mRuneButton.setText(null);
+            mQuantityView.setText(null);
         }
     }
 
@@ -87,19 +91,14 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
                 for (Rune rune : Rune.ALL_RUNES) {
                     if (rune.category == mCategory && rune != mAnotherItem.mRune) {
                         String name = rune.name;
-                        for (Rune defaultRune : mHeroType.defaultRunes) {
-                            if (defaultRune == rune) {
+                        for (Rune default_rune : mHeroType.default_runes) {
+                            if (default_rune == rune) {
                                 name += SUFFIX_DEFAULT;
                                 break;
                             }
                         }
-                        if (!name.endsWith(SUFFIX_DEFAULT) && mHeroType.recommendedRunes != null) {
-                            for (Rune recommendedRune : mHeroType.recommendedRunes) {
-                                if (recommendedRune == rune) {
-                                    name += SUFFIX_RECOMMENDED;
-                                    break;
-                                }
-                            }
+                        if (!name.endsWith(SUFFIX_DEFAULT) && !Utils.isEmpty(mHeroType.recommended_runes) && mHeroType.recommended_runes.containsKey(rune)) {
+                            name += SUFFIX_RECOMMENDED;
                         }
                         Spannable spannable = new SpannableString(name);
                         spannable.setSpan(span, 0, rune.name.length(), 0);
@@ -136,13 +135,29 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
                 mHeroType.runes.put(rune, mHeroType.runes.get(mRune));
                 mHeroType.runes.remove(mRune);
                 mRune = rune;
+                mHeroType.saveRunes();
             } else {
-                mHeroType.runes.put(rune, 0);
+                int quantity = 10 - getSum();
+                mHeroType.runes.put(rune, quantity);
                 mRune = rune;
-                increase();
+                if (quantity > 0) {
+                    mQuantityView.setText("x" + quantity);
+                } else {
+                    increase();
+                }
             }
         }
         return true;
+    }
+
+    private int getSum() {
+        int sum = 0;
+        for (Map.Entry<Rune, Integer> entry : mHeroType.runes.entrySet()) {
+            if (entry.getKey().category == mCategory) {
+                sum += entry.getValue();
+            }
+        }
+        return sum;
     }
 
     private void increase() {
@@ -151,17 +166,8 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
             if (quantity < 10) {
                 mHeroType.runes.put(mRune, ++quantity);
                 mQuantityView.setText("x" + quantity);
-
-                int id = ((View) getParent()).getId();
-                int sum = 0;
-                for (Map.Entry<Rune, Integer> entry : mHeroType.runes.entrySet()) {
-                    Rune rune = entry.getKey();
-                    quantity = entry.getValue();
-                    if (id == rune.category) {
-                        sum += quantity;
-                    }
-                }
-                if (sum > 10) {
+                mHeroType.saveRunes();
+                if (getSum() > 10) {
                     mAnotherItem.decrease();
                 }
             }
@@ -174,6 +180,7 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
             if (--quantity > 0) {
                 mHeroType.runes.put(mRune, quantity);
                 mQuantityView.setText("x" + quantity);
+                mHeroType.saveRunes();
             } else {
                 delete();
             }
@@ -186,6 +193,7 @@ public class RuneItem extends LinearLayout implements View.OnClickListener, Popu
             mRune = null;
             mRuneButton.setText(null);
             mQuantityView.setText(null);
+            mHeroType.saveRunes();
         }
     }
 }

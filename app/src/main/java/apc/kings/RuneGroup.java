@@ -56,7 +56,7 @@ public class RuneGroup extends LinearLayout {
         mItems[1].mAnotherItem = mItems[0];
     }
 
-    public void initItems(HeroType heroType) {
+    public void resetItems(HeroType heroType) {
         int id = getId();
         int i = 0;
         int n = mItems.length;
@@ -67,7 +67,7 @@ public class RuneGroup extends LinearLayout {
             }
         }
         for (i = 0; i < n; ++i) {
-            mItems[i].initRune(heroType, runes[i]);
+            mItems[i].resetRune(heroType, runes[i]);
         }
     }
 }

@@ -54,7 +54,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
         mEditButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
         findViewById(R.id.reset_default).setOnClickListener(this);
-        if (mHeroType.recommendedItems != null) {
+        if (mHeroType.recommended_items != null) {
             View recommendedButton = findViewById(R.id.reset_recommended);
             recommendedButton.setVisibility(View.VISIBLE);
             recommendedButton.setOnClickListener(this);
@@ -150,12 +150,12 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                         mCancelButton.setVisibility(View.GONE);
                         switch (id) {
                             case R.id.reset_recommended:
-                                mItemGroup.setItems(mHeroType.recommendedItems);
-                                mHeroType.setItems(mHeroType.recommendedItems);
+                                mItemGroup.setItems(mHeroType.recommended_items);
+                                mHeroType.setItems(mHeroType.recommended_items);
                                 break;
                             case R.id.reset_default:
-                                mItemGroup.setItems(mHeroType.defaultItems);
-                                mHeroType.setItems(mHeroType.defaultItems);
+                                mItemGroup.setItems(mHeroType.default_items);
+                                mHeroType.setItems(mHeroType.default_items);
                                 break;
                         }
                     }

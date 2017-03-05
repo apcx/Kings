@@ -8,18 +8,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.Arrays;
 import java.util.Map;
 
 import apc.kings.R;
 import apc.kings.common.App;
+import apc.kings.common.Utils;
 
 public class HeroType {
 
     public static final String TYPE_HERO = "hero";
     public static final String TYPE_POSTER = "poster";
-
-    public static HeroType[] ALL_HEROES = new HeroType[] {
+    public static final HeroType[] ALL_HEROES = new HeroType[] {
             new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329, 66, 3, 370),
             new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319, 68, 3, 340),
             new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344, 75, 2, 350),
@@ -36,7 +40,9 @@ public class HeroType {
 //            new HeroType("吕布",     "stark",    R.id.cat_warrior, R.id.cat_tank,     7344, 353, 390,  97,  1),
     };
 
+    private static final String SAVE_RUNE = "rune_";
     private static final Map<String, HeroType> map = new ArrayMap<>();
+    private static final Gson gson = new Gson();
     static {
         for (HeroType heroType : ALL_HEROES) {
             map.put(heroType.name, heroType);
@@ -96,26 +102,9 @@ public class HeroType {
                 }
             }
             if (!loaded) {
-                heroType.items = heroType.recommendedItems != null ? heroType.recommendedItems : heroType.defaultItems;
+                heroType.items = heroType.recommended_items != null ? heroType.recommended_items : heroType.default_items;
             }
-
-            loaded = false;
-            value = preferences.getString("rune_" + heroType.name, null);
-            if (!TextUtils.isEmpty(value)) {
-                String[] runeNames = value.split(",");
-                if (runeNames.length >= 3) {
-                    for (int i = 0; i < 3; ++i) {
-                        heroType.runes.put(Rune.findRune(runeNames[i]), 10);
-                    }
-                    loaded = true;
-                }
-            }
-            if (!loaded) {
-                Rune[] runes = heroType.recommendedRunes != null ? heroType.recommendedRunes : heroType.defaultRunes;
-                for (Rune rune : runes) {
-                    heroType.runes.put(rune, 10);
-                }
-            }
+            heroType.loadRunes();
         }
     }
 
@@ -129,11 +118,11 @@ public class HeroType {
     public int regen;
     public int level_up_attack_speed;
     public int move;
-    public Item[] defaultItems = new Item[Item.SLOTS];
-    public Item[] recommendedItems;
+    public Item[] default_items = new Item[Item.SLOTS];
+    public Item[] recommended_items;
     public Item[] items;
-    public Rune[] defaultRunes = new Rune[3];
-    public Rune[] recommendedRunes;
+    public Rune[] default_runes = new Rune[3];
+    public Map<Rune, Integer> recommended_runes;
     public Map<Rune, Integer> runes = new ArrayMap<>();
 
     private HeroType(String name, String resName, int category, int subCategory, int hp, int attack, int defense, int regen, int level_up_attack_speed, int move) {
@@ -147,6 +136,47 @@ public class HeroType {
         this.regen = regen;
         this.level_up_attack_speed = level_up_attack_speed;
         this.move = move;
+    }
+
+    private static void buildDefaultItems(String name, String[] itemNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            for (int i = 0; i < Item.SLOTS; ++i) {
+                heroType.default_items[i] = Item.findItem(itemNames[i]);
+            }
+        }
+    }
+
+    private static void buildRecommendedItems(String name, String[] itemNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            heroType.recommended_items = new Item[Item.SLOTS];
+            for (int i = 0; i < Item.SLOTS; ++i) {
+                heroType.recommended_items[i] = Item.findItem(itemNames[i]);
+            }
+        }
+    }
+
+    private static void buildDefaultRunes(String name, String[] runeNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            for (int i = 0; i < 3; ++i) {
+                heroType.default_runes[i] = Rune.findRune(runeNames[i]);
+            }
+        }
+    }
+
+    private static void buildRecommendedRunes(String name, final String[] runeNames) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            heroType.recommended_runes = new ArrayMap<>();
+            for (String runeName : runeNames) {
+                Rune rune = Rune.findRune(runeName);
+                if (rune != null) {
+                    heroType.recommended_runes.put(rune, 10);
+                }
+            }
+        }
     }
 
     @Nullable
@@ -165,12 +195,12 @@ public class HeroType {
         SharedPreferences.Editor editor = App.preferences().edit();
         String key = "item_" + name;
         boolean reset = false;
-        if (recommendedItems != null) {
-            if (Arrays.equals(items, recommendedItems)) {
+        if (recommended_items != null) {
+            if (Arrays.equals(items, recommended_items)) {
                 editor.remove(key);
                 reset = true;
             }
-        } else if (Arrays.equals(items, defaultItems)) {
+        } else if (Arrays.equals(items, default_items)) {
             editor.remove(key);
             reset = true;
         }
@@ -186,41 +216,74 @@ public class HeroType {
         editor.apply();
     }
 
-    private static void buildDefaultItems(String name, String[] itemNames) {
-        HeroType heroType = findHero(name);
-        if (heroType != null) {
-            for (int i = 0; i < Item.SLOTS; ++i) {
-                heroType.defaultItems[i] = Item.findItem(itemNames[i]);
+    private void loadRunes() {
+        boolean loaded = false;
+        String json = App.preferences().getString(SAVE_RUNE + name, null);
+        if (!TextUtils.isEmpty(json)) {
+            try {
+                Map<String, Integer> map = gson.fromJson(json, new TypeToken<ArrayMap<String, Integer>>(){}.getType());
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                    Rune rune = Rune.findRune(entry.getKey());
+                    if (rune != null) {
+                        runes.put(rune, entry.getValue());
+                    }
+                }
+                loaded = true;
+            } catch (JsonSyntaxException e) {
+                // ignore
+            }
+        }
+        if (!loaded) {
+            if (!Utils.isEmpty(recommended_runes)) {
+                runes.putAll(recommended_runes);
+            } else {
+                runes.put(default_runes[0], 10);
+                runes.put(default_runes[1], 10);
+                runes.put(default_runes[2], 10);
             }
         }
     }
 
-    private static void buildRecommendedItems(String name, String[] itemNames) {
-        HeroType heroType = findHero(name);
-        if (heroType != null) {
-            heroType.recommendedItems = new Item[Item.SLOTS];
-            for (int i = 0; i < Item.SLOTS; ++i) {
-                heroType.recommendedItems[i] = Item.findItem(itemNames[i]);
-            }
+    public void resetRecommendedRunes() {
+        runes.clear();
+        runes.putAll(recommended_runes);
+        App.preferences().edit().remove(SAVE_RUNE + name).apply();
+    }
+
+    public void resetDefaultRunes() {
+        runes.clear();
+        runes.put(default_runes[0], 10);
+        runes.put(default_runes[1], 10);
+        runes.put(default_runes[2], 10);
+        if (Utils.isEmpty(recommended_runes)) {
+            App.preferences().edit().remove(SAVE_RUNE + name).apply();
         }
     }
 
-    private static void buildDefaultRunes(String name, String[] runeNames) {
-        HeroType heroType = findHero(name);
-        if (heroType != null) {
-            for (int i = 0; i < 3; ++i) {
-                heroType.defaultRunes[i] = Rune.findRune(runeNames[i]);
+    public void saveRunes() {
+        boolean reset = false;
+        if (!Utils.isEmpty(recommended_runes)) {
+            reset = runes.equals(recommended_runes);
+        } else {
+            if (runes.size() == 3) {
+                reset = true;
+                for (int i = 0; i < 3; ++i) {
+                    Integer quantity = runes.get(default_runes[i]);
+                    if (null == quantity || quantity != 10) {
+                        reset = false;
+                        break;
+                    }
+                }
             }
         }
-    }
 
-    private static void buildRecommendedRunes(String name, String[] runeNames) {
-        HeroType heroType = findHero(name);
-        if (heroType != null) {
-            heroType.recommendedRunes = new Rune[3];
-            for (int i = 0; i < 3; ++i) {
-                heroType.recommendedRunes[i] = Rune.findRune(runeNames[i]);
-            }
+        SharedPreferences.Editor editor = App.preferences().edit();
+        String key = SAVE_RUNE + name;
+        if (reset) {
+            editor.remove(key);
+        } else {
+            editor.putString(key, runes.toString());
         }
+        editor.apply();
     }
 }
