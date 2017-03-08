@@ -88,7 +88,7 @@ public class CContext {
         if (!preferences.getBoolean(context.getString(R.string.combat_mark_damage), false)) {
             int base_move = attackerType.move + 60;
             double weight = 2;
-            switch (attacker.name) {
+            switch (attackerType.name) {
                 case "黄忠":
                     base_move = 453;
                     if (option_siege) {
@@ -97,7 +97,7 @@ public class CContext {
                     break;
             }
             summary_marks[0] *= Math.pow(attacker.getAverageMove() / base_move, weight);
-            summary_marks[1] *= Math.pow(defender.getAverageMove() / 430, 0.5);
+            summary_marks[1] *= Math.pow(defender.getAverageMove() / (defenderType.move + 60), 0.5);
         }
         summary_cost_ratios[0] = summary_marks[0] * 10 / (1 + attacker.attr_price);
         summary_cost_ratios[1] = summary_marks[1] * 10 / (1 + defender.attr_price);

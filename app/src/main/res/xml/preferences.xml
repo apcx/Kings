@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference android:key="@string/combat_combo"
+    <CheckBoxPreference android:key="@string/combat_combo"
         android:title="Combo"
         android:summaryOff="全程战斗"
         android:summaryOn="仅一套连招" />
 
-    <SwitchPreference android:key="@string/combat_mark_damage"
+    <CheckBoxPreference android:key="@string/combat_mark_damage"
         android:title="评分: 巨舰大炮"
         android:summaryOff="综合参考火力和移动速度"
         android:summaryOn="仅参考火力" />
 
-    <SwitchPreference android:key="@string/combat_red_power"
+    <CheckBoxPreference android:key="@string/combat_red_power"
         android:title="绯红之力" />
 
-    <SwitchPreference android:key="@string/combat_frenzy"
+    <CheckBoxPreference android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
 
-    <SwitchPreference android:key="@string/combat_hunt"
+    <CheckBoxPreference android:key="@string/combat_hunt"
         android:title="成吉思汗: 草丛强行追猎"
         android:summaryOff="仅开战时站在草丛中"
         android:summaryOn="始终站在草丛中" />
 
-    <SwitchPreference android:key="@string/combat_siege"
+    <CheckBoxPreference android:key="@string/combat_siege"
         android:title="黄忠: 预先架起炮台"
         android:summaryOff="移动作战"
         android:summaryOn="预先架起炮台" />
