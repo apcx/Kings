@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <CheckBoxPreference android:key="@string/combat_combo"
+    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat android:key="@string/combat_move_weight"
+        android:title="评分: 移动速度权重"
+        android:defaultValue="0"
+        app:msbp_maxValue="200"
+        app:msbp_interval="10"
+        app:msbp_measurementUnit="%" />
+
+    <SwitchPreferenceCompat android:key="@string/combat_combo"
         android:title="Combo"
         android:summaryOff="全程战斗"
         android:summaryOn="仅一套连招" />
 
-    <CheckBoxPreference android:key="@string/combat_mark_damage"
-        android:title="评分: 巨舰大炮"
-        android:summaryOff="综合参考火力和移动速度"
-        android:summaryOn="仅参考火力" />
-
-    <CheckBoxPreference android:key="@string/combat_red_power"
+    <SwitchPreferenceCompat android:key="@string/combat_red_power"
         android:title="绯红之力" />
 
-    <CheckBoxPreference android:key="@string/combat_frenzy"
+    <SwitchPreferenceCompat android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
 
-    <CheckBoxPreference android:key="@string/combat_hunt"
+    <SwitchPreferenceCompat android:key="@string/combat_hunt"
         android:title="成吉思汗: 草丛强行追猎"
         android:summaryOff="仅开战时站在草丛中"
         android:summaryOn="始终站在草丛中" />
 
-    <CheckBoxPreference android:key="@string/combat_siege"
+    <SwitchPreferenceCompat android:key="@string/combat_siege"
         android:title="黄忠: 预先架起炮台"
         android:summaryOff="移动作战"
         android:summaryOn="预先架起炮台" />

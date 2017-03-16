@@ -43,7 +43,7 @@ public class Hero {
     int panel_attack_speed;
     int panel_critical;
     int panel_critical_damage = 2000;
-    private int panel_cdr;
+    int panel_cdr;
     private int panel_regen;
 
     private int attr_flags;

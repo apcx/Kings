@@ -2,34 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="apc.kings">
 
-    <application android:name=".common.App"
+    <application
+        android:name=".common.App"
         android:allowBackup="true"
         android:icon="@drawable/hero_bomber"
         android:label="鹰眼的神射"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".CombatActivity"
+        <activity
+            android:name=".CombatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".HeroActivity"
+        <activity
+            android:name=".HeroActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ItemActivity"
+        <activity
+            android:name=".ItemActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".RuneActivity"
+        <activity
+            android:name=".RuneActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Preference" />
     </application>
+
 </manifest>

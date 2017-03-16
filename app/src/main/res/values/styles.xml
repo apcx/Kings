@@ -1,7 +1,6 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -9,6 +8,10 @@
         <item name="android:windowFullscreen">true</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
         <!--<item name="buttonStyle">@style/Button</item>-->
+    </style>
+
+    <style name="AppTheme.Preference">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="ActionTheme" parent="Theme.AppCompat">

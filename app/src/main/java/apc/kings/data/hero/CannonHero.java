@@ -98,7 +98,8 @@ public class CannonHero extends Hero {
 
     @Override
     public double getAverageMove() {
-        return (getPanelMove(base_move * (1700 + panel_move_speed) / 1000) * 2 + super.getAverageMove() * 6) / 8;
+        int cd = skills[0].cd * (1000 - panel_cdr) / 1000;
+        return (getPanelMove(base_move * (1700 + panel_move_speed) / 1000) * 2000 + super.getAverageMove() * (cd - 2000)) / cd;
     }
 
     private void toSiegeMode(int seconds) {
