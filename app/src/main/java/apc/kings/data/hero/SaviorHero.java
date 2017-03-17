@@ -7,14 +7,14 @@ import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
 @SuppressWarnings("unused")
-public class ClaymoreHero extends Hero {
+public class SaviorHero extends Hero {
 
-    protected ClaymoreHero(CContext context, HeroType heroType) {
+    protected SaviorHero(CContext context, HeroType heroType) {
         super(context, heroType);
         skills = new Skill[]{
-                new Skill("豪气斩", 7000, 400, 1, 490, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
-                new Skill("龙卷闪", 7000, 400),
-                new Skill("不羁之刃", 15000, 400, 1.18, 550, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
+                new Skill("损人利己", 9000, 400),
+                new Skill("双重恐吓", 10000, 400),
+                new Skill("统御战场", 50000, 2200),
         };
     }
 
@@ -22,7 +22,7 @@ public class ClaymoreHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
         if (attacked) {
-            actions_active.add(actions_cast[1]);
+            actions_active.add(actions_cast[0]);
         }
     }
 
@@ -32,7 +32,7 @@ public class ClaymoreHero extends Hero {
         switch (event.action) {
             case "护盾消失":
                 switch (event.target) {
-                    case "龙卷闪":
+                    case "损人利己":
                         shield_hero = 0;
                         break;
                 }
@@ -43,7 +43,11 @@ public class ClaymoreHero extends Hero {
     @Override
     protected void onCast(int index, CLog log) {
         super.onCast(index, log);
-        shield_hero = panel_hp * 10 / 100;
-        event_shield = context.addEvent(this, "护盾消失", skills[1].name, 5000);
+        switch (index) {
+            case 0:
+                shield_hero = 720 + panel_magic * 40 / 100 + panel_hp * 9 / 100;
+                event_shield = context.addEvent(this, "护盾消失", skills[index].name, 5000);
+                break;
+        }
     }
 }

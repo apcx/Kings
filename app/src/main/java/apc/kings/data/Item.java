@@ -13,17 +13,18 @@ public class Item {
     public static final int SLOTS = 6;
 
     // unique flags on panel
-    public static final int FP_BOOTS     = 0x001;
-    public static final int FP_MPN_BOOTS = 0x003;
-    public static final int FP_MPN_MASK  = 0x004;
-    public static final int FP_MPNP      = 0x008;
-    public static final int FP_PN        = 0x010;
-    public static final int FP_PNP       = 0x020;
-    public static final int FP_SENTINEL  = 0x040;
-    public static final int FP_CRITICAL  = 0x080;
-    public static final int MOB_ATTACK   = 0x100;
-    public static final int MOB_MAGIC    = 0x200;
-    public static final int MOB_HP       = 0x400;
+    public static final int FP_BOOTS     = 0x0001;
+    public static final int FP_MPN_BOOTS = 0x0003;
+    public static final int FP_MPN_MASK  = 0x0004;
+    public static final int FP_MPNP      = 0x0008;
+    public static final int FP_PN        = 0x0010;
+    public static final int FP_PNP       = 0x0020;
+    public static final int FP_MARK      = 0x0100;
+    public static final int FP_SENTINEL  = 0x0200;
+    public static final int FP_CRITICAL  = 0x0400;
+    public static final int MOB_ATTACK   = 0x1000;
+    public static final int MOB_MAGIC    = 0x2000;
+    public static final int MOB_HP       = 0x4000;
 
     // unique flags on special effects
     public static final int FLAG_STORM         = 0x0001;
@@ -62,6 +63,7 @@ public class Item {
             new Item("冰霜长矛",  R.drawable.weapon_frost,      R.id.item_weapon, 1970,  500,  80,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("名刀·司命",R.drawable.weapon_curtain,    R.id.item_weapon, 1760,    0,  60,   0,   0,   0, 0,  0,  0,  5,   0, 0,            0),
             new Item("破军",      R.drawable.weapon_200,        R.id.item_weapon, 2950,    0, 200,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_EXECUTE),
+            new Item("贤者之书",  R.drawable.magic_400,         R.id.item_magic,  2990,    0,   0, 400,   0,   0, 0,  0,  0,  0,   0, FP_MARK,      0),
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0, 0,  0,  0,  0,   0, 0,            FLAG_COLD_IRON),
             new Item("冰痕之握",  R.drawable.armor_guanlets,    R.id.item_armor,  2020,  800,   0,   0, 200,   0, 0,  0,  0, 10,   0, 0,            0),

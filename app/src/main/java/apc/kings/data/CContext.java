@@ -36,7 +36,7 @@ public class CContext {
 
     public CContext(Context context, HeroType attackerType, HeroType defenderType) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int option_move_weight = preferences.getInt(context.getString(R.string.combat_move_weight), 0);
+        int option_move_weight = preferences.getInt(context.getString(R.string.combat_move_weight), 50);
         option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
         option_red_power = preferences.getBoolean(context.getString(R.string.combat_red_power), false);
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);

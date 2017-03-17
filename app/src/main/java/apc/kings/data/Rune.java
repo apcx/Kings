@@ -17,6 +17,7 @@ public class Rune {
             new Rune("异变", R.id.rune_red,     0, 20,  0,  0,  0, 36, 0,  0,  0,  0,  0, 0,  0),
             new Rune("传承", R.id.rune_red,     0, 32,  0,  0,  0,  0, 0,  0,  0,  0,  0, 0,  0),
             new Rune("纷争", R.id.rune_red,     0, 25,  0,  0,  0,  0, 0,  0,  0,  0,  0, 0,  0),
+            new Rune("凶兆", R.id.rune_red,     0,  0, 42,  0,  0,  0, 0,  0,  6,  0,  0, 0,  0),
             new Rune("圣人", R.id.rune_red,     0,  0, 53,  0,  0,  0, 0,  0,  0,  0,  0, 0,  0),
             new Rune("宿命", R.id.rune_red,   337,  0,  0, 23,  0,  0, 0,  0, 10,  0,  0, 0,  0),
             new Rune("狩猎", R.id.rune_blue,    0,  0,  0,  0,  0,  0, 0, 10, 10,  0,  0, 0,  0),

@@ -23,6 +23,7 @@ public class Hero {
     public List<Event> actions_active = new ArrayList<>();
     public Event[] actions_cast = new Event[3];
     Event action_attack = new Event(this, "攻击", 0);
+    Event event_shield;
     public Skill[] skills;
 
     int base_attack;
@@ -32,7 +33,7 @@ public class Hero {
     private int panel_flags;
     public int panel_hp;
     int panel_attack;
-    private int panel_magic;
+    int panel_magic;
     int panel_defense;
     int panel_magic_defense;
     private int panel_penetrate;
@@ -80,6 +81,7 @@ public class Hero {
     private int damage_cannot_critical;
 
     private int cnt_lightning = 5;
+    int shield_hero;
     private int shield_magic;
     private int shield_bottom;
     private SparseArray<int[]> critical_histories = new SparseArray<>();
@@ -169,6 +171,9 @@ public class Hero {
             }
             if ((panel_flags & Item.FP_CRITICAL) != 0) {
                 panel_critical_damage += 500;
+            }
+            if ((panel_flags & Item.FP_MARK) != 0) {
+                panel_hp += 1400;
             }
             if ((panel_flags & Item.MOB_ATTACK) != 0) {
                 panel_attack_speed += 30;
@@ -494,24 +499,33 @@ public class Hero {
     }
 
     void onDamaged(int damage, int type) {
+        int damage_shield;
         if (Skill.TYPE_MAGIC == type && shield_magic > 0) {
-            int damage_shield = Math.min(damage, shield_magic);
+            damage_shield = Math.min(damage, shield_magic);
             shield_magic -= damage_shield;
             damage -= damage_shield;
             if (shield_magic <= 0) {
                 print("护盾击破", "魔女斗篷");
             }
         }
-        if (shield_bottom > 0) {
-            int damage_shield = Math.min(damage, shield_bottom);
-            shield_bottom -= damage_shield;
-            damage -= damage_shield;
-            if (shield_bottom <= 0) {
-                print("护盾击破", "血怒护盾");
-            }
-        }
         if (type != Skill.TYPE_REAL) {
-            damage = onSpecificShield(damage);
+            if (shield_bottom > 0) {
+                damage_shield = Math.min(damage, shield_bottom);
+                shield_bottom -= damage_shield;
+                damage -= damage_shield;
+                if (shield_bottom <= 0) {
+                    print("护盾击破", "血怒护盾");
+                }
+            }
+            if (shield_hero > 0) {
+                damage_shield = Math.min(damage, shield_hero);
+                shield_hero -= damage_shield;
+                damage -= damage_shield;
+                if (shield_hero <= 0) {
+                    context.events.remove(event_shield);
+                    print("护盾击破", event_shield.target);
+                }
+            }
         }
         if (damage > 0) {
             hp -= damage;
@@ -535,10 +549,6 @@ public class Hero {
                 }
             }
         }
-    }
-
-    protected int onSpecificShield(int damage) {
-        return damage;
     }
 
     private void onImpact() {
