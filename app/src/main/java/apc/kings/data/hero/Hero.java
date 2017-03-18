@@ -50,7 +50,7 @@ public class Hero {
     private int attr_flags;
     public int attr_price;
     int attr_attack_cd = 1000;
-    private int attr_heal = 100;
+    int attr_heal = 100;
     private int attr_enchants;
 
     private boolean has_storm;
@@ -279,7 +279,7 @@ public class Hero {
             case "回血":
                 onRegen(log, panel_regen);
                 break;
-            case "振兴回复":
+            case "振兴回血":
                 onRegen(log, Math.round(panel_hp * attr_heal * 0.0001f));
                 break;
             case "血铠":
@@ -320,7 +320,7 @@ public class Hero {
                     case "电弧":
                         in_cd_lighting = false;
                         break;
-                    case "振兴回复":
+                    case "振兴回血":
                         in_cd_heal = false;
                         break;
                     case "血铠":
@@ -498,7 +498,7 @@ public class Hero {
         onDamaged(log.real_damage, Skill.TYPE_REAL);
     }
 
-    void onDamaged(int damage, int type) {
+    protected void onDamaged(int damage, int type) {
         int damage_shield;
         if (Skill.TYPE_MAGIC == type && shield_magic > 0) {
             damage_shield = Math.min(damage, shield_magic);
@@ -531,8 +531,8 @@ public class Hero {
             hp -= damage;
             if (has_heal && !in_cd_heal) {
                 in_cd_heal = true;
-                context.addEvent(this, "振兴回复", 4, 500);
-                context.addEvent(this, "冷却", "振兴回复", 10000);
+                context.addEvent(this, "振兴回血", 4, 500);
+                context.addEvent(this, "冷却", "振兴回血", 10000);
             }
             if (hp < panel_hp * 30 / 100) {
                 if (has_shield_bottom) {
@@ -564,7 +564,7 @@ public class Hero {
         }
     }
 
-    private void onRegen(CLog log, int regen) {
+    void onRegen(CLog log, int regen) {
         int damaged = panel_hp - hp;
         if (damaged > 0) {
             log.regen = Math.min(damaged, regen);

@@ -53,7 +53,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/log_damage"
+        android:textColor="#ff0000"
         android:textSize="12sp"
         android:textStyle="italic" />
 

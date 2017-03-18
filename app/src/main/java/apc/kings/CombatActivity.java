@@ -164,9 +164,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 case "强化":
                 case "复原":
                 case "准备":
+                case "正义潜能":
                 case "炮手燃魂":
                 case "炮台加强":
-                case "击败":
                     action.setTextColor(Color.CYAN);
                     break;
                 case "持续伤害":
@@ -178,6 +178,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 case "回能量":
                     target_text.setTextColor(Color.YELLOW);
+                    break;
+                case "击败":
+                    action.setTextColor(Color.RED);
                     break;
             }
 
@@ -202,7 +205,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 damage.setTextColor(Color.GREEN);
             } else if (log.damage > 0) {
                 damage.setText(Integer.toString(log.damage));
-                damage.setTextColor(resources.getColor(R.color.log_damage));
+                damage.setTextColor(Color.RED);
                 if (log.critical) {
                     damage.setTextSize(largeSize);
                     damage.setTypeface(typeface, Typeface.BOLD_ITALIC);

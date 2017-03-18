@@ -36,7 +36,7 @@ public class HeroType {
             new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 5986, 406, 336,  71, 3, 340),
             new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400,  92, 1, 380),
             new HeroType("刘邦",     "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 117, 3, 380),
-//            new HeroType("程咬金",    "berserk",   R.id.cat_tank,    R.id.cat_warrior,  8731, 316, 504, 119, 2, 380),
+            new HeroType("程咬金",   "berserk",  R.id.cat_tank,    R.id.cat_warrior,  8731, 316, 504, 119, 2, 380),
             new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397,  98, 2, 380),
 //            new HeroType("吕布",     "stark",    R.id.cat_warrior, R.id.cat_tank,     7344, 353, 390,  97,  1),
     };
@@ -62,14 +62,15 @@ public class HeroType {
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
         String[] archer_items = {"影忍之足", "破灭君主", "影刃", "破甲弓", "泣血之刃", "贤者的庇护"};
-        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "破灭君主", "破甲弓", "闪电匕首", "泣血之刃", "贤者的庇护"});
+        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "破灭君主", "破甲弓", "影刃", "纯净苍穹", "破军"});
         buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "破甲弓", "无尽战刃"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("李元芳", archer_items);
         buildRecommendedItems("孙尚香", new String[]{"影忍之足", "闪电匕首", "无尽战刃", "破甲弓", "宗师之力", "破军"});
-        buildRecommendedItems("鲁班七号", archer_items);
+        buildRecommendedItems("鲁班七号", new String[]{"影忍之足", "破灭君主", "影刃", "破甲弓", "纯净苍穹", "破军"});
         buildRecommendedItems("后羿", archer_items);
         buildRecommendedItems("刘邦", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "霸者重装", "贤者之书"});
+        buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "反伤刺甲", "不祥征兆", "血魔之怒"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "冰封之心", "血魔之怒"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
@@ -86,11 +87,11 @@ public class HeroType {
 
         String[] archer_runes = {"祸源", "狩猎", "鹰眼"};
         String[] tank_runes = {"宿命", "调和", "虚空"};
-        buildRecommendedRunes("成吉思汗", archer_runes);
+        buildRecommendedRunes("成吉思汗", new String[]{"祸源", "鹰眼", "夺萃", "狩猎"}, new int[]{10, 10, 5, 5});
         buildRecommendedRunes("黄忠", new String[]{"无双", "狩猎", "鹰眼"});
         buildRecommendedRunes("李元芳", archer_runes);
         buildRecommendedRunes("孙尚香", new String[]{"无双", "夺萃", "鹰眼"});
-        buildRecommendedRunes("鲁班七号", archer_runes);
+        buildRecommendedRunes("鲁班七号", new String[]{"祸源", "鹰眼", "夺萃", "狩猎"}, new int[]{10, 10, 5, 5});
         buildRecommendedRunes("后羿", archer_runes);
         buildRecommendedRunes("刘邦", tank_runes);
         buildRecommendedRunes("夏侯惇", tank_runes);
@@ -174,7 +175,7 @@ public class HeroType {
         }
     }
 
-    private static void buildRecommendedRunes(String name, final String[] runeNames) {
+    private static void buildRecommendedRunes(String name, String[] runeNames) {
         HeroType heroType = findHero(name);
         if (heroType != null) {
             heroType.recommended_runes = new ArrayMap<>();
@@ -182,6 +183,19 @@ public class HeroType {
                 Rune rune = Rune.findRune(runeName);
                 if (rune != null) {
                     heroType.recommended_runes.put(rune, 10);
+                }
+            }
+        }
+    }
+
+    private static void buildRecommendedRunes(String name, String[] runeNames, int[] quantities) {
+        HeroType heroType = findHero(name);
+        if (heroType != null) {
+            heroType.recommended_runes = new ArrayMap<>();
+            for (int i = 0, n = runeNames.length; i < n; ++i) {
+                Rune rune = Rune.findRune(runeNames[i]);
+                if (rune != null) {
+                    heroType.recommended_runes.put(rune, quantities[i]);
                 }
             }
         }
