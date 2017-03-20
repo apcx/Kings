@@ -11,7 +11,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/poster_border">
+        android:background="@drawable/poster_border"
+        android:padding="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +23,6 @@
         <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             app:viewAspectRatio="0.5625" />
     </FrameLayout>
 

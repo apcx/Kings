@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import apc.kings.R;
 import apc.kings.data.CContext;
 import apc.kings.data.CLog;
 import apc.kings.data.Event;
@@ -58,6 +59,8 @@ public class Hero {
     private boolean has_frozen_heart;
     private boolean has_defense_boots;
     private boolean has_corrupt;
+    private boolean has_corrupt_2;
+    private boolean has_judgement;
     private boolean has_accurate;
     private boolean has_lightning;
     private boolean has_execute;
@@ -80,6 +83,7 @@ public class Hero {
     int damage_can_critical;
     private int damage_cannot_critical;
 
+    private boolean cnt_corrupt;
     private int cnt_lightning = 5;
     int shield_hero;
     private int shield_magic;
@@ -93,6 +97,7 @@ public class Hero {
     private boolean in_enchant;
     private boolean in_wound;
     private boolean in_cd_enchant;
+    private boolean in_cd_judgement;
     private boolean in_cd_lighting;
     private boolean in_cd_heal;
     private boolean in_cd_recover;
@@ -141,6 +146,8 @@ public class Hero {
             }
             has_defense_boots = (attr_flags & Item.FLAG_DEFENSE_BOOTS) != 0;
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
+            has_corrupt_2 = (attr_flags & Item.FLAG_CORRUPT_2) != 0;
+            has_judgement = (attr_flags & Item.FLAG_JUDGEMENT) != 0 && R.id.cat_archer == heroType.category;
             has_accurate = (attr_flags & Item.FLAG_ACCURATE) != 0;
             has_lightning = (attr_flags & Item.FLAG_LIGHTNING) != 0;
             has_execute = (attr_flags & Item.FLAG_EXECUTE) != 0;
@@ -158,6 +165,12 @@ public class Hero {
             }
             if ((panel_flags & Item.FP_MPN_BOOTS) == Item.FP_MPN_BOOTS) {
                 panel_magic_penetrate += 75;
+            }
+            if ((panel_flags & Item.FP_MPN_MASK) != 0) {
+                panel_magic_penetrate += 75;
+            }
+            if ((panel_flags & Item.FP_MPN_VOID) != 0) {
+                panel_magic_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_PN) != 0) {
                 panel_penetrate += 100 + level * 10;
@@ -261,7 +274,7 @@ public class Hero {
             }
         }
         if (attacked) {
-            context.events.add(new Event(this, "回血", 5000));
+            context.events.add(new Event(this, "回血", "每5秒", 5000, 5000));
         }
     }
 
@@ -274,16 +287,20 @@ public class Hero {
         if (event.period > 0) {
             event.time += event.period;
         }
-        CLog log = new CLog(name, event.action, null, context.time);
+        CLog log = new CLog(name, event.action, event.target, context.time);
         switch (event.action) {
             case "回血":
-                onRegen(log, panel_regen);
-                break;
-            case "振兴回血":
-                onRegen(log, Math.round(panel_hp * attr_heal * 0.0001f));
-                break;
-            case "血铠":
-                onRegen(log, Math.round(panel_hp * attr_heal * 0.0003f));
+                switch (event.target) {
+                    case "每5秒":
+                        onRegen(log, panel_regen);
+                        break;
+                    case "振兴之铠":
+                        onRegen(log, Math.round(panel_hp * attr_heal * 0.0001f));
+                        break;
+                    case "血铠":
+                        onRegen(log, Math.round(panel_hp * attr_heal * 0.0003f));
+                        break;
+                }
                 break;
             case "持续伤害":
                 context.events.remove(event);
@@ -316,6 +333,9 @@ public class Hero {
                 switch (event.target) {
                     case "强击":
                         in_cd_enchant = false;
+                        break;
+                    case "审判":
+                        in_cd_judgement = false;
                         break;
                     case "电弧":
                         in_cd_lighting = false;
@@ -420,7 +440,13 @@ public class Hero {
         if (target.hp > 0) {
             damage = 0;
             if (has_corrupt) {
-                damage = target.hp * 0.08;
+                damage += target.hp * 8 / 100;
+            }
+            if (has_corrupt_2) {
+                if (cnt_corrupt) {
+                    damage += 200 + level * 20;
+                }
+                cnt_corrupt = !cnt_corrupt;
             }
             if (has_accurate) {
                 damage += 60;
@@ -457,6 +483,15 @@ public class Hero {
                     target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
                     break;
             }
+        }
+
+        if (has_judgement && target.hp > 0 && !in_cd_judgement) {
+            in_cd_judgement = true;
+            log = new CLog(name, "审判", target.name, context.time);
+            log.magic_damage = (int) (panel_hp * 8 / 100 * getMagicDefenseFactor() * getDamageFactor());
+            context.logs.add(log);
+            target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+            context.addEvent(this, "冷却", "审判", 1000);
         }
 
         if (has_lightning && target.hp > 0 && !in_cd_lighting) {
@@ -531,7 +566,7 @@ public class Hero {
             hp -= damage;
             if (has_heal && !in_cd_heal) {
                 in_cd_heal = true;
-                context.addEvent(this, "振兴回血", 4, 500);
+                context.updateBuff(this, "回血", "振兴之铠", 4, 500);
                 context.addEvent(this, "冷却", "振兴回血", 10000);
             }
             if (hp < panel_hp * 30 / 100) {
@@ -544,7 +579,7 @@ public class Hero {
                 }
                 if (has_recover && !in_cd_recover) {
                     in_cd_recover = true;
-                    context.addEvent(this, "血铠", 5, 1000);
+                    context.updateBuff(this, "回血", "血铠", 5, 1000);
                     context.addEvent(this, "冷却", "血铠", 20000);
                 }
             }

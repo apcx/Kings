@@ -61,16 +61,16 @@ public class HeroType {
         buildDefaultItems("程咬金", new String[]{"红莲斗篷", "影忍之足", "振兴之铠", "血魔之怒", "不祥征兆", "暴烈之甲"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "振兴之铠", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archer_items = {"影忍之足", "破灭君主", "影刃", "破甲弓", "泣血之刃", "贤者的庇护"};
+        String[] archer_items = {"影忍之足", "破灭君主", "影刃", "破甲弓", "纯净苍穹", "破军"};
         buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "破灭君主", "破甲弓", "影刃", "纯净苍穹", "破军"});
         buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "破甲弓", "无尽战刃"});
         buildRecommendedItems("马可波罗", new String[]{"影忍之足", "破灭君主", "纯净苍穹", "破甲弓", "破灭君主", "贤者的庇护"});
         buildRecommendedItems("李元芳", archer_items);
         buildRecommendedItems("孙尚香", new String[]{"影忍之足", "闪电匕首", "无尽战刃", "破甲弓", "宗师之力", "破军"});
-        buildRecommendedItems("鲁班七号", new String[]{"影忍之足", "破灭君主", "影刃", "破甲弓", "纯净苍穹", "破军"});
-        buildRecommendedItems("后羿", archer_items);
+        buildRecommendedItems("鲁班七号", archer_items);
+        buildRecommendedItems("后羿", new String[]{"影忍之足", "破灭君主", "破甲弓", "影刃", "纯净苍穹", "破军"});
         buildRecommendedItems("刘邦", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "霸者重装", "贤者之书"});
-        buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "反伤刺甲", "不祥征兆", "血魔之怒"});
+        buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "振兴之铠", "反伤刺甲", "不祥征兆", "霸者重装"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "冰封之心", "血魔之怒"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});
@@ -85,14 +85,18 @@ public class HeroType {
         buildDefaultRunes("程咬金", new String[]{"宿命", "隐匿", "虚空"});
         buildDefaultRunes("夏侯惇", new String[]{"宿命", "调和", "鹰眼"});
 
-        String[] archer_runes = {"祸源", "狩猎", "鹰眼"};
         String[] tank_runes = {"宿命", "调和", "虚空"};
-        buildRecommendedRunes("成吉思汗", new String[]{"祸源", "鹰眼", "夺萃", "狩猎"}, new int[]{10, 10, 5, 5});
+        Map<String, Integer> mixed_runes = new ArrayMap<>();
+        mixed_runes.put("祸源", 10);
+        mixed_runes.put("鹰眼", 10);
+        mixed_runes.put("夺萃", 5);
+        mixed_runes.put("狩猎", 5);
+        buildRecommendedRunes("成吉思汗", mixed_runes);
         buildRecommendedRunes("黄忠", new String[]{"无双", "狩猎", "鹰眼"});
-        buildRecommendedRunes("李元芳", archer_runes);
+        buildRecommendedRunes("李元芳", mixed_runes);
         buildRecommendedRunes("孙尚香", new String[]{"无双", "夺萃", "鹰眼"});
-        buildRecommendedRunes("鲁班七号", new String[]{"祸源", "鹰眼", "夺萃", "狩猎"}, new int[]{10, 10, 5, 5});
-        buildRecommendedRunes("后羿", archer_runes);
+        buildRecommendedRunes("鲁班七号", mixed_runes);
+        buildRecommendedRunes("后羿", mixed_runes);
         buildRecommendedRunes("刘邦", tank_runes);
         buildRecommendedRunes("夏侯惇", tank_runes);
 
@@ -147,8 +151,8 @@ public class HeroType {
         this.move = move;
     }
 
-    private static void buildDefaultItems(String name, String[] itemNames) {
-        HeroType heroType = findHero(name);
+    private static void buildDefaultItems(String hero, String[] itemNames) {
+        HeroType heroType = findHero(hero);
         if (heroType != null) {
             for (int i = 0; i < Item.SLOTS; ++i) {
                 heroType.default_items[i] = Item.findItem(itemNames[i]);
@@ -156,8 +160,8 @@ public class HeroType {
         }
     }
 
-    private static void buildRecommendedItems(String name, String[] itemNames) {
-        HeroType heroType = findHero(name);
+    private static void buildRecommendedItems(String hero, String[] itemNames) {
+        HeroType heroType = findHero(hero);
         if (heroType != null) {
             heroType.recommended_items = new Item[Item.SLOTS];
             for (int i = 0; i < Item.SLOTS; ++i) {
@@ -166,8 +170,8 @@ public class HeroType {
         }
     }
 
-    private static void buildDefaultRunes(String name, String[] runeNames) {
-        HeroType heroType = findHero(name);
+    private static void buildDefaultRunes(String hero, String[] runeNames) {
+        HeroType heroType = findHero(hero);
         if (heroType != null) {
             for (int i = 0; i < 3; ++i) {
                 heroType.default_runes[i] = Rune.findRune(runeNames[i]);
@@ -175,8 +179,8 @@ public class HeroType {
         }
     }
 
-    private static void buildRecommendedRunes(String name, String[] runeNames) {
-        HeroType heroType = findHero(name);
+    private static void buildRecommendedRunes(String hero, String[] runeNames) {
+        HeroType heroType = findHero(hero);
         if (heroType != null) {
             heroType.recommended_runes = new ArrayMap<>();
             for (String runeName : runeNames) {
@@ -188,14 +192,14 @@ public class HeroType {
         }
     }
 
-    private static void buildRecommendedRunes(String name, String[] runeNames, int[] quantities) {
-        HeroType heroType = findHero(name);
+    private static void buildRecommendedRunes(String hero, Map<String, Integer> runes) {
+        HeroType heroType = findHero(hero);
         if (heroType != null) {
             heroType.recommended_runes = new ArrayMap<>();
-            for (int i = 0, n = runeNames.length; i < n; ++i) {
-                Rune rune = Rune.findRune(runeNames[i]);
+            for (Map.Entry<String, Integer> entry : runes.entrySet()) {
+                Rune rune = Rune.findRune(entry.getKey());
                 if (rune != null) {
-                    heroType.recommended_runes.put(rune, quantities[i]);
+                    heroType.recommended_runes.put(rune, entry.getValue());
                 }
             }
         }

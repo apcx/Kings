@@ -16,11 +16,12 @@ public class Item {
     public static final int FP_BOOTS     = 0x0001;
     public static final int FP_MPN_BOOTS = 0x0003;
     public static final int FP_MPN_MASK  = 0x0004;
-    public static final int FP_MPNP      = 0x0008;
+    public static final int FP_MPN_VOID  = 0x0008;
     public static final int FP_PN        = 0x0010;
     public static final int FP_PNP       = 0x0020;
-    public static final int FP_MARK      = 0x0100;
-    public static final int FP_SENTINEL  = 0x0200;
+    public static final int FP_HAT       = 0x0100;
+    public static final int FP_MARK      = 0x0200;
+    public static final int FP_SENTINEL  = 0x0400;
     public static final int FP_CRITICAL  = 0x0400;
     public static final int MOB_ATTACK   = 0x1000;
     public static final int MOB_MAGIC    = 0x2000;
@@ -30,6 +31,7 @@ public class Item {
     public static final int FLAG_STORM         = 0x0001;
     public static final int FLAG_COLD_IRON     = 0x0002;
     public static final int FLAG_FROZEN_HEART  = 0x0004;
+    public static final int FLAG_JUDGEMENT     = 0x0008;
 
     public static final int FLAG_DEFENSE_BOOTS = 0x0010;
     public static final int FLAG_EXECUTE       = 0x0020;
@@ -39,6 +41,7 @@ public class Item {
     public static final int FLAG_CORRUPT       = 0x0100;
     public static final int FLAG_ACCURATE      = 0x0200;
     public static final int FLAG_LIGHTNING     = 0x0400;
+    public static final int FLAG_CORRUPT_2     = 0x0800;
 
     public static final int FLAG_HEAL          = 0x1000;
     public static final int FLAG_RECOVER       = 0x2000;
@@ -63,6 +66,21 @@ public class Item {
             new Item("冰霜长矛",  R.drawable.weapon_frost,      R.id.item_weapon, 1970,  500,  80,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("名刀·司命",R.drawable.weapon_curtain,    R.id.item_weapon, 1760,    0,  60,   0,   0,   0, 0,  0,  0,  5,   0, 0,            0),
             new Item("破军",      R.drawable.weapon_200,        R.id.item_weapon, 2950,    0, 200,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_EXECUTE),
+            new Item("末世",      R.drawable.weapon_corrupt_2,  R.id.item_weapon, 2160,    0,  60,   0,   0,   0, 0, 30,  0,  0,   0, 0,            FLAG_CORRUPT_2),
+            new Item("逐日之弓",  R.drawable.weapon_stalk,      R.id.item_weapon, 2100,    0,  40,   0,   0,   0, 5, 20, 15,  0,   0, 0,            0),
+            new Item("金色圣剑",  R.drawable.weapon_judgement,  R.id.item_weapon, 2030,    0,   0,   0,   0,   0, 0, 50,  0,  0,   0, 0,            FLAG_JUDGEMENT),
+            new Item("圣杯",      R.drawable.magic_mana,        R.id.item_magic,  2030,    0,   0, 140,   0, 140, 0,  0,  0, 20,   0, 0,            0),
+            new Item("虚无法杖",  R.drawable.magic_void,        R.id.item_magic,  2110,  500,   0, 180,   0,   0, 0,  0,  0,  0,   0, FP_MPN_VOID,   0),
+            new Item("博学者之怒",R.drawable.magic_hat,         R.id.item_magic,  2300,    0,   0, 240,   0,   0, 0,  0,  0,  0,   0, FP_HAT,        0),
+            new Item("回响之杖",  R.drawable.magic_echo,        R.id.item_magic,  2100,    0,   0, 240,   0,   0, 7,  0,  0,  0,   0, 0,            0),
+            new Item("冰霜法杖",  R.drawable.magic_frost,       R.id.item_magic,  2100, 1050,   0, 150,   0,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("痛苦面具",  R.drawable.magic_mask,        R.id.item_magic,  2040,  500,   0, 140,   0,   0, 0,  0,  0,  5,   0, FP_MPN_MASK,  0),
+            new Item("巫术法杖",  R.drawable.magic_voodoo,      R.id.item_magic,  2120,  400,   0, 120,   0,   0, 8,  0,  0,  0,   0, 0,            ENCHANT_VOODOO),
+            new Item("时之预言",  R.drawable.magic_prophecy,    R.id.item_magic,  2090,  800,   0, 160,   0,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("辉月",      R.drawable.magic_moon,        R.id.item_magic,  1990,    0,   0, 160,   0,   0, 0,  0,  0, 10,   0, 0,            0),
+            new Item("噬神之书",  R.drawable.magic_drain,       R.id.item_magic,  2090,  800,   0, 180,   0,   0, 0,  0,  0, 10,   0, 0,            0),
+            new Item("炽热支配者",R.drawable.magic_shield,      R.id.item_magic,  1950,    0,   0, 160,   0,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("梦魇之牙",  R.drawable.magic_wound,       R.id.item_magic,  2050,    0,   0, 240,   0,   0, 5,  0,  0,  0,   0, 0,            0),
             new Item("贤者之书",  R.drawable.magic_400,         R.id.item_magic,  2990,    0,   0, 400,   0,   0, 0,  0,  0,  0,   0, FP_MARK,      0),
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0, 0,  0,  0,  0,   0, 0,            FLAG_COLD_IRON),
@@ -93,6 +111,7 @@ public class Item {
         for (Item item : ALL_ITEMS) {
             map.put(item.name, item);
         }
+        markExperimental(new String[]{"末世", "逐日之弓", "金色圣剑"});
     }
 
     public String name;
@@ -111,6 +130,7 @@ public class Item {
     public int regen;
     public int panel_flags;
     public int flags;
+    public boolean experimental;
 
     private Item(String name, int imageRes, int category, int price, int hp, int attack, int magic, int defense, int magic_defense, int move_speed, int attack_speed, int critical, int cdr, int regen, int panel_flags, int flags) {
         this.name = name;
@@ -134,5 +154,14 @@ public class Item {
     @Nullable
     public static Item findItem(@NonNull String name) {
         return map.get(name);
+    }
+
+    private static void markExperimental(String[] names) {
+        for (String name : names) {
+            Item item = findItem(name);
+            if (item != null) {
+                item.experimental = true;
+            }
+        }
     }
 }

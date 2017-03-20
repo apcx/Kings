@@ -174,11 +174,13 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
             SdView image = holder.get(R.id.image);
             TextView name = holder.get(R.id.name);
             TextView price = holder.get(R.id.price);
+            View view = holder.get(R.id.experimental);
 
             Item item = mItems.get(position);
             image.setImage(Uri.parse("res:///" + item.imageRes), position == mSelected);
             name.setText(item.name);
             price.setText(Integer.toString(item.price));
+            view.setVisibility(item.experimental ? View.VISIBLE : View.GONE);
         }
 
         @Override

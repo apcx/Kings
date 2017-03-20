@@ -22,8 +22,12 @@ public class BerserkHero extends Hero {
     public void onEvent(Event event) {
         super.onEvent(event);
         switch (event.action) {
-            case "正义回血":
-                recover(event);
+            case "回血":
+                switch (event.target) {
+                    case "正义潜能":
+                        recover(event);
+                        break;
+                }
                 break;
         }
     }
@@ -34,7 +38,7 @@ public class BerserkHero extends Hero {
         switch (index) {
             case 2:
                 hp -= hp * 16 / 100;
-                recover(context.addEvent(this, "正义回血", 9, 500));
+                recover(context.updateBuff(this, "回血", "正义潜能", 9, 500));
                 break;
         }
     }
@@ -49,7 +53,7 @@ public class BerserkHero extends Hero {
     }
 
     private void recover(Event event) {
-        CLog log = new CLog(name, event.action, null, context.time);
+        CLog log = new CLog(name, event.action, event.target, context.time);
         int regen = panel_hp * 4;
         if (event.intervals >= 4) {
             regen += panel_hp - hp;

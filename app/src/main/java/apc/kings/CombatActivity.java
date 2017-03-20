@@ -161,6 +161,9 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             action.setTextColor(Color.WHITE);
             target_text.setTextColor(Color.WHITE);
             switch (log.action) {
+                case "回血":
+                    action.setTextColor(Color.GREEN);
+                    break;
                 case "强化":
                 case "复原":
                 case "准备":

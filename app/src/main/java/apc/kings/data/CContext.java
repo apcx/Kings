@@ -134,6 +134,22 @@ public class CContext {
         return event;
     }
 
+    public Event updateBuff(Hero hero, String action, String buff, int intervals, int period) {
+        int eventTime = time + period;
+        for (int i = 0, n = events.size(); i < n; ++i) {
+            Event event = events.get(i);
+            if (hero == event.hero && action.equals(event.action) && buff.equals(event.target)) {
+                event.intervals = intervals;
+                event.time = eventTime;
+                return event;
+            }
+        }
+        Event event = new Event(hero, action, buff, period, eventTime);
+        event.intervals = intervals;
+        events.add(event);
+        return event;
+    }
+
     public void updateBuff(Hero hero, String action, String buff, int duration) {
         int eventTime = time + duration;
         for (int i = 0, n = events.size(); i < n; ++i) {
