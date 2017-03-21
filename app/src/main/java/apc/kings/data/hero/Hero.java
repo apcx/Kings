@@ -68,6 +68,7 @@ public class Hero {
     private boolean has_recover;
     private boolean has_wound;
     private boolean has_shield_bottom;
+    private boolean has_echo;
 
     boolean hit_normal;
     boolean hit_can_critical;
@@ -158,6 +159,7 @@ public class Hero {
             has_recover = (attr_flags & Item.FLAG_RECOVER) != 0;
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             has_shield_bottom = (attr_flags & Item.FLAG_SHIELD_BOTTOM) != 0;
+            has_echo = (attr_flags & Item.FLAG_ECHO) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_VOODOO;
 
             if ((panel_flags & Item.FP_BOOTS) != 0) {

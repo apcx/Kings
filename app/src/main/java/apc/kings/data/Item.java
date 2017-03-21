@@ -22,7 +22,7 @@ public class Item {
     public static final int FP_HAT       = 0x0100;
     public static final int FP_MARK      = 0x0200;
     public static final int FP_SENTINEL  = 0x0400;
-    public static final int FP_CRITICAL  = 0x0400;
+    public static final int FP_CRITICAL  = 0x0800;
     public static final int MOB_ATTACK   = 0x1000;
     public static final int MOB_MAGIC    = 0x2000;
     public static final int MOB_HP       = 0x4000;
@@ -46,6 +46,7 @@ public class Item {
     public static final int FLAG_HEAL          = 0x1000;
     public static final int FLAG_RECOVER       = 0x2000;
     public static final int FLAG_WOUND         = 0x4000;
+    public static final int FLAG_ECHO          = 0x8000;
 
     public static final int ENCHANT_VOODOO     = 0x0f000000;
     public static final int ENCHANT_MASTER     = 0x07000000;
@@ -70,9 +71,9 @@ public class Item {
             new Item("逐日之弓",  R.drawable.weapon_stalk,      R.id.item_weapon, 2100,    0,  40,   0,   0,   0, 5, 20, 15,  0,   0, 0,            0),
             new Item("金色圣剑",  R.drawable.weapon_judgement,  R.id.item_weapon, 2030,    0,   0,   0,   0,   0, 0, 50,  0,  0,   0, 0,            FLAG_JUDGEMENT),
             new Item("圣杯",      R.drawable.magic_mana,        R.id.item_magic,  2030,    0,   0, 140,   0, 140, 0,  0,  0, 20,   0, 0,            0),
-            new Item("虚无法杖",  R.drawable.magic_void,        R.id.item_magic,  2110,  500,   0, 180,   0,   0, 0,  0,  0,  0,   0, FP_MPN_VOID,   0),
-            new Item("博学者之怒",R.drawable.magic_hat,         R.id.item_magic,  2300,    0,   0, 240,   0,   0, 0,  0,  0,  0,   0, FP_HAT,        0),
-            new Item("回响之杖",  R.drawable.magic_echo,        R.id.item_magic,  2100,    0,   0, 240,   0,   0, 7,  0,  0,  0,   0, 0,            0),
+            new Item("虚无法杖",  R.drawable.magic_void,        R.id.item_magic,  2110,  500,   0, 180,   0,   0, 0,  0,  0,  0,   0, FP_MPN_VOID,  0),
+            new Item("博学者之怒",R.drawable.magic_hat,         R.id.item_magic,  2300,    0,   0, 240,   0,   0, 0,  0,  0,  0,   0, FP_HAT,       0),
+            new Item("回响之杖",  R.drawable.magic_echo,        R.id.item_magic,  2100,    0,   0, 240,   0,   0, 7,  0,  0,  0,   0, 0,            FLAG_ECHO),
             new Item("冰霜法杖",  R.drawable.magic_frost,       R.id.item_magic,  2100, 1050,   0, 150,   0,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("痛苦面具",  R.drawable.magic_mask,        R.id.item_magic,  2040,  500,   0, 140,   0,   0, 0,  0,  0,  5,   0, FP_MPN_MASK,  0),
             new Item("巫术法杖",  R.drawable.magic_voodoo,      R.id.item_magic,  2120,  400,   0, 120,   0,   0, 8,  0,  0,  0,   0, 0,            ENCHANT_VOODOO),

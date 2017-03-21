@@ -11,7 +11,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 24
         versionCode 1
-        versionName "1.17.35-alpha"
+        versionName "1.17.39-alpha"
         archivesBaseName = "Kings-$versionName"
     }
     buildTypes {

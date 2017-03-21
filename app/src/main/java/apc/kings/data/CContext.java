@@ -76,7 +76,7 @@ public class CContext {
             }
             summary_damage += damage;
         }
-        summary_time = logs.get(logs.size() - 1).time;
+        summary_time = Math.max(1000, logs.get(logs.size() - 1).time);
         summary_dps = summary_damage * 1000.0 / summary_time;
 
         if (option_combo) {
