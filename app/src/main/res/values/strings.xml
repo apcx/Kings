@@ -5,6 +5,7 @@
 
     <string name="combat_move_weight">combat_move_weight</string>
     <string name="combat_combo">combat_combo</string>
+    <string name="combat_multiple">combat_multiple</string>
     <string name="combat_red_power">combat_red_power</string>
     <string name="combat_frenzy">combat_frenzy</string>
     <string name="combat_hunt">combat_hunt</string>

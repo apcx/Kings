@@ -170,6 +170,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                 case "正义潜能":
                 case "炮手燃魂":
                 case "炮台加强":
+                case "漫游之枪":
                     action.setTextColor(Color.CYAN);
                     break;
                 case "持续伤害":

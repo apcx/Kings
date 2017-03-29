@@ -35,11 +35,13 @@ public class GunnerHero extends Hero {
         super.initActionMode(target, attacked, specific);
         action_attack.time = 601;
         actions_cast[2].time = 602;
-        actions_cast[1].time = 603;
+        actions_cast[1].time = context.isMultiple() ? 603 : 100;
         if (target != null) {
             actions_active.add(actions_cast[0]);
             actions_active.add(actions_cast[1]);
-            actions_active.add(actions_cast[2]);
+            if (context.isMultiple()) {
+                actions_active.add(actions_cast[2]);
+            }
         }
     }
 
@@ -60,6 +62,9 @@ public class GunnerHero extends Hero {
             case "华丽左轮":
                 onHit(new CLog(name, event.action, target.name, context.time));
                 restoreEnergy();
+                if (!context.isMultiple() && event.intervals <= 0) {
+                    context.checkExit();
+                }
                 break;
             case "狂热弹幕":
                 onHit(new CLog(name, event.action, target.name, context.time));
@@ -83,12 +88,6 @@ public class GunnerHero extends Hero {
     protected void doSmartCast(int index) {
         if (energy < ENERGY_COST) {
             actions_cast[index].time = event_energy.time + 1;
-        } else if (1 == index) {
-            if (in_barrage) {
-                doCast(index);
-            } else {
-                actions_cast[index].time = Integer.MAX_VALUE;
-            }
         } else {
             super.doSmartCast(index);
         }

@@ -19,6 +19,9 @@
         android:title="绯红之力"
         android:defaultValue="true" />
 
+    <SwitchPreferenceCompat android:key="@string/combat_multiple"
+        android:title="波及附近其它英雄" />
+
     <SwitchPreferenceCompat android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
 

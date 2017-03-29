@@ -29,6 +29,7 @@ public class CContext {
     private Hero defender;
     private boolean option_combo;
     private boolean option_red_power;
+    private boolean option_multiple;
     private boolean option_hunt;
     private boolean option_siege;
     private boolean option_frenzy;
@@ -39,6 +40,7 @@ public class CContext {
         int option_move_weight = preferences.getInt(context.getString(R.string.combat_move_weight), 50);
         option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
         option_red_power = preferences.getBoolean(context.getString(R.string.combat_red_power), false);
+        option_multiple = preferences.getBoolean(context.getString(R.string.combat_multiple), false);
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
         option_hunt = preferences.getBoolean(context.getString(R.string.combat_hunt), false);
         option_siege = preferences.getBoolean(context.getString(R.string.combat_siege), false);
@@ -51,33 +53,26 @@ public class CContext {
         }
 
         runAttack();
-
         for (CLog log : logs) {
             int damage = log.sum();
-
-            // Some kinds of damages can have multiple targets.
-            switch (log.action) {
-                case "狂热弹幕":
-                    damage *= 1.5;
-                    break;
-                case "电弧":
-                    damage *= 1.3;
-                    break;
-                case "扫射":
-                case "引爆":
-                case "炮击":
-                case "警戒地雷":
-                    damage *= 1.2;
-                    break;
-                case "强射":
-                case "红莲爆弹":
-                    damage *= 1.1;
-                    break;
+            if (option_multiple) {
+                switch (log.action) {
+                    case "电弧":
+                    case "炮击":
+                    case "警戒地雷":
+                    case "狂热弹幕":
+                    case "引爆":
+                    case "强射":
+                    case "红莲爆弹":
+                    case "扫射":
+                        damage *= 2;
+                        break;
+                }
             }
             summary_damage += damage;
         }
-        summary_time = Math.max(1000, logs.get(logs.size() - 1).time);
-        summary_dps = summary_damage * 1000.0 / summary_time;
+        summary_time = logs.get(logs.size() - 1).time;
+        summary_dps = summary_damage * 1000.0 / Math.max(1000, summary_time);
 
         if (option_combo) {
             summary_marks[0] = summary_damage;
@@ -107,6 +102,10 @@ public class CContext {
 
     public boolean hasRedPower() {
         return option_red_power;
+    }
+
+    public boolean isMultiple() {
+        return option_multiple;
     }
 
     public boolean hasHunt() {
