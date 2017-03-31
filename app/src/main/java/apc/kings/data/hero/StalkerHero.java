@@ -21,7 +21,6 @@ public class StalkerHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
-        context.far = true;
         super.initActionMode(target, attacked, specific);
         actions_cast[1].time = 100;
         action_attack.time = 500;
@@ -29,14 +28,6 @@ public class StalkerHero extends Hero {
             actions_active.add(actions_cast[0]);
             actions_active.add(actions_cast[1]);
         }
-    }
-
-    @Override
-    protected void doAttack() {
-        if (context.far) {
-            checkFrozenHeart();
-        }
-        super.doAttack();
     }
 
     @Override

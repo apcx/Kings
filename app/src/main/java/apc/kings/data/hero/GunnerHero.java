@@ -31,7 +31,6 @@ public class GunnerHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
-        context.far = true;
         super.initActionMode(target, attacked, specific);
         action_attack.time = 601;
         actions_cast[2].time = 602;
@@ -74,14 +73,6 @@ public class GunnerHero extends Hero {
                 }
                 break;
         }
-    }
-
-    @Override
-    protected void doAttack() {
-        if (context.far) {
-            checkFrozenHeart();
-        }
-        super.doAttack();
     }
 
     @Override

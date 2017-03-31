@@ -24,7 +24,6 @@ public class RobotHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
-        context.far = true;
         super.initActionMode(target, attacked, specific);
         action_attack.time = 500;
         actions_cast[1].time = 501;
@@ -36,11 +35,9 @@ public class RobotHero extends Hero {
 
     @Override
     protected void doAttack() {
-        if (context.far && quick_bullets <= 0) {
-            checkFrozenHeart();
-
-            // Grenades miss, until getting close enough.
-            Skill skill = skills[0];
+        // Grenades miss, until getting close enough.
+        Skill skill = skills[0];
+        if (skill.damageBonus <= 0 && quick_bullets <= 0) {
             skill.damageFactor = 0.54;
             skill.damageBonus = 245;
             skill.factorType = Skill.TYPE_PHYSICAL;

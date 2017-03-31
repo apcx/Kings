@@ -16,7 +16,6 @@ public class CContext {
 
     public List<Event> events = new ArrayList<>();
     public List<CLog> logs = new ArrayList<>();
-    public boolean far;
     public int time;
 
     public int summary_damage;

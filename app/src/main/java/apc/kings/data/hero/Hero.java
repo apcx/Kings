@@ -51,7 +51,6 @@ public class Hero {
     private int attr_flags;
     public int attr_price;
     int attr_attack_cd = 1000;
-    int attr_heal = 100;
     private int attr_enchants;
 
     private boolean has_storm;
@@ -65,7 +64,6 @@ public class Hero {
     private boolean has_lightning;
     private boolean has_execute;
     private boolean has_heal;
-    private boolean has_recover;
     private boolean has_wound;
     private boolean has_shield_bottom;
     private boolean has_echo;
@@ -100,7 +98,6 @@ public class Hero {
     private boolean in_cd_enchant;
     private boolean in_cd_judgement;
     private boolean in_cd_lighting;
-    private boolean in_cd_heal;
     private boolean in_cd_recover;
 
     protected Hero(CContext context, HeroType heroType) {
@@ -156,7 +153,6 @@ public class Hero {
             has_cold_iron = (attr_flags & Item.FLAG_COLD_IRON) != 0;
             has_frozen_heart = (attr_flags & Item.FLAG_FROZEN_HEART) != 0;
             has_heal = (attr_flags & Item.FLAG_HEAL) != 0;
-            has_recover = (attr_flags & Item.FLAG_RECOVER) != 0;
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             has_shield_bottom = (attr_flags & Item.FLAG_SHIELD_BOTTOM) != 0;
             has_echo = (attr_flags & Item.FLAG_ECHO) != 0;
@@ -175,7 +171,7 @@ public class Hero {
                 panel_magic_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_PN) != 0) {
-                panel_penetrate += 100 + level * 10;
+                panel_penetrate += 50 + level * 10;
             }
             if ((panel_flags & Item.FP_PNP) != 0) {
                 panel_penetrate_percent += 45;
@@ -198,10 +194,6 @@ public class Hero {
             }
             if ((panel_flags & Item.MOB_HP) != 0) {
                 panel_hp += 1050;
-            }
-
-            if (has_heal) {
-                attr_heal += 20;
             }
             if ((attr_flags & Item.FLAG_SHIELD_MAGIC) != 0) {
                 shield_magic = 200 + level * 120;
@@ -267,9 +259,6 @@ public class Hero {
             this.target = target;
             target.attacker = this;
             actions_active.add(action_attack);
-            if (!context.far) {
-                checkFrozenHeart();
-            }
             if (context.hasRedPower()) {
                 in_red_power = true;
                 context.addEvent(this, "失效", "绯红之力", 70000);
@@ -295,12 +284,6 @@ public class Hero {
                 switch (event.target) {
                     case "每5秒":
                         onRegen(log, panel_regen);
-                        break;
-                    case "振兴之铠":
-                        onRegen(log, Math.round(panel_hp * attr_heal * 0.0001f));
-                        break;
-                    case "血铠":
-                        onRegen(log, Math.round(panel_hp * attr_heal * 0.0003f));
                         break;
                 }
                 break;
@@ -341,12 +324,6 @@ public class Hero {
                         break;
                     case "电弧":
                         in_cd_lighting = false;
-                        break;
-                    case "振兴回血":
-                        in_cd_heal = false;
-                        break;
-                    case "血铠":
-                        in_cd_recover = false;
                         break;
                 }
                 break;
@@ -566,11 +543,6 @@ public class Hero {
         }
         if (damage > 0) {
             hp -= damage;
-            if (has_heal && !in_cd_heal) {
-                in_cd_heal = true;
-                context.updateBuff(this, "回血", "振兴之铠", 4, 500);
-                context.addEvent(this, "冷却", "振兴回血", 10000);
-            }
             if (hp < panel_hp * 30 / 100) {
                 if (has_shield_bottom) {
                     has_shield_bottom = false;
@@ -578,11 +550,6 @@ public class Hero {
                     shield_bottom = panel_hp * 30 / 100;
                     print("强化", "血怒");
                     context.addEvent(this, "失效", "血怒", 8000);
-                }
-                if (has_recover && !in_cd_recover) {
-                    in_cd_recover = true;
-                    context.updateBuff(this, "回血", "血铠", 5, 1000);
-                    context.addEvent(this, "冷却", "血铠", 20000);
                 }
             }
         }
@@ -596,7 +563,6 @@ public class Hero {
         }
         if (has_wound && !target.in_wound) {
             target.in_wound = true;
-            target.attr_heal -= 50;
             target.print("弱化", "重伤");
         }
     }
@@ -607,14 +573,6 @@ public class Hero {
             log.regen = Math.min(damaged, regen);
             hp += log.regen;
             context.logs.add(log);
-        }
-    }
-
-    void checkFrozenHeart() {
-        context.far = false;
-        if (target.has_frozen_heart) {
-            panel_attack_speed -= 300;
-            print("弱化", "冰心");
         }
     }
 
@@ -678,6 +636,17 @@ public class Hero {
             factor += 30;
         }
         return factor / 100.0;
+    }
+
+    float getHealRate() {
+        int rate = 100;
+        if (has_heal) {
+            rate += hp * 100 < panel_hp * 50 ? 30 : 10;
+        }
+        if (in_wound) {
+            rate -= 50;
+        }
+        return rate / 100.0f;
     }
 
     public double getAverageMove() {

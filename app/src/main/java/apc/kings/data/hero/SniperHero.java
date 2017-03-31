@@ -21,7 +21,6 @@ public class SniperHero extends Hero {
 
     @Override
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
-        context.far = true;
         super.initActionMode(target, attacked, specific);
         action_attack.time = 600;
         actions_cast[2].time = 800;
@@ -32,18 +31,10 @@ public class SniperHero extends Hero {
     }
 
     @Override
-    protected void doAttack() {
-        if (context.far && bonus_damage <= 0 && !snipe) {
-            checkFrozenHeart();
-        }
-        super.doAttack();
-    }
-
-    @Override
     protected void doSmartCast(int index) {
         if (snipe || bonus_damage > 0) {
             doSkip(index);
-        } else if (0 == index || context.far) {
+        } else if (0 == index) {
             doCast(index);
         } else {
             super.doSmartCast(index);

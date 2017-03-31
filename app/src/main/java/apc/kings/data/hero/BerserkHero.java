@@ -58,6 +58,6 @@ public class BerserkHero extends Hero {
         if (event.intervals >= 4) {
             regen += panel_hp - hp;
         }
-        onRegen(log, Math.round(regen * attr_heal * 0.0001f));
+        onRegen(log, Math.round(regen * 0.01f * getHealRate()));
     }
 }
