@@ -64,6 +64,9 @@ public class CContext {
                     case "强射":
                     case "红莲爆弹":
                     case "扫射":
+                    case "河豚手雷":
+                    case "无敌鲨嘴炮":
+                    case "空中支援":
                         damage *= 2;
                         break;
                 }

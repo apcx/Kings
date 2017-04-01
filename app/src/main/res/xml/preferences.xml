@@ -16,8 +16,7 @@
         android:summaryOn="仅一套连招" />
 
     <SwitchPreferenceCompat android:key="@string/combat_red_power"
-        android:title="绯红之力"
-        android:defaultValue="true" />
+        android:title="绯红之力" />
 
     <SwitchPreferenceCompat android:key="@string/combat_multiple"
         android:title="波及附近其它英雄" />

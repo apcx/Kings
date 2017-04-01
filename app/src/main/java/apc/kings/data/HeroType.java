@@ -70,7 +70,7 @@ public class HeroType {
         buildRecommendedItems("鲁班七号", archer_items);
         buildRecommendedItems("后羿", new String[]{"影忍之足", "末世", "破甲弓", "影刃", "纯净苍穹", "破军"});
         buildRecommendedItems("刘邦", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "霸者重装", "贤者之书"});
-        buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "不死鸟之眼", "反伤刺甲", "不祥征兆", "霸者重装"});
+        buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "不死鸟之眼", "反伤刺甲", "不祥征兆", "血魔之怒"});
         buildRecommendedItems("夏侯惇", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "极寒风暴", "血魔之怒"});
 
         buildDefaultRunes("成吉思汗", new String[]{"传承", "隐匿", "鹰眼"});

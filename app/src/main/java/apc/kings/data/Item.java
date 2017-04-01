@@ -84,7 +84,7 @@ public class Item {
             new Item("贤者之书",  R.drawable.magic_400,         R.id.item_magic,  2990,    0,   0, 400,   0,   0, 0,  0,  0,  0,   0, FP_MARK,      0),
             new Item("红莲斗篷",  R.drawable.armor_fire,        R.id.item_armor,  1830, 1200,   0,   0, 240,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("不祥征兆",  R.drawable.armor_cold_iron,   R.id.item_armor,  2180, 1200,   0,   0, 270,   0, 0,  0,  0,  0,   0, 0,            FLAG_COLD_IRON),
-            new Item("冰痕之握",  R.drawable.armor_guanlets,    R.id.item_armor,  2020,  800,   0,   0, 200,   0, 0,  0,  0, 10,   0, 0,            0),
+            new Item("冰痕之握",  R.drawable.armor_gauntlets,   R.id.item_armor,  2020,  800,   0,   0, 200,   0, 0,  0,  0, 10,   0, 0,            ENCHANT_ICE),
             new Item("魔女斗篷",  R.drawable.armor_magic_shield,R.id.item_armor,  2120, 1000,   0,   0,   0, 360, 0,  0,  0,  0,   0, 0,            FLAG_SHIELD_MAGIC),
             new Item("不死鸟之眼",R.drawable.armor_heal,        R.id.item_armor,  2100, 1200,   0,   0,   0, 240, 0,  0,  0,  0, 100, 0,            FLAG_HEAL),
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 0,  0,  0,  0, 100, 0,            0),
