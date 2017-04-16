@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Kings</string>
-    <string name="reset_recommended">确定要恢复【Apc】的推荐配置吗？</string>
-    <string name="reset_default">确定要恢复默认配置吗？</string>
-
-    <string name="combat_move_weight">combat_move_weight</string>
     <string name="combat_combo">combat_combo</string>
+    <string name="combat_frenzy">combat_frenzy</string>
+    <string name="combat_mob">combat_mob</string>
+    <string name="combat_move_weight">combat_move_weight</string>
     <string name="combat_multiple">combat_multiple</string>
     <string name="combat_red_power">combat_red_power</string>
-    <string name="combat_frenzy">combat_frenzy</string>
-    <string name="combat_hunt">combat_hunt</string>
     <string name="combat_siege">combat_siege</string>
+    <string name="combat_wood">combat_wood</string>
+    <string name="reset_default">确定要恢复默认配置吗？</string>
+    <string name="reset_recommended">确定要恢复【Apc】的推荐配置吗？</string>
 </resources>

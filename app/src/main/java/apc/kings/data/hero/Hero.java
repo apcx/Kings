@@ -49,7 +49,7 @@ public class Hero {
     private int panel_regen;
 
     private int attr_flags;
-    public int attr_price;
+    private int attr_price;
     int attr_attack_cd = 1000;
     private int attr_enchants;
 
@@ -671,5 +671,20 @@ public class Hero {
         for (int i = 0, n = actions_active.size(); i < n; ++i) {
             actions_active.get(i).delayTo(swing);
         }
+    }
+
+    public int getPrice() {
+        int price = attr_price;
+        if (context.mobPurchased()) {
+            boolean full_items = true;
+            for (Item item : heroType.items) {
+                if (null == item) {
+                    full_items = false;
+                    break;
+                }
+            }
+            price += full_items ? 100 : 250;
+        }
+        return Math.max(1, price);
     }
 }

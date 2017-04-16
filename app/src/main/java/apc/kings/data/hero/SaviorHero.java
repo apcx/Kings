@@ -12,9 +12,9 @@ public class SaviorHero extends Hero {
     protected SaviorHero(CContext context, HeroType heroType) {
         super(context, heroType);
         skills = new Skill[]{
-                new Skill("损人利己", 9000, 400),
-                new Skill("双重恐吓", 10000, 400),
-                new Skill("统御战场", 50000, 2200),
+                new Skill("损人利己", 10000, 400),
+                new Skill("双重恐吓", 7000, 400),
+                new Skill("统御战场", 60000, 2200),
         };
     }
 
@@ -45,7 +45,7 @@ public class SaviorHero extends Hero {
         super.onCast(index, log);
         switch (index) {
             case 0:
-                shield_hero = 720 + panel_magic * 40 / 100 + panel_hp * 9 / 100;
+                shield_hero = 1000 + panel_hp * 10 / 100;
                 event_shield = context.addEvent(this, "护盾消失", skills[index].name, 5000);
                 break;
         }

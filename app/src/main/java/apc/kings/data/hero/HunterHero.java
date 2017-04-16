@@ -14,7 +14,7 @@ public class HunterHero extends Hero {
 
     private Event event_recharge;
     private boolean in_recharge;
-    private boolean in_wood = true;
+    private boolean in_wood = context.inWood();
 
     protected HunterHero(CContext context, HeroType heroType) {
         super(context, heroType);
@@ -41,7 +41,7 @@ public class HunterHero extends Hero {
             case "冷却":
                 switch (event.target) {
                     case "追猎":
-                        in_wood = context.hasHunt();
+                        in_wood = true;
                         break;
                 }
                 break;

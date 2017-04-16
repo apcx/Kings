@@ -24,10 +24,11 @@
     <SwitchPreferenceCompat android:key="@string/combat_frenzy"
         android:title="技能: 狂暴 (测试)" />
 
-    <SwitchPreferenceCompat android:key="@string/combat_hunt"
-        android:title="成吉思汗: 草丛强行追猎"
-        android:summaryOff="仅开战时站在草丛中"
-        android:summaryOn="始终站在草丛中" />
+    <SwitchPreferenceCompat android:key="@string/combat_mob"
+        android:title="购买【狩猎宽刃】" />
+
+    <SwitchPreferenceCompat android:key="@string/combat_wood"
+        android:title="成吉思汗: 草丛作战" />
 
     <SwitchPreferenceCompat android:key="@string/combat_siege"
         android:title="黄忠: 预先架起炮台"

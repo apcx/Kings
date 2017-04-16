@@ -29,7 +29,8 @@ public class CContext {
     private boolean option_combo;
     private boolean option_red_power;
     private boolean option_multiple;
-    private boolean option_hunt;
+    private boolean option_mob;
+    private boolean option_wood;
     private boolean option_siege;
     private boolean option_frenzy;
     private boolean exit;
@@ -40,8 +41,9 @@ public class CContext {
         option_combo = preferences.getBoolean(context.getString(R.string.combat_combo), false);
         option_red_power = preferences.getBoolean(context.getString(R.string.combat_red_power), false);
         option_multiple = preferences.getBoolean(context.getString(R.string.combat_multiple), false);
+        option_mob = preferences.getBoolean(context.getString(R.string.combat_mob), false);
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
-        option_hunt = preferences.getBoolean(context.getString(R.string.combat_hunt), false);
+        option_wood = preferences.getBoolean(context.getString(R.string.combat_wood), false);
         option_siege = preferences.getBoolean(context.getString(R.string.combat_siege), false);
 
         attacker = Hero.create(this, attackerType);
@@ -94,8 +96,8 @@ public class CContext {
             summary_marks[0] *= Math.pow(attacker.getAverageMove() / base_move, weight);
             summary_marks[1] *= Math.pow(defender.getAverageMove() / (defenderType.move + 60), weight);
         }
-        summary_cost_ratios[0] = summary_marks[0] * 10 / (1 + attacker.attr_price);
-        summary_cost_ratios[1] = summary_marks[1] * 10 / (1 + defender.attr_price);
+        summary_cost_ratios[0] = summary_marks[0] * 10 / attacker.getPrice();
+        summary_cost_ratios[1] = summary_marks[1] * 10 / defender.getPrice();
     }
 
     public boolean isCombo() {
@@ -110,8 +112,12 @@ public class CContext {
         return option_multiple;
     }
 
-    public boolean hasHunt() {
-        return option_hunt;
+    public boolean mobPurchased() {
+        return option_mob;
+    }
+
+    public boolean inWood() {
+        return option_wood;
     }
 
     public boolean isSiege() {
