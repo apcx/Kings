@@ -25,7 +25,8 @@
         android:title="技能: 狂暴 (测试)" />
 
     <SwitchPreferenceCompat android:key="@string/combat_mob"
-        android:title="购买【狩猎宽刃】" />
+        android:title="购买【狩猎宽刃】"
+        android:summary="仅影响性价比" />
 
     <SwitchPreferenceCompat android:key="@string/combat_wood"
         android:title="成吉思汗: 草丛作战" />

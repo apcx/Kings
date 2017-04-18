@@ -676,14 +676,27 @@ public class Hero {
     public int getPrice() {
         int price = attr_price;
         if (context.mobPurchased()) {
-            boolean full_items = true;
+            boolean empty_slot = false;
+            boolean mob_used = false;
             for (Item item : heroType.items) {
                 if (null == item) {
-                    full_items = false;
-                    break;
+                    empty_slot = true;
+                } else {
+                    switch (item.name) {
+                        case "贪婪之噬":
+                        case "符文大剑":
+                        case "巨人之握":
+                            mob_used = true;
+                            break;
+                    }
+                    if (mob_used) {
+                        break;
+                    }
                 }
             }
-            price += full_items ? 100 : 250;
+            if (!mob_used) {
+                price += empty_slot ? 250 : 100;
+            }
         }
         return Math.max(1, price);
     }

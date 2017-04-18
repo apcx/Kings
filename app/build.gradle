@@ -9,7 +9,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 1
-        versionName "1.18.1.15-alpha"
+        versionName "1.18.1.20-alpha"
         archivesBaseName = "Kings-$versionName"
     }
     buildTypes {
