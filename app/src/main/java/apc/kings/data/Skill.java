@@ -3,9 +3,10 @@ package apc.kings.data;
 public class Skill {
 
     public static final int TYPE_NONE = 0;
-    public static final int TYPE_PHYSICAL = 1;
-    public static final int TYPE_MAGIC = 2;
-    public static final int TYPE_REAL = 3;
+    public static final int TYPE_NORMAL = 1;
+    public static final int TYPE_PHYSICAL = 2;
+    public static final int TYPE_MAGIC = 3;
+    public static final int TYPE_REAL = 4;
 
     public String name;
     public int cd;

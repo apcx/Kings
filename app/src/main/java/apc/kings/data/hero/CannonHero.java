@@ -62,8 +62,19 @@ public class CannonHero extends Hero {
         }
         super.onAttack(log);
         if (rage < 5) {
-            panel_critical += 30;
-            panel_attack = base_attack * (100 + 2 * ++rage) / 100;
+            int critical, attack;
+            if (siege) {
+                critical = 30;
+                attack = 2;
+            } else {
+                critical = 15;
+                attack = 1;
+            }
+            panel_critical = base_critical + critical * ++rage;
+            panel_attack = base_attack * (100 + attack * rage) / 100 + bonus_attack;
+            if (has_anti_magic) {
+                panel_magic_defense += Math.min(panel_attack * 40 / 100,300);
+            }
             print("炮手燃魂", Integer.toString(rage));
         }
     }
@@ -99,10 +110,19 @@ public class CannonHero extends Hero {
     }
 
     private void toSiegeMode(int seconds) {
-        siege = true;
+        if (!siege) {
+            siege = true;
+            rage = 0;
+            panel_critical = base_critical;
+            panel_attack = base_attack + bonus_attack;
+            if (has_anti_magic) {
+                panel_magic_defense += Math.min(panel_attack * 40 / 100,300);
+            }
+        }
         factor_attack = 0.8;
         bonus_damage = 120;
         panel_defense += 50;
+        base_magic_defense += 50;
         panel_magic_defense += 50;
 
         siege_power = Math.min(seconds, 5);
@@ -114,10 +134,19 @@ public class CannonHero extends Hero {
     }
 
     private void toNormalMode() {
-        siege = false;
+        if (siege) {
+            siege = false;
+            rage = 0;
+            panel_critical = base_critical;
+            panel_attack = base_attack + bonus_attack;
+            if (has_anti_magic) {
+                panel_magic_defense += Math.min(panel_attack * 40 / 100,300);
+            }
+        }
         factor_attack = 1;
         bonus_damage = 0;
         panel_defense -= 50;
+        base_magic_defense -= 50;
         panel_magic_defense -= 50;
 
         siege_power = 0;

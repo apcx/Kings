@@ -53,9 +53,8 @@ public class BomberHero extends Hero {
         super.onAttack(log);
         if (++marks == 4) {
             log = new CLog(name, "引爆", target.name, context.time);
-            log.damage = (int) ((260 * 5 + panel_attack * 77 / 100 + (panel_attack * 48 / 100) * 4) * getDefenseFactor() * getDamageFactor());
             context.logs.add(log);
-            target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
+            log.damage = target.onDamaged(260 * 5 + panel_attack * 77 / 100 + (panel_attack * 48 / 100) * 4, Skill.TYPE_PHYSICAL);
         }
     }
 

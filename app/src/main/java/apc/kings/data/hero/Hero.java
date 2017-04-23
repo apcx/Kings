@@ -28,13 +28,16 @@ public class Hero {
     public Skill[] skills;
 
     int base_attack;
-    int base_magic;
+    int bonus_attack;
+    private int base_magic;
+    int base_magic_defense;
     int base_move;
+    int base_critical;
 
     private int panel_flags;
     public int panel_hp;
     int panel_attack;
-    int panel_magic;
+    private int panel_magic;
     int panel_defense;
     int panel_magic_defense;
     private int panel_penetrate;
@@ -53,6 +56,8 @@ public class Hero {
     int attr_attack_cd = 1000;
     private int attr_enchants;
 
+    boolean has_anti_magic;
+    private boolean has_hat;
     private boolean has_storm;
     private boolean has_cold_iron;
     private boolean has_frozen_heart;
@@ -66,6 +71,8 @@ public class Hero {
     private boolean has_heal;
     private boolean has_wound;
     private boolean has_shield_bottom;
+    private boolean has_thorns;
+    private boolean has_berserk;
     private boolean has_echo;
 
     boolean hit_normal;
@@ -84,6 +91,7 @@ public class Hero {
 
     private boolean cnt_corrupt;
     private int cnt_lightning = 5;
+    private int cnt_berserk;
     int shield_hero;
     private int shield_magic;
     private int shield_bottom;
@@ -98,7 +106,6 @@ public class Hero {
     private boolean in_cd_enchant;
     private boolean in_cd_judgement;
     private boolean in_cd_lighting;
-    private boolean in_cd_recover;
 
     protected Hero(CContext context, HeroType heroType) {
         this.context = context;
@@ -107,20 +114,41 @@ public class Hero {
         panel_hp = heroType.hp;
         base_attack = heroType.attack;
         panel_defense = heroType.defense;
-        panel_magic_defense = 169;
+        base_magic_defense = 169;
         base_move = heroType.move;
         panel_attack_speed = heroType.level_up_attack_speed * (level - 1);
         panel_regen = heroType.regen;
-        initItems();
-        initRunes();
-        panel_attack = base_attack;
-        panel_magic = base_magic;
-        panel_cdr = Math.min(panel_cdr, 400);
-        hp = panel_hp;
 
         actions_cast[0] = new Event(this, "cast1", 0);
         actions_cast[1] = new Event(this, "cast2", 0);
         actions_cast[2] = new Event(this, "cast3", 0);
+    }
+
+    public static Hero create(CContext context, HeroType heroType) {
+        Hero hero;
+        try {
+            Class clazz = Class.forName(Hero.class.getPackage().getName() + "." + (char) (heroType.resName.charAt(0) - 32) + heroType.resName.substring(1) + "Hero");
+            //noinspection unchecked
+            hero = (Hero) clazz.getDeclaredConstructor(CContext.class, HeroType.class).newInstance(context, heroType);
+        } catch (Exception e) {
+            hero = new Hero(context, heroType);
+        }
+        hero.updatePanel();
+        return hero;
+    }
+
+    private void updatePanel() {
+        initItems();
+        initRunes();
+        panel_attack = base_attack + bonus_attack;
+        panel_magic = has_hat ? base_magic * 135 / 100 : base_magic;
+        panel_magic_defense = base_magic_defense;
+        if (has_anti_magic) {
+            panel_magic_defense += Math.min(panel_attack * 40 / 100,300);
+        }
+        panel_critical = base_critical;
+        panel_cdr = Math.min(panel_cdr, 400);
+        hp = panel_hp;
     }
 
     private void initItems() {
@@ -133,15 +161,17 @@ public class Hero {
                     base_attack += item.attack;
                     base_magic += item.magic;
                     panel_defense += item.defense;
-                    panel_magic_defense += item.magic_defense;
+                    base_magic_defense += item.magic_defense;
                     panel_move_speed += item.move_speed;
                     panel_attack_speed += item.attack_speed;
-                    panel_critical += item.critical;
+                    base_critical += item.critical;
                     panel_cdr += item.cdr;
                     panel_regen += item.regen;
                     attr_flags |= item.flags;
                 }
             }
+            has_hat = (panel_flags & Item.FP_HAT) != 0;
+            has_anti_magic = (panel_flags & Item.FP_ANTI_MAGIC) != 0;
             has_defense_boots = (attr_flags & Item.FLAG_DEFENSE_BOOTS) != 0;
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
             has_corrupt_2 = (attr_flags & Item.FLAG_CORRUPT_2) != 0;
@@ -156,6 +186,8 @@ public class Hero {
             has_wound = (attr_flags & Item.FLAG_WOUND) != 0;
             has_shield_bottom = (attr_flags & Item.FLAG_SHIELD_BOTTOM) != 0;
             has_echo = (attr_flags & Item.FLAG_ECHO) != 0;
+            has_thorns = (attr_flags & Item.FLAG_THORNS) != 0;
+            has_berserk = (attr_flags & Item.FLAG_BERSERK) != 0;
             attr_enchants = attr_flags & Item.ENCHANT_VOODOO;
 
             if ((panel_flags & Item.FP_BOOTS) != 0) {
@@ -201,7 +233,7 @@ public class Hero {
         }
         panel_move_speed *= 10;
         panel_attack_speed *= 10;
-        panel_critical *= 10;
+        base_critical *= 10;
         panel_cdr *= 10;
     }
 
@@ -229,28 +261,18 @@ public class Hero {
                 regen += rune.regen * n;
                 panel_move_speed += rune.move_speed * n;
                 panel_attack_speed += rune.attack_speed * n;
-                panel_critical += rune.critical * n;
+                base_critical += rune.critical * n;
                 panel_critical_damage += rune.critical_damage * n;
                 panel_cdr += rune.cdr * n;
             }
             panel_hp += hp / 10;
-            base_attack += attack / 10;
+            bonus_attack += attack / 10;
             base_magic += magic / 10;
             panel_defense += defense / 10;
-            panel_magic_defense += magic_defense / 10;
+            base_magic_defense += magic_defense / 10;
             panel_penetrate += penetrate / 10;
             panel_magic_penetrate += magic_penetrate / 10;
             panel_regen += regen / 10;
-        }
-    }
-
-    public static Hero create(CContext context, HeroType heroType) {
-        try {
-            Class clazz = Class.forName(Hero.class.getPackage().getName() + "." + (char) (heroType.resName.charAt(0) - 32) + heroType.resName.substring(1) + "Hero");
-            //noinspection unchecked
-            return (Hero) clazz.getDeclaredConstructor(CContext.class, HeroType.class).newInstance(context, heroType);
-        } catch (Exception e) {
-            return new Hero(context, heroType);
         }
     }
 
@@ -387,19 +409,18 @@ public class Hero {
         Skill skill = skills[index];
         if (skill.damageType != Skill.TYPE_NONE) {
             context.logs.add(log);
-            int damage = (int)((Skill.TYPE_PHYSICAL == skill.factorType ? panel_attack : panel_magic) * skill.damageFactor) + skill.damageBonus;
+            int damage = target.onDamaged((int)((Skill.TYPE_MAGIC == skill.factorType ? panel_magic : panel_attack) * skill.damageFactor) + skill.damageBonus, skill.damageType);
             switch (skill.damageType) {
                 case Skill.TYPE_PHYSICAL:
-                    damage = log.damage = (int) (damage * getDefenseFactor() * getDamageFactor());
+                    log.damage = damage;
                     break;
                 case Skill.TYPE_MAGIC:
-                    damage = log.magic_damage = (int) (damage * getMagicDefenseFactor() * getDamageFactor());
+                    log.magic_damage = damage;
                     break;
                 case Skill.TYPE_REAL:
-                    damage = log.real_damage = (int) (damage * getDamageFactor());
+                    log.real_damage = damage;
                     break;
             }
-            target.onDamaged(damage, skill.damageType);
             onImpact();
         } else {
             context.logs.add(log);
@@ -408,31 +429,29 @@ public class Hero {
 
     protected void onHit(CLog log) {
         onUpdateAttackCanCritical();
-        double damage = damage_can_critical;
+        double damage = panel_attack;
         if ((hit_normal || hit_can_critical)) {
             damage = getCriticalDamage(log);
         }
-        log.damage = (int) ((damage + damage_cannot_critical) * getDefenseFactor() * getDamageFactor(hit_normal) * factor_damage_attack);
         context.logs.add(log);
-        target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
+        log.damage = target.onDamaged(damage * factor_damage_attack, Skill.TYPE_NORMAL);
 
         if (target.hp > 0) {
-            damage = 0;
+            int extra_damage = 0;
             if (has_corrupt) {
-                damage += target.hp * 8 / 100;
+                extra_damage += target.hp * 8 / 100;
             }
             if (has_corrupt_2) {
                 if (cnt_corrupt) {
-                    damage += 200 + level * 20;
+                    extra_damage += 200 + level * 20;
                 }
                 cnt_corrupt = !cnt_corrupt;
             }
             if (has_accurate) {
-                damage += 60;
+                extra_damage += 60;
             }
-            if (damage > 0) {
-                log.extra_damage = (int) (damage * getDefenseFactor() * getDamageFactor());
-                target.onDamaged(log.extra_damage, Skill.TYPE_PHYSICAL);
+            if (extra_damage > 0) {
+                log.extra_damage = target.onDamaged(extra_damage, Skill.TYPE_PHYSICAL);
             }
         }
         if (target.hp > 0) {
@@ -446,20 +465,16 @@ public class Hero {
             context.logs.add(log);
             switch (attr_enchants) {
                 case Item.ENCHANT_VOODOO:
-                    log.magic_damage = (int) (((int) (panel_attack * 0.3) + (int) (panel_magic * 0.65)) * getMagicDefenseFactor() * getDamageFactor());
-                    target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+                    log.magic_damage = target.onDamaged(panel_attack * 30 / 100 + panel_magic * 65 / 100, Skill.TYPE_MAGIC);
                     break;
                 case Item.ENCHANT_MASTER:
-                    log.damage = (int) (panel_attack * getDefenseFactor() * getDamageFactor());
-                    target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
+                    log.damage = target.onDamaged(panel_attack, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_ICE:
-                    log.damage = (int) ((150 + level * 20) * getDefenseFactor() * getDamageFactor());
-                    target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
+                    log.damage = target.onDamaged(150 + level * 20, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_MOB:
-                    log.magic_damage = (int) ((int) (panel_magic * 0.3) * getMagicDefenseFactor() * getDamageFactor());
-                    target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+                    log.magic_damage = target.onDamaged(panel_magic * 30 / 100, Skill.TYPE_MAGIC);
                     break;
             }
         }
@@ -467,9 +482,8 @@ public class Hero {
         if (has_judgement && target.hp > 0 && !in_cd_judgement) {
             in_cd_judgement = true;
             log = new CLog(name, "审判", target.name, context.time);
-            log.magic_damage = (int) (panel_hp * 8 / 100 * getMagicDefenseFactor() * getDamageFactor());
             context.logs.add(log);
-            target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+            log.magic_damage = target.onDamaged(panel_hp * 8 / 100, Skill.TYPE_MAGIC);
             context.addEvent(this, "冷却", "审判", 1000);
         }
 
@@ -478,15 +492,14 @@ public class Hero {
                 in_cd_lighting = true;
                 cnt_lightning = 5;
                 damage_can_critical = 100;
+                damage_cannot_critical = 0;
                 log = new CLog(name, "电弧", target.name, context.time);
-                log.magic_damage = (int) (getCriticalDamage(log) * getMagicDefenseFactor() * getDamageFactor());
                 context.logs.add(log);
-                target.onDamaged(log.magic_damage, Skill.TYPE_MAGIC);
+                log.magic_damage = target.onDamaged(getCriticalDamage(log), Skill.TYPE_MAGIC);
                 context.addEvent(this, "冷却", "电弧", 500);
                 checkStorm(log);
             }
         }
-
         onImpact();
 
         if (in_red_power && target.hp > 0) {
@@ -507,12 +520,29 @@ public class Hero {
 
     private void onRedPower() {
         CLog log = new CLog(name, "持续伤害", "绯红之力", context.time);
-        log.real_damage = (int) ((17 + attacker.level * 2) * attacker.getDamageFactor());
         context.logs.add(log);
-        onDamaged(log.real_damage, Skill.TYPE_REAL);
+        log.real_damage = onDamaged(17 + attacker.level * 2, Skill.TYPE_REAL);
     }
 
-    protected void onDamaged(int damage, int type) {
+    protected int onDamaged(double damage_raw, int type) {
+        damage_raw *= getDamageFactor(Skill.TYPE_NORMAL == type);
+        if (has_thorns && (Skill.TYPE_NORMAL == type || Skill.TYPE_PHYSICAL == type)) {
+            CLog log = new CLog(name, "荆棘", attacker.name, context.time);
+            context.logs.add(log);
+            log.magic_damage = attacker.onDamaged(damage_raw * 0.15, Skill.TYPE_MAGIC);
+        }
+        int damage_log = (int) damage_raw;
+        switch (type) {
+            case Skill.TYPE_NORMAL:
+            case Skill.TYPE_PHYSICAL:
+                damage_log = (int) (damage_raw * getDefenseFactor());
+                break;
+            case Skill.TYPE_MAGIC:
+                damage_log = (int) (damage_raw * getMagicDefenseFactor());
+                break;
+        }
+
+        int damage = damage_log;
         int damage_shield;
         if (Skill.TYPE_MAGIC == type && shield_magic > 0) {
             damage_shield = Math.min(damage, shield_magic);
@@ -543,6 +573,10 @@ public class Hero {
         }
         if (damage > 0) {
             hp -= damage;
+            if (has_berserk && cnt_berserk < 5) {
+                factor_damage += 2;
+                print("强化", "无畏" + ++cnt_berserk);
+            }
             if (hp < panel_hp * 30 / 100) {
                 if (has_shield_bottom) {
                     has_shield_bottom = false;
@@ -553,6 +587,7 @@ public class Hero {
                 }
             }
         }
+        return damage_log;
     }
 
     private void onImpact() {
@@ -597,7 +632,7 @@ public class Hero {
         } else if (log.critical) {
             damage *= panel_critical_damage / 1000.0;
         }
-        return damage;
+        return damage + damage_cannot_critical;
     }
 
     private void checkStorm(CLog log) {
@@ -611,28 +646,27 @@ public class Hero {
         }
     }
 
-    double getDefenseFactor() {
-        int defense = target.panel_defense;
-        if (target.in_alert_mine) {
+    private double getDefenseFactor() {
+        int defense = panel_defense;
+        if (in_alert_mine) {
             defense = defense * 70 / 100;   // Round down. Confirmed!
         }
-        return 600.0 / (600 + Math.max(0, defense - panel_penetrate) * (100 - panel_penetrate_percent) / 100);
+        Hero attacker = this.attacker != null ? this.attacker : target;
+        return 600.0 / (600 + Math.max(0, defense - attacker.panel_penetrate) * (100 - attacker.panel_penetrate_percent) / 100);
     }
 
-    double getMagicDefenseFactor() {
-        return 600.0 / (600 + Math.max(0, target.panel_magic_defense - panel_magic_penetrate) * (100 - panel_magic_penetrate_percent) / 100);
-    }
-
-    double getDamageFactor() {
-        return getDamageFactor(false);
+    private double getMagicDefenseFactor() {
+        Hero attacker = this.attacker != null ? this.attacker : target;
+        return 600.0 / (600 + Math.max(0, panel_magic_defense - attacker.panel_magic_penetrate) * (100 - attacker.panel_magic_penetrate_percent) / 100);
     }
 
     private double getDamageFactor(boolean normal) {
-        int factor = factor_damage;
-        if (normal && target.has_defense_boots) {
+        Hero attacker = this.attacker != null ? this.attacker : target;
+        int factor = attacker.factor_damage;
+        if (normal && has_defense_boots) {
             factor -= 15;
         }
-        if (has_execute && target.hp * 2 < target.panel_hp) {
+        if (attacker.has_execute && hp * 2 < panel_hp) {
             factor += 30;
         }
         return factor / 100.0;

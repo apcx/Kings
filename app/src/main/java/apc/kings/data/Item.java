@@ -13,19 +13,20 @@ public class Item {
     public static final int SLOTS = 6;
 
     // unique flags on panel
-    public static final int FP_BOOTS     = 0x0001;
-    public static final int FP_MPN_BOOTS = 0x0003;
-    public static final int FP_MPN_MASK  = 0x0004;
-    public static final int FP_MPN_VOID  = 0x0008;
-    public static final int FP_PN        = 0x0010;
-    public static final int FP_PNP       = 0x0020;
-    public static final int FP_HAT       = 0x0100;
-    public static final int FP_MARK      = 0x0200;
-    public static final int FP_SENTINEL  = 0x0400;
-    public static final int FP_CRITICAL  = 0x0800;
-    public static final int MOB_ATTACK   = 0x1000;
-    public static final int MOB_MAGIC    = 0x2000;
-    public static final int MOB_HP       = 0x4000;
+    public static final int FP_BOOTS      = 0x0001;
+    public static final int FP_MPN_BOOTS  = 0x0003;
+    public static final int FP_MPN_MASK   = 0x0004;
+    public static final int FP_MPN_VOID   = 0x0008;
+    public static final int FP_PN         = 0x0010;
+    public static final int FP_PNP        = 0x0020;
+    public static final int FP_ANTI_MAGIC = 0x0040;
+    public static final int FP_HAT        = 0x0100;
+    public static final int FP_MARK       = 0x0200;
+    public static final int FP_SENTINEL   = 0x0400;
+    public static final int FP_CRITICAL   = 0x0800;
+    public static final int MOB_ATTACK    = 0x1000;
+    public static final int MOB_MAGIC     = 0x2000;
+    public static final int MOB_HP        = 0x4000;
 
     // unique flags on special effects
     public static final int FLAG_STORM         = 0x0001;
@@ -44,8 +45,11 @@ public class Item {
     public static final int FLAG_CORRUPT_2     = 0x0800;
 
     public static final int FLAG_HEAL          = 0x1000;
+    public static final int FLAG_THORNS        = 0x2000;
     public static final int FLAG_WOUND         = 0x4000;
     public static final int FLAG_ECHO          = 0x8000;
+
+    public static final int FLAG_BERSERK       = 0x00010000;
 
     public static final int ENCHANT_VOODOO     = 0x0f000000;
     public static final int ENCHANT_MASTER     = 0x07000000;
@@ -66,7 +70,7 @@ public class Item {
             new Item("冰霜长矛",  R.drawable.weapon_frost,      R.id.item_weapon, 1980,  600,  80,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("名刀·司命",R.drawable.weapon_curtain,    R.id.item_weapon, 1760,    0,  60,   0,   0,   0, 0,  0,  0,  5,   0, 0,            0),
             new Item("破军",      R.drawable.weapon_200,        R.id.item_weapon, 2950,    0, 200,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_EXECUTE),
-            new Item("破魔刀",    R.drawable.weapon_anti_magic, R.id.item_weapon, 2000,    0, 100,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("破魔刀",    R.drawable.weapon_anti_magic, R.id.item_weapon, 2000,    0, 100,   0,   0,   0, 0,  0,  0,  0,   0, FP_ANTI_MAGIC,0),
             new Item("逐日之弓",  R.drawable.weapon_stride,     R.id.item_weapon, 2100,    0,  40,   0,   0,   0, 5, 20, 15,  0,   0, 0,            0),
 //            new Item("金色圣剑",  R.drawable.weapon_judgement,  R.id.item_weapon, 2030,    0,   0,   0,   0,   0, 0, 50,  0,  0,   0, 0,            FLAG_JUDGEMENT),
             new Item("圣杯",      R.drawable.magic_mana,        R.id.item_magic,  2030,    0,   0, 140,   0, 140, 0,  0,  0, 20,   0, 0,            0),
@@ -89,9 +93,9 @@ public class Item {
             new Item("不死鸟之眼",R.drawable.armor_heal,        R.id.item_armor,  2100, 1200,   0,   0,   0, 240, 0,  0,  0,  0, 100, 0,            FLAG_HEAL),
             new Item("霸者重装",  R.drawable.armor_2000,        R.id.item_armor,  2370, 2000,   0,   0,   0,   0, 0,  0,  0,  0, 100, 0,            0),
             new Item("极寒风暴",  R.drawable.armor_frozen_heart,R.id.item_armor,  2100,    0,   0,   0, 360,   0, 0,  0,  0, 20,   0, 0,            0),
-            new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  1840,    0,  40,   0, 420,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("反伤刺甲",  R.drawable.armor_thorns,      R.id.item_armor,  1840,    0,  40,   0, 420,   0, 0,  0,  0,  0,   0, 0,            FLAG_THORNS),
             new Item("血魔之怒",  R.drawable.armor_fury,        R.id.item_armor,  2120, 1000,  20,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_SHIELD_BOTTOM),
-            new Item("暴烈之甲",  R.drawable.armor_berserk,     R.id.item_armor,  1820, 1000,  60,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
+            new Item("暴烈之甲",  R.drawable.armor_berserk,     R.id.item_armor,  1820, 1000,  60,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_BERSERK),
             new Item("近卫荣耀",  R.drawable.armor_sentinel,    R.id.item_armor,  1510,  500,   0,   0,   0,   0, 5,  0,  0,  0,   0, FP_SENTINEL,  0),
             new Item("奔狼纹章",  R.drawable.armor_horn,        R.id.item_armor,  1530,  400,   0,   0, 100,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("贤者的庇护",R.drawable.armor_revive,      R.id.item_armor,  2080,    0,   0,   0, 140, 140, 0,  0,  0,  0,   0, 0,            0),

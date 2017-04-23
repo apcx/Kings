@@ -97,9 +97,8 @@ public class HunterHero extends Hero {
         if (++cnt_eagle >= 3 && target.hp > 0) {
             cnt_eagle = 0;
             log = new CLog(name, "鹰眼", target.name, context.time);
-            log.damage = (int) (((int) (panel_attack * 0.4) + 480) * getDefenseFactor() * getDamageFactor());
             context.logs.add(log);
-            target.onDamaged(log.damage, Skill.TYPE_PHYSICAL);
+            log.damage = target.onDamaged(panel_attack * 40 / 100 + 480, Skill.TYPE_PHYSICAL);
         }
     }
 }

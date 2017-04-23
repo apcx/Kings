@@ -44,12 +44,13 @@ public class BerserkHero extends Hero {
     }
 
     @Override
-    protected void onDamaged(int damage, int type) {
-        super.onDamaged(damage, type);
+    protected int onDamaged(double damage_raw, int type) {
+        int damage = super.onDamaged(damage_raw, type);
         if (hp * 100 < panel_hp * 30 && !actions_active.contains(actions_cast[2])) {
             actions_cast[2].time = context.time + 1;
             actions_active.add(actions_cast[2]);
         }
+        return damage;
     }
 
     private void recover(Event event) {

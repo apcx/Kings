@@ -15,7 +15,7 @@ public class MonkeyHero extends Hero {
                 new Skill("斗战冲锋", 5000, 400),
                 new Skill("如意金箍", 24000, 400, 0.5, 230, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
         };
-        panel_critical += 200;
+        base_critical += 20;
         panel_critical_damage -= 500;
     }
 
