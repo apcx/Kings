@@ -34,7 +34,7 @@ public class Hero {
     int base_move;
     int base_critical;
 
-    private int panel_flags;
+    int panel_level = 15;
     public int panel_hp;
     int panel_attack;
     private int panel_magic;
@@ -50,6 +50,7 @@ public class Hero {
     int panel_critical_damage = 2000;
     int panel_cdr;
     private int panel_regen;
+    private int panel_flags;
 
     private int attr_flags;
     private int attr_price;
@@ -84,7 +85,6 @@ public class Hero {
 
     public Hero target;
     private Hero attacker;
-    private int level = 15;
     public int hp;
     int damage_can_critical;
     private int damage_cannot_critical;
@@ -116,7 +116,7 @@ public class Hero {
         panel_defense = heroType.defense;
         base_magic_defense = 169;
         base_move = heroType.move;
-        panel_attack_speed = heroType.level_up_attack_speed * (level - 1);
+        panel_attack_speed = heroType.level_up_attack_speed * (panel_level - 1);
         panel_regen = heroType.regen;
 
         actions_cast[0] = new Event(this, "cast1", 0);
@@ -203,14 +203,14 @@ public class Hero {
                 panel_magic_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_PN) != 0) {
-                panel_penetrate += 50 + level * 10;
+                panel_penetrate += 50 + panel_level * 10;
             }
             if ((panel_flags & Item.FP_PNP) != 0) {
                 panel_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_SENTINEL) != 0) {
-                base_attack += 30 + level * 2;
-                base_magic += 60 + level * 4;
+                base_attack += 30 + panel_level * 2;
+                base_magic += 60 + panel_level * 4;
             }
             if ((panel_flags & Item.FP_CRITICAL) != 0) {
                 panel_critical_damage += 500;
@@ -228,7 +228,7 @@ public class Hero {
                 panel_hp += 1050;
             }
             if ((attr_flags & Item.FLAG_SHIELD_MAGIC) != 0) {
-                shield_magic = 200 + level * 120;
+                shield_magic = 200 + panel_level * 120;
             }
         }
         panel_move_speed *= 10;
@@ -443,7 +443,7 @@ public class Hero {
             }
             if (has_corrupt_2) {
                 if (cnt_corrupt) {
-                    extra_damage += 200 + level * 20;
+                    extra_damage += 200 + panel_level * 20;
                 }
                 cnt_corrupt = !cnt_corrupt;
             }
@@ -471,7 +471,7 @@ public class Hero {
                     log.damage = target.onDamaged(panel_attack, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_ICE:
-                    log.damage = target.onDamaged(150 + level * 20, Skill.TYPE_PHYSICAL);
+                    log.damage = target.onDamaged(150 + panel_level * 20, Skill.TYPE_PHYSICAL);
                     break;
                 case Item.ENCHANT_MOB:
                     log.magic_damage = target.onDamaged(panel_magic * 30 / 100, Skill.TYPE_MAGIC);
@@ -521,7 +521,7 @@ public class Hero {
     private void onRedPower() {
         CLog log = new CLog(name, "持续伤害", "绯红之力", context.time);
         context.logs.add(log);
-        log.real_damage = onDamaged(17 + attacker.level * 2, Skill.TYPE_REAL);
+        log.real_damage = onDamaged(17 + attacker.panel_level * 2, Skill.TYPE_REAL);
     }
 
     protected int onDamaged(double damage_raw, int type) {
