@@ -9,6 +9,8 @@ import apc.kings.data.Skill;
 @SuppressWarnings("unused")
 public class CannonHero extends Hero {
 
+    private static final int SIEGE_DEFENSE = 180;
+
     private int rage;
     private int siege_power;
     private boolean siege;
@@ -121,9 +123,9 @@ public class CannonHero extends Hero {
         }
         factor_attack = 0.8;
         bonus_damage = 120;
-        panel_defense += 50;
-        base_magic_defense += 50;
-        panel_magic_defense += 50;
+        panel_defense += SIEGE_DEFENSE;
+        base_magic_defense += SIEGE_DEFENSE;
+        panel_magic_defense += SIEGE_DEFENSE;
 
         siege_power = Math.min(seconds, 5);
         if (siege_power < 5) {
@@ -145,9 +147,9 @@ public class CannonHero extends Hero {
         }
         factor_attack = 1;
         bonus_damage = 0;
-        panel_defense -= 50;
-        base_magic_defense -= 50;
-        panel_magic_defense -= 50;
+        panel_defense -= SIEGE_DEFENSE;
+        base_magic_defense -= SIEGE_DEFENSE;
+        panel_magic_defense -= SIEGE_DEFENSE;
 
         siege_power = 0;
         context.events.remove(event_siege_power);

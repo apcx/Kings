@@ -27,7 +27,6 @@ public class HeroType {
             new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329,  66, 3, 370),
             new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319,  68, 3, 340),
             new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340,  66, 2, 340),
-//            new HeroType("刘备",
             new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344,  75, 2, 350),
 //            new HeroType("虞姬",    "hime",     R.id.cat_archer,  0,                 5669, 417, 329,  63,  3),
 //            new HeroType("狄仁杰",   "judge",   R.id.cat_archer,  0,                 5710, 386, 338,  66,  4),

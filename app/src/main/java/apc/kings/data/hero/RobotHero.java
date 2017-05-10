@@ -18,7 +18,7 @@ public class RobotHero extends Hero {
         skills = new Skill[]{
                 new Skill("河豚手雷", 7000, 500),
                 new Skill("无敌鲨嘴炮", 12000, 800, 1, 435, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),
-                new Skill("空中支援", 20000, 0),
+                new Skill("空中支援", 20000, 500),
         };
     }
 
@@ -26,10 +26,12 @@ public class RobotHero extends Hero {
     public void initActionMode(Hero target, boolean attacked, boolean specific) {
         super.initActionMode(target, attacked, specific);
         action_attack.time = 500;
-        actions_cast[1].time = 501;
+        actions_cast[2].time = 1000;
+        actions_cast[1].time = 1500;
         if (target != null) {
             actions_active.add(actions_cast[0]);
             actions_active.add(actions_cast[1]);
+            actions_active.add(actions_cast[2]);
         }
     }
 
@@ -82,14 +84,10 @@ public class RobotHero extends Hero {
     @Override
     protected void onCast(int index, CLog log) {
         super.onCast(index, log);
+        toStrafe();
         switch (index) {
-            case 0:
-                toStrafe();
-                action_attack.time = 0;
-                break;
             case 1:
                 toStrafe();
-                action_attack.time = 0;
                 if (target.hp > 0) {
                     log.magic_damage = target.onDamaged((target.panel_hp - target.hp) / 10, Skill.TYPE_MAGIC);
                 }
@@ -101,8 +99,9 @@ public class RobotHero extends Hero {
 
     private void toStrafe() {
         normal_bullets = 0;
-        quick_bullets = 4;
-        factor_attack = 0.7;
-        attr_attack_cd = 425;
+        quick_bullets = 3;
+        factor_attack = 0.9;
+        attr_attack_cd = 567;
+        action_attack.time = 0;
     }
 }
