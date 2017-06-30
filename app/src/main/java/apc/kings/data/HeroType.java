@@ -33,7 +33,7 @@ public class HeroType {
             new HeroType("孙尚香",   "sniper",   R.id.cat_archer,  0,                 6014, 421, 346,  69, 3, 340),
             new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323,  69, 3, 360),
             new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 5986, 406, 336,  71, 3, 340),
-            new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400,  92, 1, 380),
+//            new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400,  92, 1, 380),
             new HeroType("刘邦",     "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 117, 3, 380),
             new HeroType("牛魔",     "taurus",   R.id.cat_tank,    R.id.cat_support,  8596, 273, 394, 117, 1, 380),
             new HeroType("程咬金",   "berserk",  R.id.cat_tank,    R.id.cat_warrior,  8731, 316, 504, 119, 2, 380),
