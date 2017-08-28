@@ -45,7 +45,7 @@ public class SaviorHero extends Hero {
         super.onCast(index, log);
         switch (index) {
             case 0:
-                shield_hero = 1000 + panel_hp * 10 / 100;
+                shield_hero = 1250 + panel_hp * 10 / 100;
                 event_shield = context.addEvent(this, "护盾消失", skills[index].name, 5000);
                 break;
         }

@@ -324,7 +324,7 @@ public class Hero {
                         panel_attack_speed -= 500;
                         break;
                     case "血怒":
-                        base_attack -= 40;
+                        base_attack -= 80;
                         shield_bottom = 0;
                         break;
                     case "绯红之力":
@@ -465,7 +465,7 @@ public class Hero {
             context.logs.add(log);
             switch (attr_enchants) {
                 case Item.ENCHANT_VOODOO:
-                    log.magic_damage = target.onDamaged(panel_attack * 30 / 100 + panel_magic * 65 / 100, Skill.TYPE_MAGIC);
+                    log.magic_damage = target.onDamaged(panel_attack * 30 / 100 + panel_magic * 80 / 100, Skill.TYPE_MAGIC);
                     break;
                 case Item.ENCHANT_MASTER:
                     log.damage = target.onDamaged(panel_attack, Skill.TYPE_PHYSICAL);
@@ -580,7 +580,7 @@ public class Hero {
             if (hp < panel_hp * 30 / 100) {
                 if (has_shield_bottom) {
                     has_shield_bottom = false;
-                    base_attack += 40;
+                    base_attack += 80;
                     shield_bottom = panel_hp * 30 / 100;
                     print("强化", "血怒");
                     context.addEvent(this, "失效", "血怒", 8000);
