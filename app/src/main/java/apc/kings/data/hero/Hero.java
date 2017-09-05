@@ -90,7 +90,8 @@ public class Hero {
     private int damage_cannot_critical;
 
     private boolean cnt_corrupt;
-    private int cnt_lightning = 5;
+    private int cnt_hit_can_lightning;
+    private int cnt_lightning;
     private int cnt_berserk;
     int shield_hero;
     private int shield_magic;
@@ -321,7 +322,7 @@ public class Hero {
                 switch (event.target) {
                     case "暴风":
                         in_storm = false;
-                        panel_attack_speed -= 500;
+                        panel_attack_speed -= 300;
                         break;
                     case "血怒":
                         base_attack -= 80;
@@ -488,10 +489,10 @@ public class Hero {
         }
 
         if (has_lightning && target.hp > 0 && !in_cd_lighting) {
-            if (--cnt_lightning <= 0) {
+            if (++cnt_hit_can_lightning * 30 >= (cnt_lightning + 1) * 100) {
+                ++cnt_lightning;
                 in_cd_lighting = true;
-                cnt_lightning = 5;
-                damage_can_critical = 100;
+                damage_can_critical = 100 + panel_attack * 30 / 100;
                 damage_cannot_critical = 0;
                 log = new CLog(name, "电弧", target.name, context.time);
                 context.logs.add(log);
@@ -640,7 +641,7 @@ public class Hero {
             context.updateBuff(this, "失效", "暴风", 2000);
             if (!in_storm) {
                 in_storm = true;
-                panel_attack_speed += 500;
+                panel_attack_speed += 300;
                 print("强化", "暴风");
             }
         }

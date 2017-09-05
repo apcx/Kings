@@ -89,7 +89,7 @@ public class CContext {
             int base_move = attackerType.move + 60;
             switch (attackerType.name) {
                 case "黄忠":
-                    base_move = 453;
+                    base_move = 462;
                     break;
             }
             double weight = option_move_weight / 100.0;

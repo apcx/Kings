@@ -6,11 +6,11 @@ import apc.kings.data.HeroType;
 import apc.kings.data.Skill;
 
 @SuppressWarnings("unused")
-public class SniperHero extends Hero {
+public class CrossbowHero extends Hero {
 
     private boolean snipe;
 
-    protected SniperHero(CContext context, HeroType heroType) {
+    protected CrossbowHero(CContext context, HeroType heroType) {
         super(context, heroType);
         skills = new Skill[]{
                 new Skill("翻滚突袭", 5000, 600),
