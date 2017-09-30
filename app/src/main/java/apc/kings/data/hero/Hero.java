@@ -284,7 +284,7 @@ public class Hero {
             actions_active.add(action_attack);
             if (context.hasRedPower()) {
                 in_red_power = true;
-                context.addEvent(this, "失效", "绯红之力", 70000);
+                context.addEvent(this, "失效", "猩红之力", 70000);
             }
         }
         if (attacked) {
@@ -328,7 +328,7 @@ public class Hero {
                         base_attack -= 80;
                         shield_bottom = 0;
                         break;
-                    case "绯红之力":
+                    case "猩红之力":
                         in_red_power = false;
                         break;
                     case "地雷破甲":
@@ -505,7 +505,7 @@ public class Hero {
 
         if (in_red_power && target.hp > 0) {
             target.onRedPower();
-            context.updateBuff(target, "持续伤害", "绯红之力", 500);
+            context.updateBuff(target, "持续伤害", "猩红之力", 500);
         }
     }
 
@@ -520,7 +520,7 @@ public class Hero {
     }
 
     private void onRedPower() {
-        CLog log = new CLog(name, "持续伤害", "绯红之力", context.time);
+        CLog log = new CLog(name, "持续伤害", "猩红之力", context.time);
         context.logs.add(log);
         log.real_damage = onDamaged(17 + attacker.panel_level * 2, Skill.TYPE_REAL);
     }
