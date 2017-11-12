@@ -34,10 +34,10 @@ public class HeroType {
             new HeroType("鲁班七号", "robot",    R.id.cat_archer,  0,                 5989, 410, 323,  69, 3, 360),
             new HeroType("后羿",     "stalker",  R.id.cat_archer,  0,                 5986, 406, 336,  71, 3, 360),
 //            new HeroType("孙悟空",   "monkey",   R.id.cat_warrior, R.id.cat_assassin, 7017, 359, 400,  92, 1, 380),
-            new HeroType("刘邦",     "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 117, 3, 380),
-            new HeroType("牛魔",     "taurus",   R.id.cat_tank,    R.id.cat_support,  8596, 273, 394, 117, 1, 380),
-            new HeroType("程咬金",   "berserk",  R.id.cat_tank,    R.id.cat_warrior,  8731, 316, 504, 119, 2, 380),
-            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397,  98, 2, 380),
+            new HeroType("刘邦",     "savior",   R.id.cat_tank,    R.id.cat_support,  8193, 302, 504, 211, 3, 380),
+            new HeroType("牛魔",     "taurus",   R.id.cat_tank,    R.id.cat_support,  8596, 273, 394, 211, 1, 380),
+            new HeroType("程咬金",   "berserk",  R.id.cat_tank,    R.id.cat_warrior,  8731, 316, 504, 215, 2, 380),
+            new HeroType("夏侯惇",   "claymore", R.id.cat_warrior, R.id.cat_tank,     7350, 331, 397, 183, 2, 380),
 //            new HeroType("吕布",     "stark",    R.id.cat_warrior, R.id.cat_tank,     7344, 353, 390,  97,  1),
     };
 

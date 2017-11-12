@@ -10,6 +10,16 @@
         app:msbp_interval="50"
         app:msbp_measurementUnit="%" />
 
+    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat android:key="@string/combat_time_limit"
+        android:title="战斗时间限制"
+        android:defaultValue="3"
+        app:msbp_minValue="3"
+        app:msbp_maxValue="20"
+        app:msbp_measurementUnit="秒" />
+
+    <SwitchPreferenceCompat android:key="@string/combat_time_limit_enable"
+        android:title="启用战斗时间限制" />
+
     <SwitchPreferenceCompat android:key="@string/combat_combo"
         android:title="Combo"
         android:summaryOff="全程战斗"

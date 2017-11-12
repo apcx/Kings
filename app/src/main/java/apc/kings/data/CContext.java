@@ -34,6 +34,7 @@ public class CContext {
     private boolean option_siege;
     private boolean option_frenzy;
     private boolean exit;
+    private int time_limit = 90;
 
     public CContext(Context context, HeroType attackerType, HeroType defenderType) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,6 +46,10 @@ public class CContext {
         option_frenzy = preferences.getBoolean(context.getString(R.string.combat_frenzy), false);
         option_wood = preferences.getBoolean(context.getString(R.string.combat_wood), false);
         option_siege = preferences.getBoolean(context.getString(R.string.combat_siege), false);
+        if (preferences.getBoolean(context.getString(R.string.combat_time_limit_enable), false)) {
+            time_limit = preferences.getInt(context.getString(R.string.combat_time_limit), time_limit);
+        }
+        time_limit *= 1000;
 
         attacker = Hero.create(this, attackerType);
         defender = Hero.create(this, defenderType);
@@ -196,7 +201,7 @@ public class CContext {
                 updateTime(action);
                 action.hero.onAction(action);
             }
-        } while (defender.hp > 0 && time < 90000 && !exit);
+        } while (defender.hp > 0 && time < time_limit && !exit);
 
         if (defender.hp <= 0) {
             logs.add(new CLog(attacker.name, "击败", defender.name, time));

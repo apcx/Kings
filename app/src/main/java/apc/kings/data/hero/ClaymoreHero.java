@@ -43,7 +43,7 @@ public class ClaymoreHero extends Hero {
     @Override
     protected void onCast(int index, CLog log) {
         super.onCast(index, log);
-        shield_hero = panel_hp * 10 / 100;
+        shield_hero = panel_hp * 15 / 100;
         event_shield = context.addEvent(this, "护盾消失", skills[1].name, 5000);
     }
 }

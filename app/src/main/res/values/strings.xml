@@ -7,6 +7,8 @@
     <string name="combat_multiple">combat_multiple</string>
     <string name="combat_red_power">combat_red_power</string>
     <string name="combat_siege">combat_siege</string>
+    <string name="combat_time_limit">combat_time_limit</string>
+    <string name="combat_time_limit_enable">combat_time_limit_enable</string>
     <string name="combat_wood">combat_wood</string>
     <string name="reset_default">确定要恢复默认配置吗？</string>
     <string name="reset_recommended">确定要恢复【Apc】的推荐配置吗？</string>
