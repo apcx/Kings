@@ -1,24 +1,22 @@
 package apc.kings;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import apc.kings.common.AbsAdapter;
-import apc.kings.common.MapHolder;
-import apc.kings.common.SdView;
+import apc.kings.common.SmartAdapter;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 
@@ -30,7 +28,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
     private HeroType mHeroType;
     private int mCategory;
-    private Adapter mAdapter;
+    private SmartAdapter<Item> mAdapter;
     private View mEditButton;
     private View mCancelButton;
     private ItemGroup mItemGroup;
@@ -79,7 +77,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                     mItems.add(item);
                 }
             }
-            mAdapter.notifyDataSetChanged();
+            mAdapter.setItemList(mItems);
 
             int selected = -1;
             if (mSelectedItem != null) {
@@ -162,34 +160,18 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 }).create().show();
     }
 
-    private class Adapter extends AbsAdapter {
+    private class Adapter extends SmartAdapter<Item> {
 
-        Adapter() {
-            super(R.layout.item_item);
+        Adapter() { super(R.layout.item_item, true); }
+
+        @Nullable
+        @Override
+        protected CharSequence onConvertDataString(@NotNull Item item, int id) {
+            return R.id.image == id ? "res:///" + item.imageRes : super.onConvertDataString(item, id);
         }
 
         @Override
-        @SuppressLint("SetTextI18n")
-        public void onBindViewHolder(MapHolder holder, int position) {
-            SdView image = holder.get(R.id.image);
-            TextView name = holder.get(R.id.name);
-            TextView price = holder.get(R.id.price);
-            View view = holder.get(R.id.experimental);
-
-            Item item = mItems.get(position);
-            image.setImage(Uri.parse("res:///" + item.imageRes), position == mSelected);
-            name.setText(item.name);
-            price.setText(Integer.toString(item.price));
-            view.setVisibility(item.experimental ? View.VISIBLE : View.GONE);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mItems.size();
-        }
-
-        @Override
-        protected void onItemChanged(int position) {
+        protected void onItemClick(int position, int id) {
             mSelectedItem = position < 0 ? null : mItems.get(position);
         }
     }

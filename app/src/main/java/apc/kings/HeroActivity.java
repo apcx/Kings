@@ -7,13 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import apc.kings.common.MapHolder;
-import apc.kings.common.AbsAdapter;
-import apc.kings.common.SdView;
+import apc.kings.common.SmartAdapter;
 import apc.kings.data.HeroType;
 
 @SuppressWarnings("ConstantConditions")
@@ -24,7 +25,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
     HeroType mSelectedHeroType;
 
     private int mCategory;
-    private AbsAdapter mAdapter;
+    private SmartAdapter<HeroType> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +82,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-
-            mAdapter.notifyDataSetChanged();
+            mAdapter.setItemList(mHeroTypes);
 
             int selected = -1;
             if (mSelectedHeroType != null) {
@@ -97,25 +97,18 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class Adapter extends AbsAdapter {
+    private class Adapter extends SmartAdapter<HeroType> {
 
-        Adapter() {
-            super(R.layout.item_hero);
+        Adapter() { super(R.layout.item_hero, true); }
+
+        @Nullable
+        @Override
+        protected CharSequence onConvertDataString(@NotNull HeroType item, int id) {
+            return item.getImageUri(HeroActivity.this, HeroType.TYPE_HERO).toString();
         }
 
         @Override
-        public void onBindViewHolder(MapHolder holder, int position) {
-            SdView view = (SdView) holder.itemView;
-            view.setImage(mHeroTypes.get(position).getImageUri(view.getContext(), HeroType.TYPE_HERO), position == mSelected);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mHeroTypes.size();
-        }
-
-        @Override
-        protected void onItemChanged(int position) {
+        protected void onItemClick(int position, int id) {
             if (position >= 0) {
                 mSelectedHeroType = mHeroTypes.get(position);
                 mLockButton.setEnabled(true);

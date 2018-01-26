@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -20,6 +19,7 @@ public class SdView extends SimpleDraweeView {
     private static int[] STATE_SELECTED = {android.R.attr.state_selected};
 
     private ColorStateList mColorStateList;
+    private Uri mUri;
     private float mBorderWidth;
     private float mSelectedBorderWidth;
     private boolean mSelectedProcessor;
@@ -72,12 +72,28 @@ public class SdView extends SimpleDraweeView {
         }
     }
 
-    public void setImage(@NonNull Uri uri, boolean selected) {
+    @Override
+    public void setImageURI(Uri uri) {
+        if ((null == uri && mUri != null) || (uri != null && !uri.equals(mUri))) {
+            mUri = uri;
+            updateView();
+        }
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        if (selected != isSelected()) {
+            super.setSelected(selected);
+            updateView();
+        }
+    }
+
+    private void updateView() {
         GenericDraweeHierarchy hierarchy = getHierarchy();
         RoundingParams params = hierarchy.getRoundingParams();
         if (params != null) {
             int color = mColorStateList.getDefaultColor();
-            if (selected) {
+            if (isSelected()) {
                 params.setBorder(mColorStateList.getColorForState(STATE_SELECTED, color), mSelectedBorderWidth);
             } else {
                 params.setBorder(color, mBorderWidth);
@@ -85,12 +101,12 @@ public class SdView extends SimpleDraweeView {
             hierarchy.setRoundingParams(params);
         }
 
-        if (selected && mSelectedProcessor) {
+        if (isSelected() && mSelectedProcessor) {
             setController(Fresco.newDraweeControllerBuilder()
-                    .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new GrayProcessor(uri)).build())
+                    .setImageRequest(ImageRequestBuilder.newBuilderWithSource(mUri).setPostprocessor(new GrayProcessor(mUri)).build())
                     .build());
         } else {
-            setImageURI(uri);
+            super.setImageURI(mUri);
         }
     }
 }

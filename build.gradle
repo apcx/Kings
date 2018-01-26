@@ -1,10 +1,12 @@
 buildscript {
-    repositories {
+    ext.kotlin_version = '1.2.21'
+        repositories {
         jcenter()
     }
     dependencies {
         //noinspection GradleDependency
         classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

@@ -1,27 +1,34 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+ext {
+    support_version = '25.3.1'
+}
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
-
+    buildToolsVersion '26.0.2'
     defaultConfig {
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 25
         versionCode 1
-        versionName "1.32.1.10-alpha"
+        versionName '1.32.1.33-alpha'
         archivesBaseName = "Kings-$versionName"
     }
 }
 
 dependencies {
     //noinspection GradleDependency
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:$support_version"
     //noinspection GradleDependency
-    compile 'com.android.support:preference-v7:25.3.1'
+    compile "com.android.support:preference-v7:$support_version"
     //noinspection GradleDependency
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.facebook.fresco:fresco:1.5.0'                  // https://github.com/facebook/fresco
-    compile 'com.google.code.gson:gson:2.8.2'                   // https://github.com/google/gson
-    compile 'com.pavelsikun:material-seekbar-preference:2.3.0'  // https://github.com/MrBIMC/MaterialSeekBarPreference
+    compile "com.android.support:recyclerview-v7:$support_version"
+    compile 'com.facebook.fresco:fresco:1.8.0'                 // https://github.com/facebook/fresco
+    compile 'com.google.code.gson:gson:2.8.2'                  // https://github.com/google/gson
+    compile 'com.google.guava:guava:23.6-android'              // https://github.com/google/guava
+    compile 'com.pavelsikun:material-seekbar-preference:2.3.0' // https://github.com/MrBIMC/MaterialSeekBarPreference
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

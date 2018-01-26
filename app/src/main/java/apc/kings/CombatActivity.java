@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import apc.kings.common.AbsAdapter;
+import org.jetbrains.annotations.NotNull;
+
 import apc.kings.common.MapHolder;
+import apc.kings.common.SmartAdapter;
 import apc.kings.data.CContext;
 import apc.kings.data.CLog;
 import apc.kings.data.HeroType;
@@ -32,7 +34,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTimeView;
     private TextView mDpsView;
     private RecyclerView mLogView;
-    private RecyclerView.Adapter mAdapter;
+    private SmartAdapter<CLog> mAdapter;
     private Toast mToast;
 
     @Override
@@ -78,7 +80,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
                     mDamageView.setText(Integer.toString(mCombat.summary_damage));
                     mTimeView.setText(String.format("%.3f", mCombat.summary_time / 1000.0));
                     mDpsView.setText(String.format("%.0f", mCombat.summary_dps));
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter.setItemList(mCombat.logs);
                 }
                 break;
             case R.id.show_log:
@@ -122,19 +124,16 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         mToast = null;
     }
 
-    private class Adapter extends AbsAdapter {
+    private class Adapter extends SmartAdapter<CLog> {
 
-        Adapter() {
-            super(R.layout.item_log);
-        }
+        Adapter() { super(R.layout.item_log); }
 
-        @Override
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
-        @SuppressWarnings("deprecation")
-        public void onBindViewHolder(MapHolder holder, int position) {
+        @Override
+        public void onBindViewHolder(@NotNull MapHolder holder, int position) {
             Resources resources = getResources();
             String packageName = getPackageName();
-            CLog log = mCombat.logs.get(position);
+            CLog log = getItemList().get(position);
             ImageView hero = holder.get(R.id.hero);
             ImageView target_hero = holder.get(R.id.target_hero);
             TextView time = holder.get(R.id.time);
@@ -233,11 +232,6 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 magic_damage.setText(null);
             }
-        }
-
-        @Override
-        public int getItemCount() {
-            return mCombat.logs.size();
         }
     }
 }
