@@ -10,13 +10,12 @@ import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import apc.kings.common.SmartAdapter;
+import apc.kings.common.AbsAdapter;
 import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 
@@ -28,7 +27,7 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
 
     private HeroType mHeroType;
     private int mCategory;
-    private SmartAdapter<Item> mAdapter;
+    private AbsAdapter<Item> mAdapter;
     private View mEditButton;
     private View mCancelButton;
     private ItemGroup mItemGroup;
@@ -160,14 +159,14 @@ public class ItemActivity extends AppCompatActivity implements View.OnClickListe
                 }).create().show();
     }
 
-    private class Adapter extends SmartAdapter<Item> {
+    private class Adapter extends AbsAdapter<Item> {
 
         Adapter() { super(R.layout.item_item, true); }
 
         @Nullable
         @Override
-        protected CharSequence onConvertDataString(@NotNull Item item, int id) {
-            return R.id.image == id ? "res:///" + item.imageRes : super.onConvertDataString(item, id);
+        protected Object getValue(@Nullable Object item, int id) {
+            return R.id.image == id ? "res:///" + ((Item) item).imageRes : super.getValue(item, id);
         }
 
         @Override

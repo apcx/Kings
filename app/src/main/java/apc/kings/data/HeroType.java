@@ -49,27 +49,27 @@ public class HeroType {
             map.put(heroType.name, heroType);
         }
 
-        buildDefaultItems("成吉思汗", new String[]{"无尽战刃", "急速战靴", "宗师之力", "泣血之刃", "冰霜长矛", "破甲弓"});
-        buildDefaultItems("黄忠", new String[]{"末世", "急速战靴", "无尽战刃", "泣血之刃", "破甲弓", "影刃"});
-        buildDefaultItems("李元芳", new String[]{"末世", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("马可波罗", new String[]{"末世", "急速战靴", "无尽战刃", "泣血之刃", "破甲弓", "影刃"});
-        buildDefaultItems("孙尚香", new String[]{"末世", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("鲁班七号", new String[]{"末世", "急速战靴", "无尽战刃", "破甲弓", "泣血之刃", "破军"});
-        buildDefaultItems("后羿", new String[]{"末世", "闪电匕首", "急速战靴", "无尽战刃", "破甲弓", "影刃"});
-        buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "极寒风暴", "破军", "破甲弓"});
+        buildDefaultItems("成吉思汗", new String[]{"无尽战刃", "急速战靴", "宗师之力", "泣血之刃", "冰霜长矛", "碎星锤"});
+        buildDefaultItems("黄忠", new String[]{"末世", "急速战靴", "无尽战刃", "泣血之刃", "碎星锤", "影刃"});
+        buildDefaultItems("李元芳", new String[]{"末世", "急速战靴", "无尽战刃", "碎星锤", "泣血之刃", "破军"});
+        buildDefaultItems("马可波罗", new String[]{"末世", "急速战靴", "无尽战刃", "泣血之刃", "碎星锤", "影刃"});
+        buildDefaultItems("孙尚香", new String[]{"末世", "急速战靴", "无尽战刃", "碎星锤", "泣血之刃", "破军"});
+        buildDefaultItems("鲁班七号", new String[]{"末世", "急速战靴", "无尽战刃", "碎星锤", "泣血之刃", "破军"});
+        buildDefaultItems("后羿", new String[]{"末世", "闪电匕首", "急速战靴", "无尽战刃", "碎星锤", "影刃"});
+        buildDefaultItems("孙悟空", new String[]{"暗影战斧", "抵抗之靴", "宗师之力", "极寒风暴", "破军", "碎星锤"});
         buildDefaultItems("刘邦", new String[]{"红莲斗篷", "近卫荣耀", "冷静之靴", "极寒风暴", "霸者重装", "闪电匕首"});
         buildDefaultItems("牛魔", new String[]{"红莲斗篷", "近卫荣耀", "冷静之靴", "不死鸟之眼", "极寒风暴", "霸者重装"});
         buildDefaultItems("程咬金", new String[]{"红莲斗篷", "影忍之足", "不死鸟之眼", "血魔之怒", "不祥征兆", "暴烈之甲"});
         buildDefaultItems("夏侯惇", new String[]{"红莲斗篷", "抵抗之靴", "不死鸟之眼", "暗影战斧", "不祥征兆", "霸者重装"});
 
-        String[] archer_items = {"影忍之足", "末世", "影刃", "破甲弓", "纯净苍穹", "破军"};
-        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "末世", "破甲弓", "影刃", "纯净苍穹", "破军"});
-        buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "破甲弓", "无尽战刃"});
+        String[] archer_items = {"影忍之足", "末世", "影刃", "碎星锤", "纯净苍穹", "破军"};
+        buildRecommendedItems("成吉思汗", new String[]{"影忍之足", "末世", "碎星锤", "影刃", "纯净苍穹", "破军"});
+        buildRecommendedItems("黄忠", new String[]{"影忍之足", "泣血之刃", "纯净苍穹", "影刃", "碎星锤", "无尽战刃"});
         buildRecommendedItems("李元芳", archer_items);
-        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "末世", "纯净苍穹", "破甲弓", "末世", "贤者的庇护"});
-        buildRecommendedItems("孙尚香", new String[]{"影忍之足", "闪电匕首", "无尽战刃", "破甲弓", "宗师之力", "破军"});
+        buildRecommendedItems("马可波罗", new String[]{"影忍之足", "末世", "纯净苍穹", "碎星锤", "末世", "贤者的庇护"});
+        buildRecommendedItems("孙尚香", new String[]{"影忍之足", "闪电匕首", "无尽战刃", "碎星锤", "宗师之力", "破军"});
         buildRecommendedItems("鲁班七号", archer_items);
-        buildRecommendedItems("后羿", new String[]{"影忍之足", "末世", "破甲弓", "影刃", "纯净苍穹", "破军"});
+        buildRecommendedItems("后羿", new String[]{"影忍之足", "末世", "碎星锤", "影刃", "纯净苍穹", "破军"});
         buildRecommendedItems("刘邦", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "血魔之怒", "不祥征兆", "霸者重装"});
         buildRecommendedItems("牛魔", new String[]{"影忍之足", "红莲斗篷", "魔女斗篷", "不祥征兆", "极寒风暴", "血魔之怒"});
         buildRecommendedItems("程咬金", new String[]{"影忍之足", "红莲斗篷", "不死鸟之眼", "反伤刺甲", "不祥征兆", "血魔之怒"});

@@ -89,6 +89,9 @@ public class SdView extends SimpleDraweeView {
     }
 
     private void updateView() {
+        if (null == mUri) {
+            return;
+        }
         GenericDraweeHierarchy hierarchy = getHierarchy();
         RoundingParams params = hierarchy.getRoundingParams();
         if (params != null) {

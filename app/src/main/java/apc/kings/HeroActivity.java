@@ -7,14 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import apc.kings.common.SmartAdapter;
+import apc.kings.common.AbsAdapter;
 import apc.kings.data.HeroType;
 
 @SuppressWarnings("ConstantConditions")
@@ -25,7 +24,7 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
     HeroType mSelectedHeroType;
 
     private int mCategory;
-    private SmartAdapter<HeroType> mAdapter;
+    private AbsAdapter<HeroType> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,14 +96,14 @@ public class HeroActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private class Adapter extends SmartAdapter<HeroType> {
+    public class Adapter extends AbsAdapter<HeroType> {
 
         Adapter() { super(R.layout.item_hero, true); }
 
         @Nullable
         @Override
-        protected CharSequence onConvertDataString(@NotNull HeroType item, int id) {
-            return item.getImageUri(HeroActivity.this, HeroType.TYPE_HERO).toString();
+        protected Object getValue(@Nullable Object item, int id) {
+            return ((HeroType) item).getImageUri(getContext(), HeroType.TYPE_HERO).toString();
         }
 
         @Override

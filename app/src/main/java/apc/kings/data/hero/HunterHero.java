@@ -18,6 +18,7 @@ public class HunterHero extends Hero {
 
     protected HunterHero(CContext context, HeroType heroType) {
         super(context, heroType);
+        attack_speed_model = 2;
         skills = new Skill[]{
                 new Skill("鹰眼", 5000, 0),
                 new Skill("百兽陷阱", 2000, 0),

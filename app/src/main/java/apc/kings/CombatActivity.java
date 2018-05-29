@@ -19,7 +19,7 @@ import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 
 import apc.kings.common.MapHolder;
-import apc.kings.common.SmartAdapter;
+import apc.kings.common.AbsAdapter;
 import apc.kings.data.CContext;
 import apc.kings.data.CLog;
 import apc.kings.data.HeroType;
@@ -34,7 +34,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mTimeView;
     private TextView mDpsView;
     private RecyclerView mLogView;
-    private SmartAdapter<CLog> mAdapter;
+    private AbsAdapter<CLog> mAdapter;
     private Toast mToast;
 
     @Override
@@ -124,7 +124,7 @@ public class CombatActivity extends AppCompatActivity implements View.OnClickLis
         mToast = null;
     }
 
-    private class Adapter extends SmartAdapter<CLog> {
+    private class Adapter extends AbsAdapter<CLog> {
 
         Adapter() { super(R.layout.item_log); }
 

@@ -14,6 +14,7 @@ import apc.kings.data.HeroType;
 import apc.kings.data.Item;
 import apc.kings.data.Rune;
 import apc.kings.data.Skill;
+import apc.kings.data.SpeedModel;
 
 public class Hero {
 
@@ -33,6 +34,7 @@ public class Hero {
     int base_magic_defense;
     int base_move;
     int base_critical;
+    public int attack_speed_model = 1;
 
     int panel_level = 15;
     public int panel_hp;
@@ -66,7 +68,8 @@ public class Hero {
     private boolean has_corrupt;
     private boolean has_corrupt_2;
     private boolean has_judgement;
-    private boolean has_accurate;
+    private boolean has_bonus_70;
+    private boolean has_bonus_100;
     private boolean has_lightning;
     private boolean has_execute;
     private boolean has_heal;
@@ -82,6 +85,7 @@ public class Hero {
     double factor_damage_attack = 1;
     double factor_attack = 1;
     int bonus_damage;
+    int bonus_normal_damage;
 
     public Hero target;
     private Hero attacker;
@@ -177,7 +181,8 @@ public class Hero {
             has_corrupt = (attr_flags & Item.FLAG_CORRUPT) != 0;
             has_corrupt_2 = (attr_flags & Item.FLAG_CORRUPT_2) != 0;
             has_judgement = (attr_flags & Item.FLAG_JUDGEMENT) != 0 && R.id.cat_archer == heroType.category;
-            has_accurate = (attr_flags & Item.FLAG_ACCURATE) != 0;
+            has_bonus_70 = (attr_flags & Item.FLAG_BONUS_70) != 0;
+            has_bonus_100 = (attr_flags & Item.FLAG_BONUS_100) != 0;
             has_lightning = (attr_flags & Item.FLAG_LIGHTNING) != 0;
             has_execute = (attr_flags & Item.FLAG_EXECUTE) != 0;
             has_storm = (attr_flags & Item.FLAG_STORM) != 0;
@@ -236,6 +241,8 @@ public class Hero {
         panel_attack_speed *= 10;
         base_critical *= 10;
         panel_cdr *= 10;
+        if (has_bonus_70)  bonus_normal_damage += 70;
+        if (has_bonus_100) bonus_normal_damage += 100;
     }
 
     private void initRunes() {
@@ -364,7 +371,13 @@ public class Hero {
     }
 
     protected void doAttack() {
-        action_attack.time = context.time + attr_attack_cd * 1000 / (1000 + Math.min(panel_attack_speed, 2000));
+        int attack_cd = attr_attack_cd * 1000 / (1000 + Math.min(panel_attack_speed, 2000));
+        switch (attack_speed_model) {
+            case 2:
+                attack_cd = SpeedModel.getAttackCd(attack_speed_model, panel_attack_speed);
+                break;
+        }
+        action_attack.time = context.time + attack_cd;
         hit_normal = true;
         onAttack(new CLog(name, "攻击", target.name, context.time));
         delayActions(100);
@@ -430,7 +443,7 @@ public class Hero {
 
     protected void onHit(CLog log) {
         onUpdateAttackCanCritical();
-        double damage = panel_attack;
+        double damage = panel_attack + bonus_normal_damage;
         if ((hit_normal || hit_can_critical)) {
             damage = getCriticalDamage(log);
         }
@@ -447,9 +460,6 @@ public class Hero {
                     extra_damage += 200 + panel_level * 20;
                 }
                 cnt_corrupt = !cnt_corrupt;
-            }
-            if (has_accurate) {
-                extra_damage += 60;
             }
             if (extra_damage > 0) {
                 log.extra_damage = target.onDamaged(extra_damage, Skill.TYPE_PHYSICAL);
@@ -511,7 +521,7 @@ public class Hero {
 
     protected void onUpdateAttackCanCritical() {
         double criticalFactor = Math.min(factor_attack, 1);
-        damage_can_critical = (int) (panel_attack * criticalFactor);
+        damage_can_critical = (int) (panel_attack * criticalFactor) + bonus_normal_damage;
         damage_cannot_critical = (int) (panel_attack * (factor_attack - criticalFactor)) + bonus_damage;
     }
 

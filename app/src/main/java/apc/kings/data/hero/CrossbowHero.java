@@ -12,6 +12,7 @@ public class CrossbowHero extends Hero {
 
     protected CrossbowHero(CContext context, HeroType heroType) {
         super(context, heroType);
+        attack_speed_model = 2;
         skills = new Skill[]{
                 new Skill("翻滚突袭", 5000, 600),
                 new Skill("红莲爆弹", 6000, 100, 0.5, 200, Skill.TYPE_PHYSICAL, Skill.TYPE_PHYSICAL),

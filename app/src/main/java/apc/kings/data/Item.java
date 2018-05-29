@@ -40,7 +40,6 @@ public class Item {
     public static final int FLAG_SHIELD_BOTTOM = 0x0080;
 
     public static final int FLAG_CORRUPT       = 0x0100;
-    public static final int FLAG_ACCURATE      = 0x0200;
     public static final int FLAG_LIGHTNING     = 0x0400;
     public static final int FLAG_CORRUPT_2     = 0x0800;
 
@@ -50,6 +49,8 @@ public class Item {
     public static final int FLAG_ECHO          = 0x8000;
 
     public static final int FLAG_BERSERK       = 0x00010000;
+    public static final int FLAG_BONUS_70      = 0x00020000;
+    public static final int FLAG_BONUS_100     = 0x00040000;
 
     public static final int ENCHANT_VOODOO     = 0x0f000000;
     public static final int ENCHANT_MASTER     = 0x07000000;
@@ -61,9 +62,9 @@ public class Item {
             new Item("制裁之刃",  R.drawable.weapon_wound,      R.id.item_weapon, 1800,    0, 100,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_WOUND),
             new Item("泣血之刃",  R.drawable.weapon_drain,      R.id.item_weapon, 1740,    0, 100,   0,   0,   0, 0,  0,  0,  0,   0, 0,            0),
             new Item("影刃",      R.drawable.weapon_storm,      R.id.item_weapon, 2070,    0,   0,   0,   0,   0, 5, 40, 20,  0,   0, 0,            FLAG_STORM),
-            new Item("纯净苍穹",  R.drawable.weapon_dispel,     R.id.item_weapon, 2230,    0,   0,   0,   0,   0, 0, 40, 20,  0,   0, 0,            FLAG_ACCURATE),
+            new Item("纯净苍穹",  R.drawable.weapon_dispel,     R.id.item_weapon, 2230,    0,   0,   0,   0,   0, 0, 40, 20,  0,   0, 0, FLAG_BONUS_70),
             new Item("闪电匕首",  R.drawable.weapon_lightning,  R.id.item_weapon, 1840,    0,   0,   0,   0,   0, 8, 30, 20,  0,   0, 0,            FLAG_LIGHTNING),
-            new Item("破甲弓",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0, 0,  0,  0, 10,   0, FP_PNP,       0),
+            new Item("碎星锤",    R.drawable.weapon_penetrate,  R.id.item_weapon, 2100,    0,  80,   0,   0,   0, 0,  0,  0, 10,   0, FP_PNP,       0),
             new Item("暗影战斧",  R.drawable.weapon_axe,        R.id.item_weapon, 2090,  500,  85,   0,   0,   0, 0,  0,  0, 15,   0, FP_PN,        0),
             new Item("宗师之力",  R.drawable.weapon_master,     R.id.item_weapon, 2100,  400,  60,   0,   0,   0, 0,  0, 20,  0,   0, 0,            ENCHANT_MASTER),
             new Item("无尽战刃",  R.drawable.weapon_critical,   R.id.item_weapon, 2140,    0, 120,   0,   0,   0, 0,  0, 20,  0,   0, FP_CRITICAL,  0),
@@ -71,7 +72,8 @@ public class Item {
             new Item("名刀·司命",R.drawable.weapon_curtain,    R.id.item_weapon, 1760,    0,  60,   0,   0,   0, 0,  0,  0,  5,   0, 0,            0),
             new Item("破军",      R.drawable.weapon_200,        R.id.item_weapon, 2950,    0, 200,   0,   0,   0, 0,  0,  0,  0,   0, 0,            FLAG_EXECUTE),
             new Item("破魔刀",    R.drawable.weapon_anti_magic, R.id.item_weapon, 2000,    0, 100,   0,   0,  50, 0,  0,  0,  0,   0, FP_ANTI_MAGIC,0),
-            new Item("逐日之弓",  R.drawable.weapon_stride,     R.id.item_weapon, 2100,    0,  40,   0,   0,   0, 5, 20, 15,  0,   0, 0,            0),
+            new Item("逐日之弓",  R.drawable.weapon_stride,     R.id.item_weapon, 2100,    0,  0,   0,   0,   0, 0, 25, 15,  0,   0, 0, FLAG_BONUS_70),
+            new Item("破晓",      R.drawable.weapon_dawn,       R.id.item_weapon, 3400,    0,  50,   0,   0,   0, 5, 35, 15,  0,   0, FP_PNP,        FLAG_BONUS_100),
 //            new Item("金色圣剑",  R.drawable.weapon_judgement,  R.id.item_weapon, 2030,    0,   0,   0,   0,   0, 0, 50,  0,  0,   0, 0,            FLAG_JUDGEMENT),
             new Item("圣杯",      R.drawable.magic_mana,        R.id.item_magic,  1930,    0,   0, 180,   0,   0, 0,  0,  0, 15,   0, 0,            0),
             new Item("虚无法杖",  R.drawable.magic_void,        R.id.item_magic,  2110,  500,   0, 180,   0,   0, 0,  0,  0,  0,   0, FP_MPN_VOID,  0),
