@@ -6,8 +6,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 15
-        //noinspection OldTargetApi
-        targetSdkVersion 22
+        targetSdkVersion 27
         versionCode 1
         versionName '1.34.1.27-alpha'
         archivesBaseName = "Kings-$versionName"
@@ -19,7 +18,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:preference-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
-    implementation 'com.facebook.fresco:fresco:1.9.0'                 // https://github.com/facebook/fresco
-    implementation 'com.google.code.gson:gson:2.8.4'                  // https://github.com/google/gson
-    implementation 'com.pavelsikun:material-seekbar-preference:2.3.0' // https://github.com/MrBIMC/MaterialSeekBarPreference
+    implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
 }

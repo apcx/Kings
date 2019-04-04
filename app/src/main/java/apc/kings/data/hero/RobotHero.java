@@ -14,6 +14,7 @@ public class RobotHero extends Hero {
 
     protected RobotHero(CContext context, HeroType heroType) {
         super(context, heroType);
+        attack_speed_model = 5;
         attr_attack_cd = 800;
         skills = new Skill[]{
                 new Skill("河豚手雷", 7000, 500),

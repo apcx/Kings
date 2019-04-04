@@ -1,5 +1,6 @@
 package apc.kings.data.hero;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import apc.kings.data.Skill;
 import apc.kings.data.SpeedModel;
 
 public class Hero {
+
+    private static final String TAG = "combat";
 
     public HeroType heroType;
     public CContext context;
@@ -149,7 +152,7 @@ public class Hero {
         panel_magic = has_hat ? base_magic * 135 / 100 : base_magic;
         panel_magic_defense = base_magic_defense;
         if (has_anti_magic) {
-            panel_magic_defense += Math.min(panel_attack * 40 / 100,300);
+            panel_magic_defense += Math.min(panel_attack * 40 / 100, 300);
         }
         panel_critical = base_critical;
         panel_cdr = Math.min(panel_cdr, 400);
@@ -163,7 +166,7 @@ public class Hero {
                     panel_flags |= item.panel_flags;
                     attr_price += item.price;
                     panel_hp += item.hp;
-                    base_attack += item.attack;
+                    bonus_attack += item.attack;
                     base_magic += item.magic;
                     panel_defense += item.defense;
                     base_magic_defense += item.magic_defense;
@@ -215,8 +218,8 @@ public class Hero {
                 panel_penetrate_percent += 45;
             }
             if ((panel_flags & Item.FP_SENTINEL) != 0) {
-                base_attack += 30 + panel_level * 2;
-                base_magic += 60 + panel_level * 4;
+                bonus_attack += 30 + panel_level * 3;
+                base_magic += 60 + panel_level * 6;
             }
             if ((panel_flags & Item.FP_CRITICAL) != 0) {
                 panel_critical_damage += 500;
@@ -241,7 +244,7 @@ public class Hero {
         panel_attack_speed *= 10;
         base_critical *= 10;
         panel_cdr *= 10;
-        if (has_bonus_70)  bonus_normal_damage += 70;
+        if (has_bonus_70) bonus_normal_damage += 70;
         if (has_bonus_100) bonus_normal_damage += 100;
     }
 
@@ -376,7 +379,13 @@ public class Hero {
             case 2:
                 attack_cd = SpeedModel.getAttackCd(attack_speed_model, panel_attack_speed);
                 break;
+            case 5:
+                if (attr_attack_cd != 567) {
+                    attack_cd = SpeedModel.getAttackCd(attack_speed_model, panel_attack_speed);
+                }
+                break;
         }
+        Log.d(TAG, "panel_attack_speed = " + panel_attack_speed);
         action_attack.time = context.time + attack_cd;
         hit_normal = true;
         onAttack(new CLog(name, "攻击", target.name, context.time));
@@ -423,7 +432,7 @@ public class Hero {
         Skill skill = skills[index];
         if (skill.damageType != Skill.TYPE_NONE) {
             context.logs.add(log);
-            int damage = target.onDamaged((int)((Skill.TYPE_MAGIC == skill.factorType ? panel_magic : panel_attack) * skill.damageFactor) + skill.damageBonus, skill.damageType);
+            int damage = target.onDamaged((int) ((Skill.TYPE_MAGIC == skill.factorType ? panel_magic : panel_attack) * skill.damageFactor) + skill.damageBonus, skill.damageType);
             switch (skill.damageType) {
                 case Skill.TYPE_PHYSICAL:
                     log.damage = damage;
@@ -444,6 +453,9 @@ public class Hero {
     protected void onHit(CLog log) {
         onUpdateAttackCanCritical();
         double damage = panel_attack + bonus_normal_damage;
+        if (567 == attr_attack_cd) {
+            damage = damage_can_critical;
+        }
         if ((hit_normal || hit_can_critical)) {
             damage = getCriticalDamage(log);
         }
@@ -520,9 +532,15 @@ public class Hero {
     }
 
     protected void onUpdateAttackCanCritical() {
-        double criticalFactor = Math.min(factor_attack, 1);
-        damage_can_critical = (int) (panel_attack * criticalFactor) + bonus_normal_damage;
-        damage_cannot_critical = (int) (panel_attack * (factor_attack - criticalFactor)) + bonus_damage;
+        if (567 == attr_attack_cd) {
+            damage_can_critical = target.panel_hp * (5 + (10 + bonus_attack) / 80) / 100;
+            Log.d(TAG, "bonus_attack = " + (10 + bonus_attack));
+            damage_cannot_critical = 0;
+        } else {
+            double criticalFactor = Math.min(factor_attack, 1);
+            damage_can_critical = (int) (panel_attack * criticalFactor) + bonus_normal_damage;
+            damage_cannot_critical = (int) (panel_attack * (factor_attack - criticalFactor)) + bonus_damage;
+        }
     }
 
     protected void onHitMagic(CLog log) {
@@ -539,7 +557,7 @@ public class Hero {
         damage_raw *= getDamageFactor(Skill.TYPE_NORMAL == type);
         if (has_thorns && (Skill.TYPE_NORMAL == type || Skill.TYPE_PHYSICAL == type)) {
             CLog log = new CLog(name, "荆棘", attacker.name, context.time);
-            context.logs.add(log);
+//            context.logs.add(log);
             log.magic_damage = attacker.onDamaged(damage_raw * 0.15, Skill.TYPE_MAGIC);
         }
         int damage_log = (int) damage_raw;

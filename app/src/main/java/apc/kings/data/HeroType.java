@@ -25,7 +25,7 @@ public class HeroType {
     public static final String TYPE_POSTER = "poster";
     public static final HeroType[] ALL_HEROES = new HeroType[] {
             new HeroType("成吉思汗", "hunter",   R.id.cat_archer,  0,                 5799, 404, 329,  66, 3, 370),
-            new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319,  68, 3, 350),
+//            new HeroType("黄忠",     "cannon",   R.id.cat_archer,  0,                 5898, 513, 319,  68, 3, 350),
             new HeroType("李元芳",   "bomber",   R.id.cat_archer,  0,                 5725, 406, 340,  66, 2, 350),
             new HeroType("马可波罗", "gunner",   R.id.cat_archer,  0,                 5584, 372, 344,  75, 2, 350),
 //            new HeroType("虞姬",    "hime",     R.id.cat_archer,  0,                 5669, 417, 329,  63,  3),
@@ -44,6 +44,7 @@ public class HeroType {
     private static final String SAVE_RUNE = "rune_";
     private static final Map<String, HeroType> map = new ArrayMap<>();
     private static final Gson gson = new Gson();
+
     static {
         for (HeroType heroType : ALL_HEROES) {
             map.put(heroType.name, heroType);
@@ -94,7 +95,15 @@ public class HeroType {
         mixed_runes.put("鹰眼", 10);
         mixed_runes.put("夺萃", 5);
         mixed_runes.put("狩猎", 5);
-        buildRecommendedRunes("成吉思汗", mixed_runes);
+
+        Map<String, Integer> mix_5573 = new ArrayMap<>();
+        mix_5573.put("鹰眼", 10);
+        mix_5573.put("狩猎", 5);
+        mix_5573.put("夺萃", 5);
+        mix_5573.put("红月", 7);
+        mix_5573.put("无双", 3);
+
+        buildRecommendedRunes("成吉思汗", mix_5573);
         buildRecommendedRunes("黄忠", new String[]{"无双", "狩猎", "鹰眼"});
         buildRecommendedRunes("李元芳", mixed_runes);
         buildRecommendedRunes("孙尚香", new String[]{"无双", "夺萃", "鹰眼"});
@@ -213,12 +222,12 @@ public class HeroType {
     public static HeroType findHero(@NonNull String name) {
         return map.get(name);
     }
-    
+
     @NonNull
     public Uri getImageUri(Context context, String type) {
         return Uri.parse("res:///" + context.getResources().getIdentifier(type + '_' + resName, "drawable", context.getPackageName()));
     }
-    
+
     public void setItems(@NonNull Item[] items) {
         this.items = items;
 
@@ -251,7 +260,8 @@ public class HeroType {
         String json = App.preferences().getString(SAVE_RUNE + name, null);
         if (!TextUtils.isEmpty(json)) {
             try {
-                Map<String, Integer> map = gson.fromJson(json, new TypeToken<ArrayMap<String, Integer>>(){}.getType());
+                Map<String, Integer> map = gson.fromJson(json, new TypeToken<ArrayMap<String, Integer>>() {
+                }.getType());
                 for (Map.Entry<String, Integer> entry : map.entrySet()) {
                     Rune rune = Rune.findRune(entry.getKey());
                     if (rune != null) {
