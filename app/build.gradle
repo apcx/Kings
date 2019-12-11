@@ -3,10 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        //noinspection OldTargetApi
+        targetSdkVersion 28
         versionCode 1
         versionName '1.34.1.27-alpha'
         archivesBaseName = "Kings-$versionName"
@@ -14,11 +15,12 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:preference-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
+    //noinspection GradleDependency (support)
     implementation 'com.facebook.fresco:fresco:1.13.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.pavelsikun:material-seekbar-preference:2.3.0'
 }
